@@ -1,0 +1,131 @@
+@model IReadOnlyList<Lumora.DTOs.Courses.CourseCardDto>
+@{
+    ViewData["Title"] = "Home - E-Learning Platform";
+}
+
+<div class="container py-5">
+    <!-- Hero Section -->
+    <div class="row align-items-center mb-5 pb-4">
+        <div class="col-lg-7">
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-flex align-items-center gap-2">
+                <i class="bi bi-shield-check"></i> Next-Gen Secure Learning & Verifiable Credentials
+            </span>
+            <h1 class="display-4 fw-extrabold mb-3" style="color: var(--text-main); font-weight: 800;">
+                Learn Beyond Limits with <span class="text-primary">Lumora</span>
+            </h1>
+            <p class="lead mb-4" style="color: var(--text-secondary); max-width: 600px;">
+                Experience interactive courses powered by secured cloud video streaming, hands-on self-assessments, and digitally verifiable PDF certificates with unforgeable authenticity codes.
+            </p>
+            <div class="d-flex flex-wrap gap-3">
+                <a href="/Catalog" class="btn btn-primary px-4 py-3 fw-bold rounded-3">
+                    <i class="bi bi-compass me-2"></i> Explore Course Catalog
+                </a>
+                <a href="#verify-section" class="btn btn-outline-secondary px-4 py-3 fw-bold rounded-3 text-light">
+                    <i class="bi bi-patch-check me-2"></i> Verify a Certificate
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-5 text-center mt-5 mt-lg-0">
+            <div class="card card-custom p-4 shadow-lg border-primary">
+                <div class="p-3 bg-primary bg-opacity-10 rounded-4 mb-3 d-inline-block">
+                    <i class="bi bi-layers-fill text-primary display-3"></i>
+                </div>
+                <h4 class="fw-bold mb-2" style="color: var(--text-main);">Enterprise N-Tier Architecture</h4>
+                <p class="small text-muted mb-0">Presentation (MVC) ➔ Business Logic (Services &amp; Patterns) ➔ Data Access (UoW &amp; Repositories) ➔ SQL Server</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Platform Counters -->
+    <div class="row g-3 mb-5">
+        <div class="col-6 col-md-3">
+            <div class="card card-custom p-3 text-center">
+                <i class="bi bi-people-fill text-primary fs-2 mb-1"></i>
+                <h3 class="fw-bold mb-0" style="color: var(--text-main);">@ViewBag.TotalStudents</h3>
+                <small class="text-muted fw-semibold">Active Students</small>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card card-custom p-3 text-center">
+                <i class="bi bi-person-badge-fill text-success fs-2 mb-1"></i>
+                <h3 class="fw-bold mb-0" style="color: var(--text-main);">@ViewBag.TotalInstructors</h3>
+                <small class="text-muted fw-semibold">Expert Instructors</small>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card card-custom p-3 text-center">
+                <i class="bi bi-journal-code text-info fs-2 mb-1"></i>
+                <h3 class="fw-bold mb-0" style="color: var(--text-main);">@ViewBag.TotalCourses</h3>
+                <small class="text-muted fw-semibold">Published Courses</small>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card card-custom p-3 text-center">
+                <i class="bi bi-patch-check-fill text-warning fs-2 mb-1"></i>
+                <h3 class="fw-bold mb-0" style="color: var(--text-main);">@ViewBag.TotalCertificates</h3>
+                <small class="text-muted fw-semibold">Issued Certificates</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Courses Section -->
+    <div class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h3 class="fw-bold mb-1" style="color: var(--text-main);">Featured Courses</h3>
+                <p class="text-muted small mb-0">Top-rated interactive courses verified and published by our academic board</p>
+            </div>
+            <a href="/Catalog" class="btn btn-outline-primary btn-sm px-3 fw-semibold">View All</a>
+        </div>
+
+        <div class="row g-4">
+            @foreach (var course in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card card-custom h-100 p-3 d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-secondary-subtle text-light border border-secondary px-2 py-1 rounded-pill small">@course.Difficulty</span>
+                            <span class="text-warning small fw-bold">
+                                <i class="bi bi-star-fill text-warning"></i> @course.AverageRating.ToString("0.0") (@course.TotalReviews)
+                            </span>
+                        </div>
+                        <h5 class="fw-bold mb-2" style="color: var(--text-main);">@course.Title</h5>
+                        <p class="small text-muted mb-3">By <span class="fw-semibold text-light">@course.InstructorName</span></p>
+
+                        <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center" style="border-color: var(--border-color) !important;">
+                            <div>
+                                <span class="fs-5 fw-bold text-success">@course.FinalPrice.ToString("C")</span>
+                                @if (course.Discount > 0)
+                                {
+                                    <span class="text-muted text-decoration-line-through small ms-1">@course.Price.ToString("C")</span>
+                                }
+                            </div>
+                            <a href="/Catalog/Details/@course.CourseId" class="btn btn-sm btn-primary px-3 fw-semibold">View Curriculum</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Public Certificate Verification Bar -->
+    <div id="verify-section" class="card card-custom p-4 p-md-5 mt-5 border-info">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <span class="badge bg-info-subtle text-info border border-info px-3 py-1 rounded-pill fw-semibold mb-2">Anti-Fraud Protection</span>
+                <h3 class="fw-bold mb-2" style="color: var(--text-main);">Public Certificate Verification Portal</h3>
+                <p class="text-muted small mb-0">
+                    Employers, HR recruiters, or academic institutions can immediately verify the authenticity of any Lumora certificate without requiring an account.
+                </p>
+            </div>
+            <div class="col-lg-6 mt-4 mt-lg-0">
+                <form action="/Verification" method="get" class="d-flex gap-2">
+                    <input type="text" name="code" class="form-control form-control-lg bg-dark text-white border-secondary" placeholder="Enter ID e.g. LUM-2026-DOTNET10" required />
+                    <button type="submit" class="btn btn-info text-dark fw-bold px-4">
+                        <i class="bi bi-search me-1"></i> Verify
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
