@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Section Assessment Quiz — LUMORA Learning Environment</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & Inter-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap 5.3 CSS (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Bootstrap Icons (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+  <!-- Lumora Design System Styles -->
+  <link href="../assets/css/lumora-theme.css" rel="stylesheet" />
+  <link href="../assets/css/dashboard.css" rel="stylesheet" />
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    <!-- [MVC LAYOUT: _Sidebar Start] -->
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+      <div class="sidebar-header">
+        <a href="../index.html" class="d-flex align-items-center">
+          <img src="../assets/images/Lumora Learn Beyond Limits Logo.webp" alt="LUMORA" class="sidebar-brand-img" />
+        </a>
+        <span class="badge badge-gold sidebar-role-badge">STUDENT</span>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="sidebar-label">Learning Hub</li>
+        <li>
+          <a href="dashboard.html" class="sidebar-link">
+            <i class="bi bi-grid-1x2"></i><span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="my-courses.html" class="sidebar-link">
+            <i class="bi bi-collection-play"></i><span>My Courses</span>
+          </a>
+        </li>
+        <li>
+          <a href="course-player.html" class="sidebar-link">
+            <i class="bi bi-play-circle"></i><span>Course Player</span>
+          </a>
+        </li>
+        <li>
+          <a href="quiz.html" class="sidebar-link active">
+            <i class="bi bi-ui-checks"></i><span>Quizzes &amp; Labs</span>
+          </a>
+        </li>
+        <li>
+          <a href="certificates.html" class="sidebar-link">
+            <i class="bi bi-patch-check"></i><span>Certificates Vault</span>
+          </a>
+        </li>
+
+        <li class="sidebar-label">Account</li>
+        <li>
+          <a href="../auth/login.html" class="sidebar-link text-danger">
+            <i class="bi bi-box-arrow-right text-danger"></i><span>Sign Out</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user-card">
+          <div class="avatar-circle avatar-circle-sm">MO</div>
+          <div class="overflow-hidden">
+            <div class="small fw-bold text-white text-truncate font-heading">Mohamed Mostafa</div>
+            <div class="text-lumora-slate text-truncate" style="font-size: 0.75rem;">Enterprise Software Engineer</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <!-- [MVC LAYOUT: _Sidebar End] -->
+
+    <div class="dashboard-main">
+      <!-- [MVC LAYOUT: _Topbar Start] -->
+      <header class="dashboard-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-sm btn-outline-primary d-lg-none" type="button" onclick="document.getElementById('dashboardSidebar').classList.toggle('sidebar-open');">
+            <i class="bi bi-list fs-5"></i>
+          </button>
+          <a href="course-player.html" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i>Back to Lecture
+          </a>
+          <span class="small fw-bold text-lumora-midnight">Section 4 Graded Assessment</span>
+        </div>
+
+        <div class="d-flex align-items-center gap-3">
+          <div class="d-flex align-items-center gap-2 small text-muted">
+            <i class="bi bi-stopwatch text-lumora-champagne-dark fs-5"></i>
+            <span>Time Remaining: <strong class="text-lumora-midnight">18:42</strong></span>
+          </div>
+        </div>
+      </header>
+      <!-- [MVC LAYOUT: _Topbar End] -->
+
+      <!-- [MVC VIEW: @RenderBody() Main Content Start] -->
+      <main class="dashboard-content">
+        <div class="max-w-800 mx-auto">
+          <!-- Quiz Header Card -->
+          <div class="card p-4 border-lumora-subtle bg-white mb-4 shadow-subtle">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-2">
+              <span class="badge badge-gold">MANDATORY ARCHITECTURE ASSESSMENT</span>
+              <span class="small text-muted">Passing Grade: <strong>66%</strong> &bull; Total Questions: <strong>3</strong></span>
+            </div>
+            <h3 class="fw-bold text-lumora-midnight mb-2 font-heading">
+              Section 4: CQRS &amp; Event-Driven Architecture Assessment
+            </h3>
+            <p class="small text-muted mb-0">
+              This assessment tests your architectural decision-making, transactional boundary design, and consistency guarantees in distributed environments. All answers are graded instantaneously with detailed rationale.
+            </p>
+          </div>
+
+          <!-- Quiz Form -->
+          <form id="assessmentQuizForm">
+            <!-- Question 1 -->
+            <div class="card p-4 border-lumora-subtle bg-white mb-4 shadow-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge badge-navy">QUESTION 1 OF 3</span>
+                <span class="small text-muted">Weight: 1 Point</span>
+              </div>
+              <h5 class="fw-bold text-lumora-midnight mb-3 font-heading">
+                According to the PACELC theorem, what trade-off must a distributed database make in normal non-partitioned operation when high availability is maintained?
+              </h5>
+              <div class="d-flex flex-column gap-2">
+                <div class="form-check p-3 rounded-2 border border-lumora-subtle">
+                  <input class="form-check-input ms-0 me-3" type="radio" name="q1" id="q1_a" value="a" required />
+                  <label class="form-check-label small text-lumora-charcoal cursor-pointer" for="q1_a">
+                    <strong>A.</strong> It must choose between Partition Tolerance and Network Security.
+                  </label>
+                </div>
+                <div class="form-check p-3 rounded-2 border border-lumora-subtle">
+                  <input class="form-check-input ms-0 me-3" type="radio" name="q1" id="q1_b" value="b" />
+                  <label class="form-check-label small text-lumora-charcoal cursor-pointer" for="q1_b">
+                    <strong>B.</strong> Else (in normal operation without partitions), it must trade off between Latency (L) and Consistency (C).
+                  </label>
+                </div>
+                <div class="form-check p-3 rounded-2 border border-lumora-subtle">
+                  <input class="form-check-input ms-0 me-3" type="radio" name="q1" id="q1_c" value="c" />
+                  <label class="form-check-label small text-lumora-charcoal cursor-pointer" for="q1_c">
+                    <strong>C.</strong> It is guaranteed to provide immediate ACID transactions across all global replicas without added latency.
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="card p-4 border-lumora-subtle bg-white mb-4 shadow-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge badge-navy">QUESTION 2 OF 3</span>
+                <span class="small text-muted">Weight: 1 Point</span>
+              </div>
+              <h5 class="fw-bold text-lumora-midnight mb-3 font-heading">
+                Which architectural pattern prevents dual-write anomalies when an aggregate persists state to an RDBMS and publishes an event to Apache Kafka?
+              </h5>
+              <div class="d-flex flex-column gap-2">
+                <div class="form-check p-3 rounded-2 border border-lumora-subtle">
+                  <input class="form-check-input ms-0 me-3" type="radio" name="q2" id="q2_a" value="a" required />
+                  <label class="form-check-label small text-lumora-charcoal cursor-pointer" for="q2_a">
+                    <strong>A.</strong> Two-Phase Commit (2PC) over HTTP Webhooks.
+                  </label>
+                </div>
+                <div class="form-check p-3 rounded-2 border border-lumora-subtle">
+                  <input class="form-check-input ms-0 me-3" type="radio" name="q2" id="q2_b" value="b" />
+                  <label class="form-check-label small text-lumora-charcoal cursor-pointer" for="q2_b">
+                    <strong>B.</strong> Synchronous In-Memory Event Publishing before SQL Commit.
+                  </label>
+                </div>
+                <div class="form-check p-3 rounded-2 border border-lumora-subtle">
+                  <input class="form-check-input ms-0 me-3" type="radio" name="q2" id="q2_c" value="c" />
+                  <label class="form-check-label small text-lumora-charcoal cursor-pointer" for="q2_c">
+                    <strong>C.</strong> The Transactional Outbox Pattern combined with Change Data Capture (Debezium/CDC).
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="card p-4 border-lumora-subtle bg-white mb-4 shadow-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge badge-navy">QUESTION 3 OF 3</span>
+                <span class="small text-muted">Weight: 1 Point</span>
+              </div>
+              <h5 class="fw-bold text-lumora-midnight mb-3 font-heading">
+                How should a downstream consumer handle duplicate message delivery from an "at-least-once" message broker?
+              </h5>
+              <div class="d-flex flex-column gap-2">
+                <div class="form-check p-3 rounded-2 border border-lumora-subtle">
+                  <input class="form-check-input ms-0 me-3" type="radio" name="q3" id="q3_a" value="a" required />
+                  <label class="form-check-label small text-lumora-charcoal cursor-pointer" for="q3_a">
+                    <strong>A.</strong> Enforce idempotent message handling using a unique message/correlation ID stored in a distributed deduplication store.
+                  </label>
+                </div>
+                <div class="form-check p-3 rounded-2 border border-lumora-subtle">
+                  <input class="form-check-input ms-0 me-3" type="radio" name="q3" id="q3_b" value="b" />
+                  <label class="form-check-label small text-lumora-charcoal cursor-pointer" for="q3_b">
+                    <strong>B.</strong> Restart the consumer container each time a duplicate is detected.
+                  </label>
+                </div>
+                <div class="form-check p-3 rounded-2 border border-lumora-subtle">
+                  <input class="form-check-input ms-0 me-3" type="radio" name="q3" id="q3_c" value="c" />
+                  <label class="form-check-label small text-lumora-charcoal cursor-pointer" for="q3_c">
+                    <strong>C.</strong> Disable broker retries entirely to ensure no messages are duplicated.
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-end mb-5">
+              <button type="submit" class="btn btn-cta btn-lg px-5">
+                <i class="bi bi-send-check-fill me-2"></i>Submit Assessment for Instant Grading
+              </button>
+            </div>
+          </form>
+
+          <!-- Instant Grading Assessment Result Card (Shown after submit) -->
+          <div id="quizResultCard" class="card p-4 border-lumora-subtle bg-white shadow-md mb-4 d-none">
+            <div class="d-flex justify-content-between align-items-center pb-3 border-bottom border-lumora-subtle mb-4">
+              <div>
+                <h4 class="fw-bold text-lumora-midnight mb-1 font-heading">Assessment Result &amp; Audit Log</h4>
+                <div class="small text-muted">Evaluation performed on November 12, 2026</div>
+              </div>
+              <span id="quizVerdictBadge" class="badge badge-gold">PASSED &amp; CERTIFIED</span>
+            </div>
+
+            <div class="row align-items-center g-4 mb-4">
+              <div class="col-md-4 text-center border-end border-lumora-subtle">
+                <div class="display-5 fw-bold text-lumora-midnight font-heading" id="quizScoreText">3/3 (100%)</div>
+                <div class="small text-muted">Your Assessment Score</div>
+              </div>
+              <div class="col-md-8">
+                <p class="small text-lumora-charcoal mb-2">
+                  <strong>Congratulations!</strong> You have satisfied the architectural competency requirements for Section 4. Your course progress has been automatically updated to <strong>80%</strong>.
+                </p>
+                <div class="progress" style="height: 8px;">
+                  <div class="progress-bar" style="width: 80%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Architectural Rationale Explanations -->
+            <h6 class="fw-bold text-lumora-midnight mb-3 font-heading">Detailed Architectural Explanations:</h6>
+            <div class="d-flex flex-column gap-2 small mb-4">
+              <div class="p-3 bg-lumora-ivory rounded-3 border-lumora-subtle">
+                <strong class="text-lumora-midnight d-block mb-1">Q1: PACELC Latency vs Consistency Trade-off</strong>
+                <p class="text-muted mb-0">Under normal conditions (without network partitions), distributed systems must balance the latency of cross-node sync against strict serializable consistency.</p>
+              </div>
+              <div class="p-3 bg-lumora-ivory rounded-3 border-lumora-subtle">
+                <strong class="text-lumora-midnight d-block mb-1">Q2: Transactional Outbox Pattern</strong>
+                <p class="text-muted mb-0">The Outbox pattern writes both the business entity change and the event row within the same ACID database transaction, eliminating dual-write failure states.</p>
+              </div>
+              <div class="p-3 bg-lumora-ivory rounded-3 border-lumora-subtle">
+                <strong class="text-lumora-midnight d-block mb-1">Q3: Idempotent Consumer Deduplication</strong>
+                <p class="text-muted mb-0">At-least-once brokers will inevitably deliver duplicates during network reconnects or rebalances; consumers must check idempotent correlation keys.</p>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <a href="course-player.html" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-arrow-left me-1"></i>Return to Lecture Player
+              </a>
+              <a href="certificates.html" class="btn btn-cta btn-sm">
+                <i class="bi bi-patch-check-fill me-1"></i>View Certificates Vault
+              </a>
+            </div>
+          </div>
+        </div>
+      </main>
+      <!-- [MVC VIEW: @RenderBody() Main Content End] -->
+
+      <footer class="p-3 border-top border-lumora-subtle text-center small text-muted bg-white">
+        &copy; 2026 LUMORA Technologies Inc. All rights reserved. ASP.NET Core MVC compatible.
+      </footer>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/student-player.js"></script>
+</body>
+</html>

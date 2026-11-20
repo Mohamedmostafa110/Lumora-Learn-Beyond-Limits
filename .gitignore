@@ -32,3 +32,6 @@ artifacts/
 # OS metadata
 .DS_Store
 Thumbs.db
+
+# Private Project Memory & Local Specs
+memory.md

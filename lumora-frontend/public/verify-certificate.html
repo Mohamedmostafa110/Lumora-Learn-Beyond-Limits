@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verify Certificate Credential — LUMORA Enterprise</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & Inter-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap 5.3 CSS (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Bootstrap Icons (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+  <!-- Lumora Design System Styles -->
+  <link href="../assets/css/lumora-theme.css" rel="stylesheet" />
+  <link href="../assets/css/public.css" rel="stylesheet" />
+
+  <style>
+    /* Certificate Canvas Specific Styling */
+    .certificate-canvas {
+      background: #FFFFFF;
+      border: 8px solid var(--lumora-midnight);
+      border-radius: var(--lumora-radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      box-shadow: 0 16px 40px rgba(20, 36, 58, 0.12);
+      background-image: radial-gradient(rgba(214, 183, 121, 0.06) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .certificate-canvas::after {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      border: 1.5px solid rgba(214, 183, 121, 0.6);
+      pointer-events: none;
+      border-radius: 8px;
+    }
+    .cert-seal {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #E6CA8D 0%, #B8964E 100%);
+      border: 3px dashed var(--lumora-midnight);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--lumora-midnight);
+      font-weight: 800;
+      font-size: 0.68rem;
+      letter-spacing: 0.05em;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(184, 150, 78, 0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- [MVC LAYOUT: _Navbar Start] -->
+  <nav class="navbar navbar-expand-lg lumora-navbar">
+    <div class="container-fluid px-lg-5">
+      <a class="navbar-brand d-flex align-items-center me-4" href="../index.html">
+        <img src="../assets/images/Lumora Learn Beyond Limits Logo.webp" alt="LUMORA" class="navbar-brand-img" />
+      </a>
+
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2 text-lumora-champagne"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item"><a class="nav-link nav-link-custom" href="../index.html"><i class="bi bi-house-door me-1"></i>Home</a></li>
+          <li class="nav-item"><a class="nav-link nav-link-custom" href="catalog.html"><i class="bi bi-grid me-1"></i>Explore Courses</a></li>
+          <li class="nav-item"><a class="nav-link nav-link-custom active" href="verify-certificate.html"><i class="bi bi-patch-check me-1"></i>Verify Credential</a></li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+          <a href="../auth/login.html" class="btn btn-outline-primary text-white border-0 px-3">Sign In</a>
+          <a href="../auth/register.html" class="btn btn-cta">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- [MVC LAYOUT: _Navbar End] -->
+
+  <!-- [MVC VIEW: @RenderBody() Main Content Start] -->
+  <main class="py-5 bg-lumora-ivory">
+    <div class="container px-lg-5">
+      <!-- Search Banner -->
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge badge-gold mb-2"><i class="bi bi-shield-check me-1"></i>INSTITUTIONAL TRUST &amp; COMPLIANCE</span>
+        <h1 class="display-6 fw-bold text-lumora-midnight mb-2 font-heading">Public Credential Verification</h1>
+        <p class="text-muted small mb-4">
+          Verify the authenticity of graduate certificates issued by LUMORA Technologies. Each credential is cryptographically stamped and registered.
+        </p>
+
+        <!-- Search Input Box -->
+        <form id="certLookupForm" class="d-flex gap-2 max-w-600 mx-auto">
+          <input type="text" id="certSearchInput" class="form-control" placeholder="Enter Certificate Hash ID (e.g. LUM-2026-9842)" value="LUM-2026-9842" required />
+          <button type="submit" class="btn btn-cta text-nowrap px-4">
+            <i class="bi bi-search me-1"></i>Verify
+          </button>
+        </form>
+      </div>
+
+      <!-- Verification Result Container -->
+      <div id="verificationResult">
+        <!-- Verified Status Badge Bar -->
+        <div class="alert alert-success d-flex align-items-center justify-content-between p-3 rounded-3 mb-4 shadow-subtle" role="alert">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-patch-check-fill text-lumora-champagne-dark fs-4"></i>
+            <div>
+              <strong class="text-lumora-midnight">Officially Verified &amp; Authentic</strong>
+              <div class="small text-muted">This credential was issued on an authentic LUMORA curriculum with passed capstone audit.</div>
+            </div>
+          </div>
+          <span class="badge badge-gold">ACTIVE RECORD</span>
+        </div>
+
+        <div class="row g-4">
+          <!-- Left: Official Certificate Visual Canvas -->
+          <div class="col-lg-8">
+            <div class="certificate-canvas">
+              <!-- Top Branding -->
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <img src="../assets/images/Lumora Learn Beyond Limits Logo.webp" alt="LUMORA" style="height: 38px;" />
+                <div class="text-end small text-muted">
+                  <div class="fw-bold text-lumora-midnight">LUMORA CERTIFICATION BOARD</div>
+                  <div id="certIdDisplay">ID: LUM-2026-9842-X7B</div>
+                </div>
+              </div>
+
+              <!-- Certificate Statement -->
+              <div class="text-center my-4">
+                <div class="text-lumora-champagne-dark fw-bold small text-uppercase letter-spacing-1 mb-1 font-heading">
+                  Certificate of Architectural Excellence &amp; Mastery
+                </div>
+                <div class="small text-muted mb-3">This certifies that</div>
+                <h2 class="display-6 fw-bold text-lumora-midnight mb-2 font-heading" id="certRecipient">
+                  David Vance
+                </h2>
+                <div class="small text-muted mb-3">has successfully completed the comprehensive enterprise curriculum</div>
+                <h4 class="fw-bold text-lumora-midnight mb-2 font-heading" id="certCourseTitle">
+                  Cloud Architecture Masterclass: Distributed Systems at Scale
+                </h4>
+                <p class="small text-muted max-w-600 mx-auto mb-4">
+                  demonstrating profound mastery in multi-region resilience, event-driven pipelines, CQRS pattern implementation, and automated Zero-Trust cloud infrastructure.
+                </p>
+              </div>
+
+              <!-- Bottom Signatures & Seal -->
+              <div class="d-flex justify-content-between align-items-end pt-3 border-top border-lumora-subtle">
+                <!-- Signature 1 -->
+                <div class="text-center">
+                  <div class="fw-bold font-heading text-lumora-midnight" style="font-family:'Courier New', monospace; font-size:1.1rem; text-decoration: underline;">
+                    Alex Vance
+                  </div>
+                  <div class="small fw-semibold text-lumora-midnight">Alex Vance</div>
+                  <div class="text-muted" style="font-size: 0.72rem;">Principal Solutions Architect</div>
+                </div>
+
+                <!-- Gold Seal -->
+                <div class="cert-seal">
+                  <i class="bi bi-shield-fill-check fs-5"></i>
+                  <span>VERIFIED<br />2026</span>
+                </div>
+
+                <!-- Signature 2 -->
+                <div class="text-center">
+                  <div class="fw-bold font-heading text-lumora-midnight" style="font-family:'Courier New', monospace; font-size:1.1rem; text-decoration: underline;">
+                    Marcus Kane
+                  </div>
+                  <div class="small fw-semibold text-lumora-midnight">Marcus Kane</div>
+                  <div class="text-muted" style="font-size: 0.72rem;">Dean of Curriculum</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Audit Metadata & Share Actions -->
+          <div class="col-lg-4">
+            <div class="card p-4 border-lumora-subtle shadow-md mb-4">
+              <h5 class="fw-bold text-lumora-midnight mb-3 pb-2 border-bottom border-lumora-subtle font-heading">
+                Audit &amp; Credential Metadata
+              </h5>
+
+              <ul class="list-unstyled d-flex flex-column gap-3 small text-muted mb-4">
+                <li>
+                  <span class="text-lumora-slate d-block">Recipient Full Name:</span>
+                  <strong class="text-lumora-midnight">David Vance (Lead Engineer)</strong>
+                </li>
+                <li>
+                  <span class="text-lumora-slate d-block">Issued Curriculum:</span>
+                  <strong class="text-lumora-midnight">Distributed Systems at Scale (42h)</strong>
+                </li>
+                <li>
+                  <span class="text-lumora-slate d-block">Assessment Grade:</span>
+                  <strong class="text-lumora-champagne-dark">98.5% — High Distinction (Capstone Passed)</strong>
+                </li>
+                <li>
+                  <span class="text-lumora-slate d-block">Graduation Date:</span>
+                  <strong class="text-lumora-midnight">November 12, 2026</strong>
+                </li>
+                <li>
+                  <span class="text-lumora-slate d-block">SHA-256 Ledger Hash:</span>
+                  <code class="text-break bg-lumora-ivory p-1 rounded d-block" style="font-size:0.75rem;">
+                    4f89d9e2b1029c78fe23a9b98721c54b0e9871c890f91a27e365cb918342c819
+                  </code>
+                </li>
+              </ul>
+
+              <!-- Action Buttons -->
+              <div class="d-flex flex-column gap-2">
+                <button class="btn btn-cta w-100 py-2 small" onclick="window.print();">
+                  <i class="bi bi-file-earmark-pdf me-2"></i>Download Official PDF
+                </button>
+                <button class="btn btn-outline-primary w-100 py-2 small" onclick="navigator.clipboard.writeText(window.location.href); LumoraToast('Public verification link copied to clipboard!');">
+                  <i class="bi bi-link-45deg me-1"></i>Copy Public Link
+                </button>
+                <button class="btn btn-outline-champagne w-100 py-2 small" onclick="LumoraToast('Added certificate to simulated LinkedIn profile!');">
+                  <i class="bi bi-linkedin me-1"></i>Add to LinkedIn Profile
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- [MVC VIEW: @RenderBody() Main Content End] -->
+
+  <!-- [MVC LAYOUT: _Footer Start] -->
+  <footer class="lumora-footer">
+    <div class="container-fluid px-lg-5">
+      <div class="row g-4 justify-content-between">
+        <div class="col-lg-4">
+          <img src="../assets/images/Lumora Learn Beyond Limits Logo.webp" alt="LUMORA" class="navbar-brand-img mb-3" />
+          <p class="small text-muted mb-0">LUMORA Enterprise E-Learning Platform. Ready for ASP.NET Core MVC integration.</p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h6 class="footer-title">Navigation</h6>
+          <ul class="footer-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="catalog.html">Courses</a></li>
+            <li><a href="verify-certificate.html">Verification</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom text-center text-muted small">
+        &copy; 2026 LUMORA Technologies Inc. All rights reserved.
+      </div>
+    </div>
+  </footer>
+  <!-- [MVC LAYOUT: _Footer End] -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script>
+    // Handle URL search params e.g. ?certId=LUM-2026-9842
+    document.addEventListener('DOMContentLoaded', function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      const certId = urlParams.get('certId');
+      if (certId) {
+        document.getElementById('certSearchInput').value = certId;
+        document.getElementById('certIdDisplay').textContent = 'ID: ' + certId + '-VERIFIED';
+      }
+
+      document.getElementById('certLookupForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const inputVal = document.getElementById('certSearchInput').value.trim();
+        if (inputVal) {
+          document.getElementById('certIdDisplay').textContent = 'ID: ' + inputVal + '-VERIFIED';
+          LumoraToast('Credential ' + inputVal + ' verified successfully!');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

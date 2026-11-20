@@ -1,3 +1,6 @@
 <Solution>
-  <Project Path="Lumora/Lumora.csproj" />
+  <Project Path="Lumora.Core/Lumora.Core.csproj" />
+  <Project Path="Lumora.Data/Lumora.Data.csproj" />
+  <Project Path="Lumora.Services/Lumora.Services.csproj" />
+  <Project Path="Lumora.Web/Lumora.Web.csproj" />
 </Solution>

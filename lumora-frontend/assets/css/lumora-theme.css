@@ -1,0 +1,569 @@
+/**
+ * ============================================================================
+ * LUMORA — Learn Beyond Limits | Enterprise Design System
+ * File: lumora-theme.css
+ * Purpose: Global CSS custom properties, design tokens, typography,
+ *          Bootstrap 5.3 theme overrides, and utility classes.
+ * Compatible with: ASP.NET Core MVC (Lumora.Web / wwwroot/css)
+ * ============================================================================
+ */
+
+/* ----------------------------------------------------------------------------
+ * 1. ROOT DESIGN TOKENS & COLOR PALETTE
+ * ---------------------------------------------------------------------------- */
+:root {
+  /* Primary Brand Colors */
+  --lumora-midnight: #14243A;          /* Primary anchor: navbars, sidebars, hero, dark banners */
+  --lumora-midnight-rgb: 20, 36, 58;
+  --lumora-midnight-dark: #0A131F;     /* Ultra-deep shade for contrast */
+  --lumora-midnight-light: #1C3352;    /* Soft navy hover / active state */
+
+  /* Secondary Brand Color: Champagne Gold */
+  --lumora-champagne: #D6B779;         /* CTAs, active pills, progress bars, ratings, growth badges */
+  --lumora-champagne-rgb: 214, 183, 121;
+  --lumora-champagne-light: #F2E4C2;   /* Soft gold tint for badges & container backgrounds */
+  --lumora-champagne-dark: #B5934C;    /* Deep gold for pressed states & borders */
+
+  /* Supporting Surfaces & Neutrals */
+  --lumora-ivory: #F8F5ED;              /* Main background, dashboard canvas, light cards */
+  --lumora-ivory-rgb: 248, 245, 237;
+  --lumora-ivory-surface: #FFFFFF;     /* Pure card surface */
+  --lumora-ivory-muted: #EFE9DC;       /* Borders, table lines, dividers */
+
+  /* Slate Blue: Secondary Text & Accents */
+  --lumora-slate: #71849A;             /* Secondary text, muted labels, subtle borders */
+  --lumora-slate-rgb: 113, 132, 154;
+  --lumora-slate-light: rgba(113, 132, 154, 0.12);
+  --lumora-slate-border: rgba(113, 132, 154, 0.22);
+
+  /* Charcoal: Primary High-Legibility Typography */
+  --lumora-charcoal: #252A32;          /* Primary text, headings on light surfaces, table cells */
+  --lumora-charcoal-rgb: 37, 42, 50;
+
+  /* Semantic State Colors (Zero Green/Purple Tolerance) */
+  --lumora-success: #D6B779;           /* Completed, Passed, Approved, Active, Verified */
+  --lumora-success-bg: rgba(214, 183, 121, 0.15);
+  --lumora-error: #C94A4A;             /* Form errors, rejected courses, suspensions */
+  --lumora-error-bg: rgba(201, 74, 74, 0.12);
+  --lumora-warning: #D6B779;           /* Pending, in review */
+  --lumora-warning-bg: rgba(214, 183, 121, 0.18);
+  --lumora-info: #71849A;              /* Info alerts, informational badges */
+  --lumora-info-bg: rgba(113, 132, 154, 0.15);
+
+  /* Typography Stacks */
+  --lumora-font-heading: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --lumora-font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+
+  /* Elevation & Shadows */
+  --lumora-shadow-subtle: 0 4px 18px rgba(20, 36, 58, 0.04);
+  --lumora-shadow-sm: 0 6px 24px rgba(20, 36, 58, 0.06);
+  --lumora-shadow-md: 0 12px 32px rgba(20, 36, 58, 0.10);
+  --lumora-shadow-lg: 0 20px 48px rgba(20, 36, 58, 0.14);
+  --lumora-shadow-hover: 0 16px 36px rgba(20, 36, 58, 0.12);
+
+  /* Geometry & Radii */
+  --lumora-radius-sm: 6px;
+  --lumora-radius-btn: 10px;
+  --lumora-radius-input: 10px;
+  --lumora-radius-card: 16px;
+  --lumora-radius-panel: 22px;
+  --lumora-radius-pill: 9999px;
+
+  /* Transitions */
+  --lumora-transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --lumora-transition-slow: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ----------------------------------------------------------------------------
+ * 2. GLOBAL RESET & BASE STYLES
+ * ---------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--lumora-font-body);
+  background-color: var(--lumora-ivory);
+  color: var(--lumora-charcoal);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: var(--lumora-font-heading);
+  color: var(--lumora-midnight);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+p {
+  color: #4A5462;
+  margin-bottom: 1rem;
+}
+
+a {
+  color: var(--lumora-midnight);
+  text-decoration: none;
+  transition: var(--lumora-transition);
+}
+
+a:hover {
+  color: var(--lumora-champagne-dark);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ----------------------------------------------------------------------------
+ * 3. BOOTSTRAP 5.3 OVERRIDES (STRICT ZERO GREEN / ZERO PURPLE POLICY)
+ * ---------------------------------------------------------------------------- */
+
+/* Primary Button (Midnight Navy) */
+.btn-primary {
+  background-color: var(--lumora-midnight);
+  border-color: var(--lumora-midnight);
+  color: #FFFFFF;
+  font-family: var(--lumora-font-heading);
+  font-weight: 600;
+  border-radius: var(--lumora-radius-btn);
+  padding: 0.65rem 1.4rem;
+  transition: var(--lumora-transition);
+  box-shadow: 0 4px 12px rgba(20, 36, 58, 0.15);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: var(--lumora-midnight-light) !important;
+  border-color: var(--lumora-midnight-light) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 6px 18px rgba(20, 36, 58, 0.25);
+  transform: translateY(-1px);
+}
+
+/* CTA Champagne Gold Button (Dark Text) */
+.btn-cta,
+.btn-champagne {
+  background-color: var(--lumora-champagne);
+  border-color: var(--lumora-champagne);
+  color: var(--lumora-midnight);
+  font-family: var(--lumora-font-heading);
+  font-weight: 700;
+  border-radius: var(--lumora-radius-btn);
+  padding: 0.75rem 1.75rem;
+  transition: var(--lumora-transition);
+  box-shadow: 0 4px 14px rgba(214, 183, 121, 0.35);
+}
+
+.btn-cta:hover,
+.btn-cta:focus,
+.btn-cta:active,
+.btn-champagne:hover,
+.btn-champagne:focus {
+  background-color: #CBB070 !important;
+  border-color: #CBB070 !important;
+  color: var(--lumora-midnight) !important;
+  box-shadow: 0 8px 20px rgba(214, 183, 121, 0.45);
+  transform: translateY(-2px);
+}
+
+/* Secondary Button (Outline Slate / Ivory) */
+.btn-outline-primary {
+  border-color: var(--lumora-midnight);
+  color: var(--lumora-midnight);
+  font-family: var(--lumora-font-heading);
+  font-weight: 600;
+  border-radius: var(--lumora-radius-btn);
+  padding: 0.65rem 1.4rem;
+  transition: var(--lumora-transition);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--lumora-midnight);
+  border-color: var(--lumora-midnight);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.btn-outline-champagne {
+  border: 1.5px solid var(--lumora-champagne);
+  color: var(--lumora-champagne);
+  background: transparent;
+  font-family: var(--lumora-font-heading);
+  font-weight: 600;
+  border-radius: var(--lumora-radius-btn);
+  padding: 0.65rem 1.4rem;
+  transition: var(--lumora-transition);
+}
+
+.btn-outline-champagne:hover {
+  background-color: var(--lumora-champagne);
+  color: var(--lumora-midnight);
+}
+
+/* OVERRIDE BOOTSTRAP SUCCESS -> NO GREEN! MAP TO CHAMPAGNE GOLD */
+.bg-success,
+.btn-success,
+.text-bg-success {
+  background-color: var(--lumora-champagne) !important;
+  border-color: var(--lumora-champagne) !important;
+  color: var(--lumora-midnight) !important;
+}
+
+.text-success {
+  color: var(--lumora-champagne-dark) !important;
+}
+
+.btn-success:hover,
+.btn-success:focus {
+  background-color: var(--lumora-champagne-dark) !important;
+  border-color: var(--lumora-champagne-dark) !important;
+  color: #FFFFFF !important;
+}
+
+.btn-outline-success {
+  border-color: var(--lumora-champagne-dark) !important;
+  color: var(--lumora-champagne-dark) !important;
+}
+
+.btn-outline-success:hover {
+  background-color: var(--lumora-champagne) !important;
+  border-color: var(--lumora-champagne) !important;
+  color: var(--lumora-midnight) !important;
+}
+
+.alert-success {
+  background-color: rgba(214, 183, 121, 0.15) !important;
+  border-color: rgba(214, 183, 121, 0.4) !important;
+  color: var(--lumora-midnight) !important;
+}
+
+/* OVERRIDE BOOTSTRAP DANGER -> CONTROLLED SEMANTIC RED */
+.bg-danger,
+.btn-danger,
+.text-bg-danger {
+  background-color: var(--lumora-error) !important;
+  border-color: var(--lumora-error) !important;
+  color: #FFFFFF !important;
+}
+
+.text-danger {
+  color: var(--lumora-error) !important;
+}
+
+.alert-danger {
+  background-color: var(--lumora-error-bg) !important;
+  border-color: rgba(201, 74, 74, 0.35) !important;
+  color: #8C2323 !important;
+}
+
+/* OVERRIDE BOOTSTRAP SECONDARY & INFO */
+.bg-secondary {
+  background-color: var(--lumora-slate) !important;
+}
+
+.text-secondary,
+.text-muted {
+  color: var(--lumora-slate) !important;
+}
+
+.bg-light {
+  background-color: var(--lumora-ivory) !important;
+}
+
+.bg-dark {
+  background-color: var(--lumora-midnight) !important;
+}
+
+/* Card Overrides */
+.card {
+  background-color: var(--lumora-ivory-surface);
+  border: 1px solid var(--lumora-slate-border);
+  border-radius: var(--lumora-radius-card);
+  box-shadow: var(--lumora-shadow-sm);
+  transition: var(--lumora-transition);
+  overflow: hidden;
+}
+
+.card:hover {
+  box-shadow: var(--lumora-shadow-hover);
+}
+
+.card-header {
+  background-color: transparent;
+  border-bottom: 1px solid var(--lumora-slate-border);
+  font-family: var(--lumora-font-heading);
+  font-weight: 600;
+  padding: 1.25rem 1.5rem;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-footer {
+  background-color: transparent;
+  border-top: 1px solid var(--lumora-slate-border);
+  padding: 1rem 1.5rem;
+}
+
+/* Form Controls & Inputs */
+.form-control,
+.form-select {
+  border: 1px solid var(--lumora-slate-border);
+  border-radius: var(--lumora-radius-input);
+  padding: 0.65rem 1rem;
+  font-family: var(--lumora-font-body);
+  color: var(--lumora-charcoal);
+  background-color: #FFFFFF;
+  transition: var(--lumora-transition);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--lumora-champagne-dark);
+  box-shadow: 0 0 0 3px rgba(214, 183, 121, 0.25);
+  background-color: #FFFFFF;
+  color: var(--lumora-charcoal);
+}
+
+.form-control::placeholder {
+  color: #9AA6B5;
+}
+
+.form-label {
+  font-family: var(--lumora-font-heading);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--lumora-midnight);
+  margin-bottom: 0.45rem;
+}
+
+.form-check-input:checked {
+  background-color: var(--lumora-midnight);
+  border-color: var(--lumora-midnight);
+}
+
+/* Progress Bars -> STRICT CHAMPAGNE GOLD (NO GREEN) */
+.progress {
+  height: 8px;
+  background-color: rgba(113, 132, 154, 0.18);
+  border-radius: var(--lumora-radius-pill);
+  overflow: hidden;
+}
+
+.progress-bar {
+  background-color: var(--lumora-champagne) !important;
+  border-radius: var(--lumora-radius-pill);
+}
+
+.progress-bar-navy {
+  background-color: var(--lumora-midnight) !important;
+}
+
+/* Badges */
+.badge {
+  font-family: var(--lumora-font-heading);
+  font-weight: 600;
+  padding: 0.4em 0.75em;
+  border-radius: var(--lumora-radius-pill);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+
+.badge-gold {
+  background-color: rgba(214, 183, 121, 0.2);
+  color: #7E6124;
+  border: 1px solid rgba(214, 183, 121, 0.45);
+}
+
+.badge-navy {
+  background-color: rgba(20, 36, 58, 0.09);
+  color: var(--lumora-midnight);
+  border: 1px solid rgba(20, 36, 58, 0.2);
+}
+
+.badge-slate {
+  background-color: rgba(113, 132, 154, 0.14);
+  color: #4A5B70;
+  border: 1px solid rgba(113, 132, 154, 0.28);
+}
+
+.badge-error {
+  background-color: var(--lumora-error-bg);
+  color: var(--lumora-error);
+  border: 1px solid rgba(201, 74, 74, 0.3);
+}
+
+/* Modals */
+.modal-content {
+  border-radius: var(--lumora-radius-panel);
+  border: 1px solid var(--lumora-slate-border);
+  box-shadow: var(--lumora-shadow-lg);
+  overflow: hidden;
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--lumora-slate-border);
+  background-color: var(--lumora-ivory);
+  padding: 1.25rem 1.75rem;
+}
+
+.modal-footer {
+  border-top: 1px solid var(--lumora-slate-border);
+  padding: 1rem 1.75rem;
+}
+
+/* Nav & Tabs */
+.nav-pills .nav-link {
+  border-radius: var(--lumora-radius-btn);
+  color: var(--lumora-slate);
+  font-family: var(--lumora-font-heading);
+  font-weight: 600;
+  padding: 0.55rem 1.2rem;
+  transition: var(--lumora-transition);
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background-color: var(--lumora-midnight);
+  color: #FFFFFF;
+}
+
+.nav-pills-gold .nav-link.active {
+  background-color: var(--lumora-champagne);
+  color: var(--lumora-midnight);
+}
+
+/* Dropdown */
+.dropdown-menu {
+  border: 1px solid var(--lumora-slate-border);
+  border-radius: 12px;
+  box-shadow: var(--lumora-shadow-md);
+  padding: 0.5rem;
+}
+
+.dropdown-item {
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.92rem;
+  transition: var(--lumora-transition);
+}
+
+.dropdown-item:hover {
+  background-color: var(--lumora-ivory);
+  color: var(--lumora-midnight);
+}
+
+/* Tables */
+.table {
+  color: var(--lumora-charcoal);
+  vertical-align: middle;
+}
+
+.table th {
+  font-family: var(--lumora-font-heading);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--lumora-slate);
+  background-color: var(--lumora-ivory);
+  border-bottom: 1.5px solid var(--lumora-slate-border);
+  padding: 0.85rem 1rem;
+}
+
+.table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(113, 132, 154, 0.14);
+}
+
+/* ----------------------------------------------------------------------------
+ * 4. REUSABLE LUMORA UTILITIES & COMPONENTS
+ * ---------------------------------------------------------------------------- */
+
+/* Backgrounds */
+.bg-lumora-midnight { background-color: var(--lumora-midnight) !important; color: #FFFFFF; }
+.bg-lumora-ivory    { background-color: var(--lumora-ivory) !important; }
+.bg-lumora-champagne{ background-color: var(--lumora-champagne) !important; color: var(--lumora-midnight); }
+.bg-lumora-slate    { background-color: var(--lumora-slate) !important; }
+.bg-lumora-card     { background-color: var(--lumora-ivory-surface) !important; }
+
+/* Text Colors */
+.text-lumora-midnight { color: var(--lumora-midnight) !important; }
+.text-lumora-champagne{ color: var(--lumora-champagne) !important; }
+.text-lumora-champagne-dark { color: #8F7232 !important; }
+.text-lumora-slate    { color: var(--lumora-slate) !important; }
+.text-lumora-charcoal { color: var(--lumora-charcoal) !important; }
+
+/* Borders */
+.border-lumora-subtle { border: 1px solid var(--lumora-slate-border) !important; }
+.border-lumora-gold   { border: 1px solid var(--lumora-champagne) !important; }
+
+/* Star Rating Stars */
+.rating-stars {
+  color: var(--lumora-champagne);
+  display: inline-flex;
+  gap: 2px;
+  font-size: 0.95rem;
+}
+
+/* Avatar Components */
+.avatar-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--lumora-font-heading);
+  font-weight: 700;
+  font-size: 0.95rem;
+  background-color: var(--lumora-midnight);
+  color: var(--lumora-champagne);
+  border: 2px solid var(--lumora-champagne);
+  flex-shrink: 0;
+}
+
+.avatar-circle-sm {
+  width: 32px;
+  height: 32px;
+  font-size: 0.78rem;
+}
+
+.avatar-circle-lg {
+  width: 58px;
+  height: 58px;
+  font-size: 1.25rem;
+}
+
+.avatar-circle-gold {
+  background-color: var(--lumora-champagne);
+  color: var(--lumora-midnight);
+  border-color: var(--lumora-midnight);
+}
+
+.avatar-circle-slate {
+  background-color: var(--lumora-slate-light);
+  color: var(--lumora-midnight);
+  border-color: var(--lumora-slate-border);
+}
+
+/* RTL Helpers */
+
+
+
+
