@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Users Management &amp; Role Governance — LUMORA Admin</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & Inter-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap 5.3 CSS (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Bootstrap Icons (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+  <!-- Lumora Design System Styles -->
+  <link href="../assets/css/lumora-theme.css" rel="stylesheet" />
+  <link href="../assets/css/dashboard.css" rel="stylesheet" />
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    <!-- [MVC LAYOUT: _Sidebar Start] -->
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+      <div class="sidebar-header">
+        <a href="../index.html" class="d-flex align-items-center">
+          <img src="../assets/images/lumora_logo_horizontal.png" alt="LUMORA" class="sidebar-brand-img" />
+        </a>
+        <span class="badge badge-gold sidebar-role-badge">ADMIN</span>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="sidebar-label">Platform Governance</li>
+        <li>
+          <a href="dashboard.html" class="sidebar-link">
+            <i class="bi bi-speedometer2"></i><span>Master Console</span>
+          </a>
+        </li>
+        <li>
+          <a href="course-approvals.html" class="sidebar-link">
+            <i class="bi bi-shield-check"></i><span>Course QA Queue</span>
+            <span class="badge badge-gold ms-auto">3</span>
+          </a>
+        </li>
+        <li>
+          <a href="users-management.html" class="sidebar-link active">
+            <i class="bi bi-people-fill"></i><span>Users Management</span>
+          </a>
+        </li>
+        <li>
+          <a href="taxonomy-and-coupons.html" class="sidebar-link">
+            <i class="bi bi-tags-fill"></i><span>Taxonomy &amp; Coupons</span>
+          </a>
+        </li>
+
+        <li class="sidebar-label">Account</li>
+        <li>
+          <a href="../auth/login.html" class="sidebar-link text-danger">
+            <i class="bi bi-box-arrow-right text-danger"></i><span>Sign Out</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user-card">
+          <div class="avatar-circle avatar-circle-sm">SA</div>
+          <div class="overflow-hidden">
+            <div class="small fw-bold text-white text-truncate font-heading">Security Admin</div>
+            <div class="text-lumora-slate text-truncate" style="font-size: 0.75rem;">Platform Operations Lead</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <!-- [MVC LAYOUT: _Sidebar End] -->
+
+    <div class="dashboard-main">
+      <!-- [MVC LAYOUT: _Topbar Start] -->
+      <header class="dashboard-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-sm btn-outline-primary d-lg-none" type="button" onclick="document.getElementById('dashboardSidebar').classList.toggle('sidebar-open');">
+            <i class="bi bi-list fs-5"></i>
+          </button>
+          <span class="fw-bold text-lumora-midnight">Users Directory &amp; ASP.NET Identity Governance</span>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-cta btn-sm" onclick="LumoraToast('Exported complete user directory to audit CSV.');">
+            <i class="bi bi-download me-1"></i>Export Directory
+          </button>
+        </div>
+      </header>
+      <!-- [MVC LAYOUT: _Topbar End] -->
+
+      <!-- [MVC VIEW: @RenderBody() Main Content Start] -->
+      <main class="dashboard-content">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+          <div>
+            <h2 class="h3 fw-bold text-lumora-midnight mb-1 font-heading">Platform Users &amp; Role Management</h2>
+            <p class="text-muted small mb-0">Manage enterprise learner accounts, practitioner instructors, role claims, and suspension states.</p>
+          </div>
+          <span class="badge badge-gold">52,400 REGISTERED ACCOUNTS</span>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="card p-3 border-lumora-subtle bg-white shadow-sm mb-4">
+          <div class="row g-3 align-items-center">
+            <div class="col-md-5">
+              <div class="input-group input-group-sm">
+                <span class="input-group-text bg-white border-lumora-subtle text-lumora-slate">
+                  <i class="bi bi-search"></i>
+                </span>
+                <input type="text" class="form-control" id="userFilterInput" placeholder="Filter by name, email, or user ID..." />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <select class="form-select form-select-sm" id="roleFilter">
+                <option value="all" selected>All Roles (52,400)</option>
+                <option value="student">Students / Engineers (49,250)</option>
+                <option value="instructor">Practitioner Faculty (2,350)</option>
+                <option value="admin">Platform Admins (800)</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <select class="form-select form-select-sm" id="statusFilter">
+                <option value="all" selected>All Statuses</option>
+                <option value="active">Active Accounts</option>
+                <option value="suspended">Suspended Accounts</option>
+              </select>
+            </div>
+            <div class="col-md-2 text-md-end">
+              <button class="btn btn-sm btn-outline-primary w-100" onclick="document.getElementById('userFilterInput').value=''; LumoraToast('Filters reset.');">
+                Reset Filters
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Users Table Card -->
+        <div class="card p-4 border-lumora-subtle bg-white shadow-sm">
+          <div class="table-responsive">
+            <table class="table align-middle">
+              <thead>
+                <tr>
+                  <th>User Identity</th>
+                  <th>Role</th>
+                  <th>Enterprise Affiliation</th>
+                  <th>Registration Date</th>
+                  <th>Status</th>
+                  <th class="text-end">Account Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- User 1 -->
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="avatar-circle avatar-circle-sm">MO</div>
+                      <div>
+                        <strong class="text-lumora-midnight d-block font-heading">Mohamed Mostafa</strong>
+                        <small class="text-muted">momostafa8316@gmail.com</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="badge badge-slate">STUDENT</span></td>
+                  <td><small class="text-dark">Enterprise Solutions</small></td>
+                  <td><small class="text-muted">Oct 24, 2026</small></td>
+                  <td><span class="badge badge-gold" id="statusBadge_1">ACTIVE</span></td>
+                  <td class="text-end">
+                    <button class="btn btn-sm btn-outline-primary me-1" title="View Profile" onclick="LumoraToast('Opening user profile drawer...');">
+                      <i class="bi bi-person-lines-fill"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary text-danger border-danger" id="suspendBtn_1" onclick="toggleSuspend(1);" title="Suspend Account">
+                      <i class="bi bi-slash-circle"></i>
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- User 2 -->
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="avatar-circle avatar-circle-sm avatar-circle-gold">AV</div>
+                      <div>
+                        <strong class="text-lumora-midnight d-block font-heading">Alex Vance</strong>
+                        <small class="text-muted">alex.vance@lumora.dev</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="badge badge-gold">INSTRUCTOR</span></td>
+                  <td><small class="text-dark">Cloud Faculty</small></td>
+                  <td><small class="text-muted">May 12, 2026</small></td>
+                  <td><span class="badge badge-gold" id="statusBadge_2">ACTIVE</span></td>
+                  <td class="text-end">
+                    <button class="btn btn-sm btn-outline-primary me-1" title="View Courses" onclick="LumoraToast('Opening faculty courses list...');">
+                      <i class="bi bi-collection-play"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary text-danger border-danger" id="suspendBtn_2" onclick="toggleSuspend(2);" title="Suspend Account">
+                      <i class="bi bi-slash-circle"></i>
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- User 3 -->
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="avatar-circle avatar-circle-sm avatar-circle-gold">MK</div>
+                      <div>
+                        <strong class="text-lumora-midnight d-block font-heading">Marcus Kane</strong>
+                        <small class="text-muted">marcus.kane@lumora.dev</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="badge badge-gold">INSTRUCTOR</span></td>
+                  <td><small class="text-dark">.NET Faculty Lead</small></td>
+                  <td><small class="text-muted">Jun 04, 2026</small></td>
+                  <td><span class="badge badge-gold" id="statusBadge_3">ACTIVE</span></td>
+                  <td class="text-end">
+                    <button class="btn btn-sm btn-outline-primary me-1" title="View Courses">
+                      <i class="bi bi-collection-play"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary text-danger border-danger" id="suspendBtn_3" onclick="toggleSuspend(3);" title="Suspend Account">
+                      <i class="bi bi-slash-circle"></i>
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- User 4: Suspended Account -->
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="avatar-circle avatar-circle-sm avatar-circle-slate">DX</div>
+                      <div>
+                        <strong class="text-lumora-midnight d-block font-heading">Dmitri X.</strong>
+                        <small class="text-muted">dmitri@external-test.com</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="badge badge-slate">STUDENT</span></td>
+                  <td><small class="text-dark">Independent</small></td>
+                  <td><small class="text-muted">Aug 18, 2026</small></td>
+                  <td><span class="badge badge-error" id="statusBadge_4">SUSPENDED</span></td>
+                  <td class="text-end">
+                    <button class="btn btn-sm btn-outline-primary me-1" title="View Audit">
+                      <i class="bi bi-shield-slash"></i>
+                    </button>
+                    <button class="btn btn-sm btn-cta" id="suspendBtn_4" onclick="toggleSuspend(4);" title="Reactivate Account">
+                      <i class="bi bi-arrow-clockwise"></i> Reactivate
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+      <!-- [MVC VIEW: @RenderBody() Main Content End] -->
+
+      <footer class="p-3 border-top border-lumora-subtle text-center small text-muted bg-white">
+        &copy; 2026 LUMORA Technologies Inc. All rights reserved. ASP.NET Core MVC compatible.
+      </footer>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script>
+    // Toggle Suspend / Reactivate handler
+    function toggleSuspend(userId) {
+      const badge = document.getElementById('statusBadge_' + userId);
+      const btn = document.getElementById('suspendBtn_' + userId);
+
+      if (badge.textContent.trim() === 'ACTIVE') {
+        badge.textContent = 'SUSPENDED';
+        badge.className = 'badge badge-error';
+        btn.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Reactivate';
+        btn.className = 'btn btn-sm btn-cta';
+        LumoraToast('Account #' + userId + ' has been SUSPENDED.');
+      } else {
+        badge.textContent = 'ACTIVE';
+        badge.className = 'badge badge-gold';
+        btn.innerHTML = '<i class="bi bi-slash-circle"></i>';
+        btn.className = 'btn btn-sm btn-outline-primary text-danger border-danger';
+        LumoraToast('Account #' + userId + ' REACTIVATED successfully.');
+      }
+    }
+  </script>
+</body>
+</html>

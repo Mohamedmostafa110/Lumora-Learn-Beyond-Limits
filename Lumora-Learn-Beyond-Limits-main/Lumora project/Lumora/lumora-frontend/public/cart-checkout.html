@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopping Cart &amp; Checkout — LUMORA Enterprise E-Learning</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & Inter-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap 5.3 CSS (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Bootstrap Icons (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+  <!-- Lumora Design System Styles -->
+  <link href="../assets/css/lumora-theme.css" rel="stylesheet" />
+  <link href="../assets/css/public.css" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- [MVC LAYOUT: _Navbar Start] -->
+  <nav class="navbar navbar-expand-lg lumora-navbar">
+    <div class="container-fluid px-lg-5">
+      <a class="navbar-brand d-flex align-items-center me-4" href="../index.html">
+        <img src="../assets/images/lumora_logo_horizontal.png" alt="LUMORA" class="navbar-brand-img" />
+      </a>
+
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2 text-lumora-champagne"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item"><a class="nav-link nav-link-custom" href="../index.html"><i class="bi bi-house-door me-1"></i>Home</a></li>
+          <li class="nav-item"><a class="nav-link nav-link-custom" href="catalog.html"><i class="bi bi-grid me-1"></i>Explore Courses</a></li>
+          <li class="nav-item"><a class="nav-link nav-link-custom" href="verify-certificate.html"><i class="bi bi-patch-check me-1"></i>Verify Credential</a></li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+          <a href="../auth/login.html" class="btn btn-outline-primary text-white border-0 px-3">Sign In</a>
+          <a href="../auth/register.html" class="btn btn-cta">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- [MVC LAYOUT: _Navbar End] -->
+
+  <!-- [MVC VIEW: @RenderBody() Main Content Start] -->
+  <main class="py-5 bg-lumora-ivory">
+    <div class="container-fluid px-lg-5">
+      <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb small">
+          <li class="breadcrumb-item"><a href="../index.html" class="text-lumora-slate">Home</a></li>
+          <li class="breadcrumb-item"><a href="catalog.html" class="text-lumora-slate">Courses</a></li>
+          <li class="breadcrumb-item active text-lumora-midnight fw-semibold" aria-current="page">Checkout</li>
+        </ol>
+      </nav>
+
+      <div class="mb-4">
+        <h1 class="h2 fw-bold text-lumora-midnight mb-1 font-heading">Shopping Cart &amp; Checkout</h1>
+        <p class="text-muted small mb-0">Review your selected masterclasses and finalize your enterprise enrollment.</p>
+      </div>
+
+      <div class="row g-4">
+        <!-- Left Column: Cart Items & Add-ons -->
+        <div class="col-lg-7">
+          <!-- Cart Items Card -->
+          <div class="card p-4 border-lumora-subtle mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom border-lumora-subtle">
+              <h5 class="fw-bold mb-0 font-heading">Enrolled Courses in Cart (2 Items)</h5>
+              <a href="catalog.html" class="small fw-semibold text-lumora-champagne-dark">Add More Courses</a>
+            </div>
+
+            <!-- Item 1 -->
+            <div class="d-flex flex-column flex-sm-row gap-3 py-3 border-bottom border-lumora-subtle align-items-sm-center">
+              <div class="trust-icon-box bg-lumora-midnight text-lumora-champagne rounded-3 p-3 flex-shrink-0">
+                <i class="bi bi-diagram-3-fill fs-3"></i>
+              </div>
+              <div class="flex-grow-1">
+                <h6 class="fw-bold text-lumora-midnight mb-1 font-heading">
+                  <a href="course-details.html">Cloud Architecture Masterclass: Distributed Systems at Scale</a>
+                </h6>
+                <div class="small text-muted mb-2">By Alex Vance &bull; 42 Hours &bull; Verifiable Credential</div>
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge badge-gold">Advanced</span>
+                  <button class="btn btn-link btn-sm text-danger text-decoration-none p-0 small" onclick="this.closest('.d-flex').parentElement.parentElement.remove(); LumoraToast('Item removed from cart');">
+                    <i class="bi bi-trash3 me-1"></i>Remove
+                  </button>
+                </div>
+              </div>
+              <div class="text-sm-end">
+                <div class="fs-5 fw-bold text-lumora-midnight font-heading">$189.00</div>
+                <small class="text-muted text-decoration-line-through">$249.00</small>
+              </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="d-flex flex-column flex-sm-row gap-3 py-3 align-items-sm-center">
+              <div class="trust-icon-box bg-lumora-midnight text-lumora-champagne rounded-3 p-3 flex-shrink-0">
+                <i class="bi bi-layers-fill fs-3"></i>
+              </div>
+              <div class="flex-grow-1">
+                <h6 class="fw-bold text-lumora-midnight mb-1 font-heading">
+                  <a href="course-details.html">Modern Full-Stack .NET 8, Clean Architecture &amp; Enterprise MVC</a>
+                </h6>
+                <div class="small text-muted mb-2">By Marcus Kane &bull; 38 Hours &bull; Verifiable Credential</div>
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge badge-gold">Enterprise Pick</span>
+                  <button class="btn btn-link btn-sm text-danger text-decoration-none p-0 small" onclick="this.closest('.d-flex').parentElement.parentElement.remove(); LumoraToast('Item removed from cart');">
+                    <i class="bi bi-trash3 me-1"></i>Remove
+                  </button>
+                </div>
+              </div>
+              <div class="text-sm-end">
+                <div class="fs-5 fw-bold text-lumora-midnight font-heading">$149.00</div>
+                <small class="text-muted text-decoration-line-through">$199.00</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add-on Accreditation Seal Card -->
+          <div class="card p-4 border-lumora-subtle bg-white mb-4">
+            <div class="d-flex align-items-start gap-3">
+              <div class="form-check mt-1">
+                <input class="form-check-input" type="checkbox" id="sealAddon" checked />
+              </div>
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <h6 class="fw-bold text-lumora-midnight mb-0 font-heading">
+                    <i class="bi bi-patch-check-fill text-lumora-champagne-dark me-1"></i>Institutional Verified Accreditation Seal
+                  </h6>
+                  <span class="fw-bold text-lumora-midnight font-heading">+$29.00</span>
+                </div>
+                <p class="small text-muted mb-0">
+                  Includes permanent cryptographic hash registration on public ledger, official PDF embossed seal, and instant LinkedIn badge verification.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Promo Coupon Section -->
+          <div class="card p-4 border-lumora-subtle bg-white">
+            <h6 class="fw-bold text-lumora-midnight mb-2 font-heading">Have a Promotional Voucher or Enterprise Code?</h6>
+            <form class="d-flex gap-2" onsubmit="event.preventDefault(); LumoraToast('Coupon LUMORA-ENTERPRISE-20 applied: 20% discount!');">
+              <input type="text" class="form-control" placeholder="Enter coupon code" value="LUMORA-ENTERPRISE-20" />
+              <button type="submit" class="btn btn-outline-primary fw-semibold text-nowrap">Apply Code</button>
+            </form>
+            <div class="d-flex align-items-center gap-2 mt-2">
+              <span class="badge badge-gold">20% Enterprise Discount Applied</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Order Summary & Stripe Payment Form -->
+        <div class="col-lg-5">
+          <div class="card p-4 border-lumora-subtle shadow-md sticky-top" style="top: 85px; z-index: 10;">
+            <h5 class="fw-bold text-lumora-midnight mb-3 pb-2 border-bottom border-lumora-subtle font-heading">
+              Order Summary
+            </h5>
+
+            <!-- Summary Breakdown -->
+            <div class="d-flex flex-column gap-2 small mb-3">
+              <div class="d-flex justify-content-between text-muted">
+                <span>Original Price (2 Courses)</span>
+                <span>$338.00</span>
+              </div>
+              <div class="d-flex justify-content-between text-muted">
+                <span>Institutional Verified Seal</span>
+                <span>$29.00</span>
+              </div>
+              <div class="d-flex justify-content-between text-lumora-champagne-dark fw-bold">
+                <span>Enterprise Promo (LUMORA-ENTERPRISE-20)</span>
+                <span>-$67.60</span>
+              </div>
+              <div class="d-flex justify-content-between text-muted">
+                <span>Estimated Taxes (0% Educational)</span>
+                <span>$0.00</span>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center pt-3 border-top border-lumora-subtle mb-4">
+              <span class="h5 fw-bold text-lumora-midnight mb-0 font-heading">Total Due:</span>
+              <span class="h4 fw-bold text-lumora-midnight mb-0 font-heading">$299.40 USD</span>
+            </div>
+
+            <!-- Payment Simulation Form -->
+            <h6 class="fw-bold text-lumora-midnight mb-3 font-heading">
+              <i class="bi bi-credit-card-2-front text-lumora-champagne-dark me-2"></i>Payment Details
+            </h6>
+
+            <form action="../student/dashboard.html" method="get">
+              <!-- Name on Card -->
+              <div class="mb-3">
+                <label for="cardName" class="form-label">Name on Card</label>
+                <input type="text" class="form-control form-control-sm" id="cardName" placeholder="Full name as printed on card" required value="David Vance" />
+              </div>
+
+              <!-- Card Number -->
+              <div class="mb-3">
+                <label for="cardNumber" class="form-label">Card Number</label>
+                <div class="input-group input-group-sm">
+                  <span class="input-group-text bg-white text-lumora-slate border-lumora-subtle">
+                    <i class="bi bi-credit-card"></i>
+                  </span>
+                  <input type="text" class="form-control" id="cardNumber" placeholder="4242 &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 4242" required value="4242 •••• •••• 4242" />
+                </div>
+              </div>
+
+              <!-- Expiry & CVC -->
+              <div class="row g-2 mb-3">
+                <div class="col-6">
+                  <label for="cardExp" class="form-label">Expiry (MM/YY)</label>
+                  <input type="text" class="form-control form-control-sm" id="cardExp" placeholder="12/28" required value="12/28" />
+                </div>
+                <div class="col-6">
+                  <label for="cardCvc" class="form-label">CVC / CVV</label>
+                  <input type="text" class="form-control form-control-sm" id="cardCvc" placeholder="CVC" required value="842" />
+                </div>
+              </div>
+
+              <!-- Country & Billing Zip -->
+              <div class="row g-2 mb-4">
+                <div class="col-7">
+                  <label for="billingCountry" class="form-label">Country</label>
+                  <select class="form-select form-select-sm" id="billingCountry">
+                    <option value="US" selected>United States</option>
+                    <option value="AE">United Arab Emirates</option>
+                    <option value="SA">Saudi Arabia</option>
+                    <option value="EG">Egypt</option>
+                    <option value="GB">United Kingdom</option>
+                    <option value="DE">Germany</option>
+                  </select>
+                </div>
+                <div class="col-5">
+                  <label for="billingZip" class="form-label">Postal Code</label>
+                  <input type="text" class="form-control form-control-sm" id="billingZip" placeholder="Zip code" required value="10001" />
+                </div>
+              </div>
+
+              <!-- Submit Payment CTA -->
+              <button type="submit" class="btn btn-cta w-100 py-2 fs-6 mb-3">
+                <i class="bi bi-lock-fill me-2"></i>Complete Secure Enrollment ($299.40)
+              </button>
+            </form>
+
+            <!-- Trust Marks -->
+            <div class="d-flex flex-column gap-2 text-center text-muted small border-top border-lumora-subtle pt-3">
+              <div><i class="bi bi-shield-check text-lumora-champagne-dark me-1"></i>256-Bit TLS Bank-Grade Encrypted Connection</div>
+              <div><i class="bi bi-arrow-repeat text-lumora-champagne-dark me-1"></i>Instant Enrollment &bull; Access Courses Immediately</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- [MVC VIEW: @RenderBody() Main Content End] -->
+
+  <!-- [MVC LAYOUT: _Footer Start] -->
+  <footer class="lumora-footer">
+    <div class="container-fluid px-lg-5">
+      <div class="row g-4 justify-content-between">
+        <div class="col-lg-4">
+          <img src="../assets/images/lumora_logo_horizontal.png" alt="LUMORA" class="navbar-brand-img mb-3" />
+          <p class="small text-muted mb-0">LUMORA Enterprise E-Learning Platform. Ready for ASP.NET Core MVC integration.</p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h6 class="footer-title">Navigation</h6>
+          <ul class="footer-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="catalog.html">Courses</a></li>
+            <li><a href="verify-certificate.html">Verification</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom text-center text-muted small">
+        &copy; 2026 LUMORA Technologies Inc. All rights reserved.
+      </div>
+    </div>
+  </footer>
+  <!-- [MVC LAYOUT: _Footer End] -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

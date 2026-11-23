@@ -1,0 +1,191 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Course QA & Approval Queue";
+    // course status queue
+    ViewData["TopbarTitle"] = "Curriculum Quality Assurance Queue";
+}
+
+<main class="dashboard-content">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+    <div>
+      <h2 class="h3 fw-bold text-lumora-midnight mb-1 font-heading">Course Quality Assurance &amp; Approval Queue</h2>
+      <p class="text-muted small mb-0">Inspect syllabus integrity, audio/video encoding quality, and capstone assessment rigor before authorizing public catalog release.</p>
+    </div>
+    <span class="badge badge-gold">QUEUE: 3 PENDING</span>
+  </div>
+
+  <!-- Course Inspection Card (Active Inspection) -->
+  <div class="card p-4 border-lumora-subtle bg-white shadow-sm mb-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start gap-3 pb-3 border-bottom border-lumora-subtle mb-4">
+      <div>
+        <span class="badge badge-slate mb-2">SUBMITTED 3 DAYS AGO &bull; DEVOPS TRACK</span>
+        <h4 class="fw-bold text-lumora-midnight mb-1 font-heading">
+          Advanced Cloud Networking, Cilium &amp; eBPF Service Mesh
+        </h4>
+        <div class="small text-muted">
+          Authored by <strong>Alex Vance</strong> (Principal Solutions Architect) &bull; 26 Hours &bull; 92 Lectures &bull; $199.00 USD
+        </div>
+      </div>
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-cta btn-sm" onclick="LumoraToast('Course APPROVED! Dispatched APPROVAL_EVENT and published to public catalog.');">
+          <i class="bi bi-check-circle-fill me-1"></i>Approve &amp; Publish
+        </button>
+        <button type="button" class="btn btn-outline-primary btn-sm" onclick="LumoraToast('Changes requested. Dispatched feedback report to instructor.');">
+          <i class="bi bi-arrow-repeat me-1"></i>Request Changes
+        </button>
+        <button type="button" class="btn btn-outline-primary btn-sm text-danger border-danger" data-bs-toggle="modal" data-bs-target="#rejectModal">
+          <i class="bi bi-x-circle me-1"></i>Reject
+        </button>
+      </div>
+    </div>
+
+    <!-- Quality Assurance Checklist Grid -->
+    <h5 class="fw-bold text-lumora-midnight mb-3 font-heading">
+      <i class="bi bi-clipboard2-check text-lumora-champagne-dark me-2"></i>Curriculum Structural Integrity Audit
+    </h5>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-3 col-6">
+        <div class="p-3 rounded-3 bg-lumora-ivory border-lumora-subtle">
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <i class="bi bi-check-circle-fill text-lumora-champagne-dark fs-5"></i>
+            <span class="small fw-bold text-lumora-midnight">Video Codec</span>
+          </div>
+          <div class="small text-muted">1080p 60fps &bull; HLS Transcoded</div>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-6">
+        <div class="p-3 rounded-3 bg-lumora-ivory border-lumora-subtle">
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <i class="bi bi-check-circle-fill text-lumora-champagne-dark fs-5"></i>
+            <span class="small fw-bold text-lumora-midnight">Audio Clarity</span>
+          </div>
+          <div class="small text-muted">-14 LUFS &bull; Zero Background Noise</div>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-6">
+        <div class="p-3 rounded-3 bg-lumora-ivory border-lumora-subtle">
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <i class="bi bi-check-circle-fill text-lumora-champagne-dark fs-5"></i>
+            <span class="small fw-bold text-lumora-midnight">Capstone Rigor</span>
+          </div>
+          <div class="small text-muted">Audited ADRs &amp; Terraform Repo</div>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-6">
+        <div class="p-3 rounded-3 bg-lumora-ivory border-lumora-subtle">
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <i class="bi bi-check-circle-fill text-lumora-champagne-dark fs-5"></i>
+            <span class="small fw-bold text-lumora-midnight">Quizzes (3)</span>
+          </div>
+          <div class="small text-muted">All have mandatory rationale keys</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video Sample Inspector Player -->
+    <div class="p-3 bg-lumora-midnight rounded-3 text-white">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <span class="small text-white-50"><i class="bi bi-camera-video me-1"></i>Sample Audit Lecture: Cilium eBPF Kernel Probe Setup (22:15)</span>
+        <span class="badge badge-gold">AUDIO/VIDEO PASSED</span>
+      </div>
+      <div class="bg-black rounded-2 p-4 text-center">
+        <i class="bi bi-play-circle-fill text-lumora-champagne display-4 cursor-pointer" onclick="LumoraToast('Playing sample video in quality monitor...');"></i>
+        <div class="small text-white-50 mt-2">Click to review sample stream at 1080p 60fps</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historical Approval Events Audit Log Table -->
+  <div class="card p-4 border-lumora-subtle bg-white shadow-sm">
+    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom border-lumora-subtle">
+      <h5 class="fw-bold text-lumora-midnight mb-0 font-heading">
+        Historical Approval Events Audit Log (<code>APPROVAL_EVENT</code>)
+      </h5>
+      <span class="badge badge-navy">IMMUTABLE LOG</span>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table align-middle small">
+        <thead>
+          <tr>
+            <th>Event ID</th>
+            <th>Course Title</th>
+            <th>Lead Instructor</th>
+            <th>Decision</th>
+            <th>Audited By</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>APV-2026-0941</code></td>
+            <td><strong>Cloud Architecture Masterclass</strong></td>
+            <td>Alex Vance</td>
+            <td><span class="badge badge-gold">APPROVED &bull; LIVE</span></td>
+            <td>Lead Governance Officer</td>
+            <td>Nov 10, 2026 &bull; 14:15 UTC</td>
+          </tr>
+          <tr>
+            <td><code>APV-2026-0812</code></td>
+            <td><strong>Modern Full-Stack .NET 8</strong></td>
+            <td>Marcus Kane</td>
+            <td><span class="badge badge-gold">APPROVED &bull; LIVE</span></td>
+            <td>Lead Governance Officer</td>
+            <td>Oct 24, 2026 &bull; 09:30 UTC</td>
+          </tr>
+          <tr>
+            <td><code>APV-2026-0749</code></td>
+            <td><strong>Kubernetes Microservices Mesh</strong></td>
+            <td>Sean Larson</td>
+            <td><span class="badge badge-slate">CHANGES_REQUESTED</span></td>
+            <td>Curriculum Auditor</td>
+            <td>Oct 12, 2026 &bull; 11:20 UTC</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<!-- [MVC LAYOUT: _RejectModal Start] -->
+<div class="modal fade" id="rejectModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold text-danger font-heading">
+          Reject Masterclass Submission
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form onsubmit="event.preventDefault(); bootstrap.Modal.getInstance(document.getElementById('rejectModal')).hide(); LumoraToast('Course submission rejected and notice sent.');">
+        <div class="modal-body p-4">
+          <p class="small text-muted mb-3">
+            Please specify the formal justification for rejection under LUMORA Enterprise Curriculum Standards:
+          </p>
+          <div class="mb-3">
+            <label class="form-label">Primary Rejection Cause</label>
+            <select class="form-select form-select-sm" required>
+              <option value="quality">Audio / Video quality does not meet 1080p standards</option>
+              <option value="capstone">Missing comprehensive architecture capstone project</option>
+              <option value="plagiarism">Intellectual property / proprietary code conflict</option>
+              <option value="pedagogy">Superficial syllabus depth; lacks production rigor</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Detailed Auditor Feedback for Instructor</label>
+            <textarea class="form-control" rows="3" placeholder="Provide actionable requirements for re-submission..." required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger btn-sm">Confirm Rejection</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- [MVC LAYOUT: _RejectModal End] -->

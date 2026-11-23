@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Course Builder &amp; Curriculum Authoring — LUMORA Faculty</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & Inter-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap 5.3 CSS (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Bootstrap Icons (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+  <!-- Lumora Design System Styles -->
+  <link href="../assets/css/lumora-theme.css" rel="stylesheet" />
+  <link href="../assets/css/dashboard.css" rel="stylesheet" />
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    <!-- [MVC LAYOUT: _Sidebar Start] -->
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+      <div class="sidebar-header">
+        <a href="../index.html" class="d-flex align-items-center">
+          <img src="../assets/images/lumora_logo_horizontal.png" alt="LUMORA" class="sidebar-brand-img" />
+        </a>
+        <span class="badge badge-gold sidebar-role-badge">INSTRUCTOR</span>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="sidebar-label">Faculty Management</li>
+        <li>
+          <a href="dashboard.html" class="sidebar-link">
+            <i class="bi bi-grid-1x2"></i><span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="course-builder.html" class="sidebar-link active">
+            <i class="bi bi-pencil-square"></i><span>Course Builder</span>
+          </a>
+        </li>
+        <li>
+          <a href="media-and-quiz-builder.html" class="sidebar-link">
+            <i class="bi bi-camera-video"></i><span>Media &amp; Quizzes</span>
+          </a>
+        </li>
+        <li>
+          <a href="engagement-qna.html" class="sidebar-link">
+            <i class="bi bi-chat-dots"></i><span>Student Q&amp;A Hub</span>
+          </a>
+        </li>
+
+        <li class="sidebar-label">Account</li>
+        <li>
+          <a href="../auth/login.html" class="sidebar-link text-danger">
+            <i class="bi bi-box-arrow-right text-danger"></i><span>Sign Out</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user-card">
+          <div class="avatar-circle avatar-circle-sm">AV</div>
+          <div class="overflow-hidden">
+            <div class="small fw-bold text-white text-truncate font-heading">Alex Vance</div>
+            <div class="text-lumora-slate text-truncate" style="font-size: 0.75rem;">Principal Solutions Architect</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <!-- [MVC LAYOUT: _Sidebar End] -->
+
+    <div class="dashboard-main">
+      <!-- [MVC LAYOUT: _Topbar Start] -->
+      <header class="dashboard-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-sm btn-outline-primary d-lg-none" type="button" onclick="document.getElementById('dashboardSidebar').classList.toggle('sidebar-open');">
+            <i class="bi bi-list fs-5"></i>
+          </button>
+          <a href="dashboard.html" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i>Back to Overview
+          </a>
+          <span class="fw-bold text-lumora-midnight small text-truncate">
+            Editing: Cloud Architecture Masterclass
+          </span>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-outline-primary btn-sm" onclick="LumoraToast('Draft saved successfully at ' + new Date().toLocaleTimeString());">
+            <i class="bi bi-save me-1"></i>Save Draft
+          </button>
+          <button class="btn btn-cta btn-sm" data-bs-toggle="modal" data-bs-target="#submitApprovalModal">
+            <i class="bi bi-send-check me-1"></i>Submit for Approval
+          </button>
+        </div>
+      </header>
+      <!-- [MVC LAYOUT: _Topbar End] -->
+
+      <!-- [MVC VIEW: @RenderBody() Main Content Start] -->
+      <main class="dashboard-content">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+          <div>
+            <h2 class="h3 fw-bold text-lumora-midnight mb-1 font-heading">Curriculum Authoring Workspace</h2>
+            <p class="text-muted small mb-0">Define course metadata, target competencies, pricing tiers, and modular section syllabi.</p>
+          </div>
+          <span class="badge badge-gold">CURRICULUM SPEC V4.2</span>
+        </div>
+
+        <!-- Section 1: Basic Metadata -->
+        <div class="card p-4 border-lumora-subtle bg-white mb-4 shadow-sm">
+          <h5 class="fw-bold text-lumora-midnight mb-3 pb-2 border-bottom border-lumora-subtle font-heading">
+            1. Masterclass Metadata &amp; Overview
+          </h5>
+
+          <div class="row g-3">
+            <div class="col-12">
+              <label for="courseTitle" class="form-label">Masterclass Title</label>
+              <input type="text" class="form-control" id="courseTitle" value="Cloud Architecture Masterclass: Distributed Systems at Scale" required />
+            </div>
+
+            <div class="col-12">
+              <label for="courseSubtitle" class="form-label">Subtitle / Architectural Scope</label>
+              <input type="text" class="form-control" id="courseSubtitle" value="High-throughput distributed microservices, event sourcing with Kafka, and multi-region resilience on Azure and AWS." required />
+            </div>
+
+            <div class="col-md-4">
+              <label for="courseCategory" class="form-label">Discipline / Learning Track</label>
+              <select class="form-select" id="courseCategory">
+                <option value="cloud" selected>Cloud &amp; Distributed Systems</option>
+                <option value="dotnet">Enterprise .NET &amp; C#</option>
+                <option value="ai">AI &amp; LLM Engineering</option>
+                <option value="security">Cybersecurity &amp; Zero-Trust</option>
+                <option value="devops">DevOps &amp; SRE</option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label for="courseLevel" class="form-label">Target Competency Level</label>
+              <select class="form-select" id="courseLevel">
+                <option value="advanced" selected>Advanced (Staff / Principal)</option>
+                <option value="intermediate">Intermediate (Senior Engineer)</option>
+                <option value="beginner">Foundational</option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label for="courseLanguage" class="form-label">Primary Instruction Language</label>
+              <select class="form-select" id="courseLanguage">
+                <option value="en" selected>English (With Arabic Subtitles)</option>
+                
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Pricing & Commercial Policy -->
+        <div class="card p-4 border-lumora-subtle bg-white mb-4 shadow-sm">
+          <h5 class="fw-bold text-lumora-midnight mb-3 pb-2 border-bottom border-lumora-subtle font-heading">
+            2. Commercial Pricing Strategy ($USD)
+          </h5>
+
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label for="basePrice" class="form-label">Base Retail Price ($USD)</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white border-lumora-subtle text-lumora-slate">$</span>
+                <input type="number" class="form-control" id="basePrice" value="249.00" step="1.00" required />
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <label for="discountPrice" class="form-label">Discounted Promotional Price ($USD)</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white border-lumora-subtle text-lumora-slate">$</span>
+                <input type="number" class="form-control" id="discountPrice" value="189.00" step="1.00" required />
+              </div>
+            </div>
+
+            <div class="col-md-4 d-flex align-items-end">
+              <div class="form-check pb-2">
+                <input class="form-check-input" type="checkbox" id="couponAllowed" checked />
+                <label class="form-check-label small text-muted" for="couponAllowed">
+                  Allow Enterprise Platform Promotional Vouchers (e.g. 20% off)
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Interactive Syllabus & Curriculum Builder -->
+        <div class="card p-4 border-lumora-subtle bg-white mb-4 shadow-sm">
+          <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom border-lumora-subtle">
+            <div>
+              <h5 class="fw-bold text-lumora-midnight mb-0 font-heading">3. Curriculum Structure &amp; Syllabus Modules</h5>
+              <small class="text-muted">Organize sections, lectures, sandbox labs, and graded assessments.</small>
+            </div>
+            <button class="btn btn-sm btn-outline-primary" type="button" onclick="LumoraToast('Added new syllabus section container.');">
+              <i class="bi bi-plus-circle me-1"></i>Add Section
+            </button>
+          </div>
+
+          <!-- Section Item 1 -->
+          <div class="border border-lumora-subtle rounded-3 p-3 bg-lumora-ivory mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-grip-vertical text-lumora-slate fs-5 cursor-grab"></i>
+                <h6 class="fw-bold text-lumora-midnight mb-0 font-heading">
+                  Section 1: Foundations of Resilient Distributed Systems
+                </h6>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-primary py-0 px-2 small">Edit Title</button>
+                <button class="btn btn-sm btn-outline-champagne py-0 px-2 small">+ Add Lecture</button>
+              </div>
+            </div>
+
+            <!-- Lessons inside Section 1 -->
+            <div class="d-flex flex-column gap-2 ps-3">
+              <div class="p-2 bg-white rounded-2 border-lumora-subtle d-flex justify-content-between align-items-center small">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-camera-video text-lumora-champagne-dark"></i>
+                  <span>1. Welcome &amp; Enterprise Architecture Landscape</span>
+                  <span class="badge badge-gold">Video &bull; 14:20</span>
+                </div>
+                <div class="d-flex gap-2">
+                  <a href="media-and-quiz-builder.html" class="btn btn-link btn-sm text-lumora-slate p-0"><i class="bi bi-upload"></i> Media</a>
+                </div>
+              </div>
+
+              <div class="p-2 bg-white rounded-2 border-lumora-subtle d-flex justify-content-between align-items-center small">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-camera-video text-lumora-champagne-dark"></i>
+                  <span>2. The CAP Theorem &amp; PACELC Trade-offs in Practice</span>
+                  <span class="badge badge-gold">Video &bull; 22:45</span>
+                </div>
+                <div class="d-flex gap-2">
+                  <a href="media-and-quiz-builder.html" class="btn btn-link btn-sm text-lumora-slate p-0"><i class="bi bi-upload"></i> Media</a>
+                </div>
+              </div>
+
+              <div class="p-2 bg-white rounded-2 border-lumora-subtle d-flex justify-content-between align-items-center small">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-ui-checks text-lumora-champagne-dark"></i>
+                  <span>3. Knowledge Check: Distributed Consistency Trade-offs</span>
+                  <span class="badge badge-slate">Graded Quiz</span>
+                </div>
+                <div class="d-flex gap-2">
+                  <a href="media-and-quiz-builder.html" class="btn btn-link btn-sm text-lumora-slate p-0"><i class="bi bi-pencil"></i> Questions</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section Item 2 -->
+          <div class="border border-lumora-subtle rounded-3 p-3 bg-lumora-ivory">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-grip-vertical text-lumora-slate fs-5 cursor-grab"></i>
+                <h6 class="fw-bold text-lumora-midnight mb-0 font-heading">
+                  Section 2: High-Throughput Event-Driven Pipelines (Kafka &amp; Event Sourcing)
+                </h6>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-primary py-0 px-2 small">Edit Title</button>
+                <button class="btn btn-sm btn-outline-champagne py-0 px-2 small">+ Add Lecture</button>
+              </div>
+            </div>
+
+            <div class="d-flex flex-column gap-2 ps-3">
+              <div class="p-2 bg-white rounded-2 border-lumora-subtle d-flex justify-content-between align-items-center small">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-camera-video text-lumora-champagne-dark"></i>
+                  <span>4. Event Sourcing vs CRUD in Financial Distributed Domains</span>
+                  <span class="badge badge-gold">Video &bull; 34:10</span>
+                </div>
+                <div class="d-flex gap-2">
+                  <a href="media-and-quiz-builder.html" class="btn btn-link btn-sm text-lumora-slate p-0"><i class="bi bi-upload"></i> Media</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sticky Bottom Save Bar -->
+        <div class="card p-3 border-lumora-subtle bg-white shadow-md sticky-bottom" style="bottom: 15px;">
+          <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2">
+            <div class="small text-muted">
+              <i class="bi bi-check-circle-fill text-lumora-champagne-dark me-1"></i>All local metadata changes saved to cache.
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-outline-primary btn-sm" onclick="LumoraToast('Draft state saved to database.');">
+                Save Draft
+              </button>
+              <button class="btn btn-cta btn-sm" data-bs-toggle="modal" data-bs-target="#submitApprovalModal">
+                <i class="bi bi-send-check me-1"></i>Submit for Admin Review
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+      <!-- [MVC VIEW: @RenderBody() Main Content End] -->
+
+      <!-- [MVC LAYOUT: _SubmitModal Start] -->
+      <div class="modal fade" id="submitApprovalModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title fw-bold text-lumora-midnight font-heading">
+                Submit Masterclass for Admin Quality Review
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+              <p class="small text-muted mb-3">
+                Before submitting to the LUMORA Curriculum Review Board, please verify your curriculum conforms to enterprise standards:
+              </p>
+              <ul class="list-unstyled d-flex flex-column gap-2 small text-muted mb-3">
+                <li><i class="bi bi-check-circle-fill text-lumora-champagne-dark me-2"></i>High-definition video (1080p, clear microphone audio)</li>
+                <li><i class="bi bi-check-circle-fill text-lumora-champagne-dark me-2"></i>Downloadable production architecture diagrams / ADRs</li>
+                <li><i class="bi bi-check-circle-fill text-lumora-champagne-dark me-2"></i>Minimum 1 graded section assessment with rationale explanations</li>
+                <li><i class="bi bi-check-circle-fill text-lumora-champagne-dark me-2"></i>Zero copyrighted proprietary code</li>
+              </ul>
+              <div class="alert alert-success small mb-0">
+                <strong>Next Step:</strong> Upon submission, an admin will review syllabus videos and trigger an automated <code>APPROVAL_EVENT</code> log entry.
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-primary btn-sm" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-cta btn-sm" onclick="bootstrap.Modal.getInstance(document.getElementById('submitApprovalModal')).hide(); LumoraToast('Masterclass submitted to Admin Approval Queue!');">
+                Confirm &amp; Dispatch to Queue
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- [MVC LAYOUT: _SubmitModal End] -->
+
+      <footer class="p-3 border-top border-lumora-subtle text-center small text-muted bg-white">
+        &copy; 2026 LUMORA Technologies Inc. All rights reserved. ASP.NET Core MVC compatible.
+      </footer>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+@model Lumora.DTOs.Certificates.CertificateVerificationResultDto
+@{
+    ViewData["Title"] = "Certificate Verification";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-custom p-4 p-md-5">
+                <div class="text-center mb-4">
+                    <span class="p-3 rounded-circle bg-primary bg-opacity-10 text-primary d-inline-flex mb-3">
+                        <i class="bi bi-patch-check-fill fs-1"></i>
+                    </span>
+                    <h2 class="fw-bold" style="color: var(--text-main);">Official Certificate Verification</h2>
+                    <p class="text-muted">Direct verification against Lumora's tamper-proof database</p>
+                </div>
+
+                <form action="/Verification" method="get" class="mb-5">
+                    <div class="input-group input-group-lg">
+                        <input type="text" name="code" value="@(Model?.VerificationId ?? Context.Request.Query["code"].ToString())" class="form-control bg-dark text-white border-secondary" placeholder="Enter Certificate Code (e.g. LUM-2026-DOTNET10)" required />
+                        <button type="submit" class="btn btn-primary fw-bold px-4">Verify Certificate</button>
+                    </div>
+                </form>
+
+                @if (Model != null)
+                {
+                    @if (Model.IsValid)
+                    {
+                        <div class="p-4 rounded-4 border border-success bg-success bg-opacity-10">
+                            <div class="d-flex align-items-center gap-2 text-success fw-bold fs-5 mb-3">
+                                <i class="bi bi-shield-fill-check fs-3"></i>
+                                <span>Verified Authentic Lumora Certificate</span>
+                            </div>
+                            <div class="row g-3" style="color: var(--text-main);">
+                                <div class="col-md-6">
+                                    <small class="text-muted d-block">STUDENT NAME</small>
+                                    <strong class="fs-6">@Model.StudentName</strong>
+                                </div>
+                                <div class="col-md-6">
+                                    <small class="text-muted d-block">COURSE NAME</small>
+                                    <strong class="fs-6">@Model.CourseTitle</strong>
+                                </div>
+                                <div class="col-md-6">
+                                    <small class="text-muted d-block">INSTRUCTOR</small>
+                                    <strong class="fs-6">@Model.InstructorName</strong>
+                                </div>
+                                <div class="col-md-6">
+                                    <small class="text-muted d-block">DATE ISSUED</small>
+                                    <strong class="fs-6">@Model.IssuedAt?.ToString("MMMM dd, yyyy")</strong>
+                                </div>
+                                <div class="col-12 mt-3 pt-3 border-top border-success-subtle d-flex justify-content-between align-items-center">
+                                    <span class="font-monospace small text-muted">ID: @Model.VerificationId</span>
+                                    <a href="@Model.PdfUrl" target="_blank" class="btn btn-sm btn-success fw-semibold">
+                                        <i class="bi bi-file-earmark-pdf me-1"></i> Download PDF
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="p-4 rounded-4 border border-danger bg-danger bg-opacity-10 text-center">
+                            <i class="bi bi-shield-fill-x text-danger fs-1 mb-2 d-block"></i>
+                            <h5 class="fw-bold text-danger">Invalid Certificate Code</h5>
+                            <p class="text-muted mb-0">@Model.Message</p>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

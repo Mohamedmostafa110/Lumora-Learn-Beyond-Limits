@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Course Catalog — LUMORA Enterprise E-Learning</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & Inter-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap 5.3 CSS (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Bootstrap Icons (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+  <!-- Lumora Design System Styles -->
+  <link href="../assets/css/lumora-theme.css" rel="stylesheet" />
+  <link href="../assets/css/public.css" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- [MVC LAYOUT: _Navbar Start] -->
+  <nav class="navbar navbar-expand-lg lumora-navbar">
+    <div class="container-fluid px-lg-5">
+      <a class="navbar-brand d-flex align-items-center me-4" href="../index.html">
+        <img src="../assets/images/lumora_logo_horizontal.png" alt="LUMORA" class="navbar-brand-img" />
+      </a>
+
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2 text-lumora-champagne"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="../index.html"><i class="bi bi-house-door me-1"></i>Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom active" href="catalog.html"><i class="bi bi-grid me-1"></i>Explore Courses</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="../index.html#categories"><i class="bi bi-compass me-1"></i>Learning Paths</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="verify-certificate.html"><i class="bi bi-patch-check me-1"></i>Verify Credential</a>
+          </li>
+        </ul>
+
+        <div class="nav-search-bar me-lg-3 my-2 my-lg-0">
+          <i class="bi bi-search search-icon"></i>
+          <input type="text" id="catalogSearchInput" class="form-control" placeholder="Search .NET, Cloud, AI, Security..." />
+        </div>
+
+        <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+
+          <a href="cart-checkout.html" class="btn btn-outline-primary position-relative px-3 py-2 text-white border-lumora-subtle">
+            <i class="bi bi-bag text-lumora-champagne"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-gold">2</span>
+          </a>
+
+          <a href="../auth/login.html" class="btn btn-outline-primary text-white border-0 px-3">Sign In</a>
+          <a href="../auth/register.html" class="btn btn-cta">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- [MVC LAYOUT: _Navbar End] -->
+
+  <!-- [MVC VIEW: @RenderBody() Main Content Start] -->
+  <main class="py-5 bg-lumora-ivory">
+    <div class="container-fluid px-lg-5">
+      <!-- Breadcrumb & Header -->
+      <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb small">
+          <li class="breadcrumb-item"><a href="../index.html" class="text-lumora-slate">Home</a></li>
+          <li class="breadcrumb-item active text-lumora-midnight fw-semibold" aria-current="page">Course Catalog</li>
+        </ol>
+      </nav>
+
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+          <h1 class="h2 fw-bold text-lumora-midnight mb-1 font-heading">Explore Enterprise &amp; Tech Courses</h1>
+          <p class="text-muted small mb-0">Discover 140+ production engineering curricula engineered for ambitious practitioners.</p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <label for="sortSelect" class="small fw-semibold text-lumora-slate text-nowrap mb-0">Sort By:</label>
+          <select id="sortSelect" class="form-select form-select-sm" style="min-width: 170px;">
+            <option value="popular">Most Popular</option>
+            <option value="rating">Highest Rated</option>
+            <option value="newest">Newest Releases</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <!-- Left Sidebar: Filters Panel -->
+        <div class="col-lg-3">
+          <div class="card p-4 border-lumora-subtle sticky-top" style="top: 85px; z-index: 10;">
+            <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom border-lumora-subtle">
+              <h5 class="fw-bold mb-0 font-heading"><i class="bi bi-funnel me-2 text-lumora-champagne-dark"></i>Filter Courses</h5>
+              <button class="btn btn-link btn-sm text-lumora-champagne-dark p-0 text-decoration-none fw-semibold">Reset</button>
+            </div>
+
+            <!-- Filter: Category -->
+            <div class="mb-4">
+              <label class="form-label fw-bold small text-lumora-midnight">Discipline</label>
+              <div class="d-flex flex-column gap-2">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="cat-all" checked />
+                  <label class="form-check-label small" for="cat-all">All Disciplines (142)</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="cat-cloud" />
+                  <label class="form-check-label small" for="cat-cloud">Cloud &amp; Distributed Systems (38)</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="cat-dotnet" />
+                  <label class="form-check-label small" for="cat-dotnet">Enterprise .NET &amp; C# (32)</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="cat-ai" />
+                  <label class="form-check-label small" for="cat-ai">AI &amp; LLM Engineering (28)</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="cat-sec" />
+                  <label class="form-check-label small" for="cat-sec">Cybersecurity &amp; Zero-Trust (24)</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="cat-devops" />
+                  <label class="form-check-label small" for="cat-devops">DevOps, K8s &amp; SRE (20)</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Filter: Experience Level -->
+            <div class="mb-4">
+              <label class="form-label fw-bold small text-lumora-midnight">Difficulty Level</label>
+              <div class="d-flex flex-column gap-2">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="lvl-adv" checked />
+                  <label class="form-check-label small" for="lvl-adv">Advanced Architect (64)</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="lvl-int" checked />
+                  <label class="form-check-label small" for="lvl-int">Intermediate Engineer (52)</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="lvl-beg" />
+                  <label class="form-check-label small" for="lvl-beg">Foundational Practitioner (26)</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Filter: Duration -->
+            <div class="mb-4">
+              <label class="form-label fw-bold small text-lumora-midnight">Content Duration</label>
+              <div class="d-flex flex-column gap-2">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="dur-1" />
+                  <label class="form-check-label small" for="dur-1">10 - 20 Hours</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="dur-2" checked />
+                  <label class="form-check-label small" for="dur-2">20 - 40 Hours</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="dur-3" checked />
+                  <label class="form-check-label small" for="dur-3">40+ Comprehensive Hours</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Filter: Rating -->
+            <div>
+              <label class="form-label fw-bold small text-lumora-midnight">Student Rating</label>
+              <div class="d-flex flex-column gap-2">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="ratingFilter" id="r-45" checked />
+                  <label class="form-check-label small" for="r-45">
+                    <span class="rating-stars me-1"><i class="bi bi-star-fill"></i></span> 4.5 &amp; above
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="ratingFilter" id="r-40" />
+                  <label class="form-check-label small" for="r-40">
+                    <span class="rating-stars me-1"><i class="bi bi-star-fill"></i></span> 4.0 &amp; above
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Content: Courses Grid -->
+        <div class="col-lg-9">
+          <!-- Active Filter Badges Bar -->
+          <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
+            <span class="small text-muted me-1">Active filters:</span>
+            <span class="badge badge-navy">All Disciplines <i class="bi bi-x ms-1 cursor-pointer"></i></span>
+            <span class="badge badge-gold">Advanced &amp; Intermediate <i class="bi bi-x ms-1 cursor-pointer"></i></span>
+            <span class="badge badge-slate">4.5+ Rating <i class="bi bi-x ms-1 cursor-pointer"></i></span>
+            <span class="small text-muted ms-auto">Showing <strong>6</strong> of 142 courses</span>
+          </div>
+
+          <div class="row g-4">
+            <!-- Catalog Item 1 -->
+            <div class="col-md-6 col-xl-4">
+              <div class="course-card">
+                <div class="course-thumb-wrapper">
+                  <i class="bi bi-diagram-3-fill course-thumb-icon"></i>
+                  <span class="course-level-badge">Advanced</span>
+                  <span class="course-bestseller-badge">BESTSELLER</span>
+                </div>
+                <div class="card-body d-flex flex-column">
+                  <div class="course-meta-tags">
+                    <span><i class="bi bi-clock me-1 text-lumora-champagne-dark"></i>42 Hours</span>
+                    <span><i class="bi bi-collection-play me-1 text-lumora-champagne-dark"></i>184 Lectures</span>
+                  </div>
+                  <h3 class="course-title">
+                    <a href="course-details.html">Cloud Architecture Masterclass: Distributed Systems at Scale</a>
+                  </h3>
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <div class="avatar-circle avatar-circle-sm">AV</div>
+                    <span class="small fw-semibold text-lumora-charcoal">Alex Vance (Staff Architect)</span>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="rating-stars">
+                      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                      <span class="ms-1 fw-bold text-dark small">4.95</span>
+                    </div>
+                    <span class="badge badge-slate">AWS &amp; Azure</span>
+                  </div>
+                  <div class="mt-auto pt-3 border-top border-lumora-subtle d-flex align-items-center justify-content-between">
+                    <div class="course-price-wrap">
+                      <span class="price-current">$189.00</span>
+                      <span class="price-original">$249.00</span>
+                    </div>
+                    <a href="course-details.html" class="btn btn-sm btn-primary">View Course</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Catalog Item 2 -->
+            <div class="col-md-6 col-xl-4">
+              <div class="course-card">
+                <div class="course-thumb-wrapper">
+                  <i class="bi bi-layers-fill course-thumb-icon"></i>
+                  <span class="course-level-badge">Intermediate</span>
+                  <span class="course-bestseller-badge">ENTERPRISE PICK</span>
+                </div>
+                <div class="card-body d-flex flex-column">
+                  <div class="course-meta-tags">
+                    <span><i class="bi bi-clock me-1 text-lumora-champagne-dark"></i>38 Hours</span>
+                    <span><i class="bi bi-collection-play me-1 text-lumora-champagne-dark"></i>142 Lectures</span>
+                  </div>
+                  <h3 class="course-title">
+                    <a href="course-details.html">Modern Full-Stack .NET 8, Clean Architecture &amp; Enterprise MVC</a>
+                  </h3>
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <div class="avatar-circle avatar-circle-sm">MK</div>
+                    <span class="small fw-semibold text-lumora-charcoal">Marcus Kane (.NET Lead)</span>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="rating-stars">
+                      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+                      <span class="ms-1 fw-bold text-dark small">4.89</span>
+                    </div>
+                    <span class="badge badge-slate">C# &amp; EF Core</span>
+                  </div>
+                  <div class="mt-auto pt-3 border-top border-lumora-subtle d-flex align-items-center justify-content-between">
+                    <div class="course-price-wrap">
+                      <span class="price-current">$149.00</span>
+                      <span class="price-original">$199.00</span>
+                    </div>
+                    <a href="course-details.html" class="btn btn-sm btn-primary">View Course</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Catalog Item 3 -->
+            <div class="col-md-6 col-xl-4">
+              <div class="course-card">
+                <div class="course-thumb-wrapper">
+                  <i class="bi bi-cpu-fill course-thumb-icon"></i>
+                  <span class="course-level-badge">Advanced</span>
+                  <span class="course-bestseller-badge">TRENDING</span>
+                </div>
+                <div class="card-body d-flex flex-column">
+                  <div class="course-meta-tags">
+                    <span><i class="bi bi-clock me-1 text-lumora-champagne-dark"></i>28 Hours</span>
+                    <span><i class="bi bi-collection-play me-1 text-lumora-champagne-dark"></i>96 Lectures</span>
+                  </div>
+                  <h3 class="course-title">
+                    <a href="course-details.html">Production LLM Engineering, Fine-Tuning &amp; Autonomous Agents</a>
+                  </h3>
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <div class="avatar-circle avatar-circle-sm">DR</div>
+                    <span class="small fw-semibold text-lumora-charcoal">Dr. David Reynolds (AI Scientist)</span>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="rating-stars">
+                      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                      <span class="ms-1 fw-bold text-dark small">4.97</span>
+                    </div>
+                    <span class="badge badge-slate">PyTorch &amp; RAG</span>
+                  </div>
+                  <div class="mt-auto pt-3 border-top border-lumora-subtle d-flex align-items-center justify-content-between">
+                    <div class="course-price-wrap">
+                      <span class="price-current">$199.00</span>
+                      <span class="price-original">$279.00</span>
+                    </div>
+                    <a href="course-details.html" class="btn btn-sm btn-primary">View Course</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Catalog Item 4 -->
+            <div class="col-md-6 col-xl-4">
+              <div class="course-card">
+                <div class="course-thumb-wrapper">
+                  <i class="bi bi-shield-lock-fill course-thumb-icon"></i>
+                  <span class="course-level-badge">Advanced</span>
+                  <span class="course-bestseller-badge">TOP RATED</span>
+                </div>
+                <div class="card-body d-flex flex-column">
+                  <div class="course-meta-tags">
+                    <span><i class="bi bi-clock me-1 text-lumora-champagne-dark"></i>34 Hours</span>
+                    <span><i class="bi bi-collection-play me-1 text-lumora-champagne-dark"></i>120 Lectures</span>
+                  </div>
+                  <h3 class="course-title">
+                    <a href="course-details.html">Advanced Zero-Trust Architecture, OAuth 2.1 &amp; Cloud Security</a>
+                  </h3>
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <div class="avatar-circle avatar-circle-sm">TH</div>
+                    <span class="small fw-semibold text-lumora-charcoal">Tariq Hassan (Security Auditor)</span>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="rating-stars">
+                      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+                      <span class="ms-1 fw-bold text-dark small">4.91</span>
+                    </div>
+                    <span class="badge badge-slate">SIEM &amp; PKI</span>
+                  </div>
+                  <div class="mt-auto pt-3 border-top border-lumora-subtle d-flex align-items-center justify-content-between">
+                    <div class="course-price-wrap">
+                      <span class="price-current">$169.00</span>
+                      <span class="price-original">$229.00</span>
+                    </div>
+                    <a href="course-details.html" class="btn btn-sm btn-primary">View Course</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Catalog Item 5 -->
+            <div class="col-md-6 col-xl-4">
+              <div class="course-card">
+                <div class="course-thumb-wrapper">
+                  <i class="bi bi-terminal-fill course-thumb-icon"></i>
+                  <span class="course-level-badge">Intermediate</span>
+                  <span class="course-bestseller-badge">BESTSELLER</span>
+                </div>
+                <div class="card-body d-flex flex-column">
+                  <div class="course-meta-tags">
+                    <span><i class="bi bi-clock me-1 text-lumora-champagne-dark"></i>30 Hours</span>
+                    <span><i class="bi bi-collection-play me-1 text-lumora-champagne-dark"></i>110 Lectures</span>
+                  </div>
+                  <h3 class="course-title">
+                    <a href="course-details.html">Enterprise Kubernetes, GitOps with ArgoCD &amp; Terraform Platform</a>
+                  </h3>
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <div class="avatar-circle avatar-circle-sm">SL</div>
+                    <span class="small fw-semibold text-lumora-charcoal">Sean Larson (Principal SRE)</span>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="rating-stars">
+                      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                      <span class="ms-1 fw-bold text-dark small">4.93</span>
+                    </div>
+                    <span class="badge badge-slate">ArgoCD &amp; K8s</span>
+                  </div>
+                  <div class="mt-auto pt-3 border-top border-lumora-subtle d-flex align-items-center justify-content-between">
+                    <div class="course-price-wrap">
+                      <span class="price-current">$179.00</span>
+                      <span class="price-original">$239.00</span>
+                    </div>
+                    <a href="course-details.html" class="btn btn-sm btn-primary">View Course</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Catalog Item 6 -->
+            <div class="col-md-6 col-xl-4">
+              <div class="course-card">
+                <div class="course-thumb-wrapper">
+                  <i class="bi bi-database-fill-gear course-thumb-icon"></i>
+                  <span class="course-level-badge">Advanced</span>
+                  <span class="course-bestseller-badge">ENTERPRISE PICK</span>
+                </div>
+                <div class="card-body d-flex flex-column">
+                  <div class="course-meta-tags">
+                    <span><i class="bi bi-clock me-1 text-lumora-champagne-dark"></i>36 Hours</span>
+                    <span><i class="bi bi-collection-play me-1 text-lumora-champagne-dark"></i>130 Lectures</span>
+                  </div>
+                  <h3 class="course-title">
+                    <a href="course-details.html">High-Performance C# Microservices &amp; Event-Driven Systems</a>
+                  </h3>
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <div class="avatar-circle avatar-circle-sm">MK</div>
+                    <span class="small fw-semibold text-lumora-charcoal">Marcus Kane (.NET Lead)</span>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="rating-stars">
+                      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                      <span class="ms-1 fw-bold text-dark small">4.96</span>
+                    </div>
+                    <span class="badge badge-slate">RabbitMQ &amp; Redis</span>
+                  </div>
+                  <div class="mt-auto pt-3 border-top border-lumora-subtle d-flex align-items-center justify-content-between">
+                    <div class="course-price-wrap">
+                      <span class="price-current">$159.00</span>
+                      <span class="price-original">$219.00</span>
+                    </div>
+                    <a href="course-details.html" class="btn btn-sm btn-primary">View Course</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <nav class="mt-5 d-flex justify-content-center" aria-label="Catalog pagination">
+            <ul class="pagination pagination-sm gap-1">
+              <li class="page-item disabled"><a class="page-link rounded-2" href="#">Previous</a></li>
+              <li class="page-item active"><a class="page-link rounded-2 bg-lumora-midnight border-lumora-midnight" href="#">1</a></li>
+              <li class="page-item"><a class="page-link rounded-2 text-lumora-midnight" href="#">2</a></li>
+              <li class="page-item"><a class="page-link rounded-2 text-lumora-midnight" href="#">3</a></li>
+              <li class="page-item"><a class="page-link rounded-2 text-lumora-midnight" href="#">Next</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- [MVC VIEW: @RenderBody() Main Content End] -->
+
+  <!-- [MVC LAYOUT: _Footer Start] -->
+  <footer class="lumora-footer">
+    <div class="container-fluid px-lg-5">
+      <div class="row g-4 justify-content-between">
+        <div class="col-lg-4">
+          <img src="../assets/images/lumora_logo_horizontal.png" alt="LUMORA" class="navbar-brand-img mb-3" />
+          <p class="small text-muted mb-0">LUMORA Enterprise E-Learning Platform. Engineered for ASP.NET Core MVC integration.</p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h6 class="footer-title">Navigation</h6>
+          <ul class="footer-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="catalog.html">Courses</a></li>
+            <li><a href="verify-certificate.html">Verification</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h6 class="footer-title">Portals</h6>
+          <ul class="footer-links">
+            <li><a href="../auth/login.html">Student Portal</a></li>
+            <li><a href="../auth/login.html">Instructor Hub</a></li>
+            <li><a href="../auth/login.html">Admin Console</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom text-center text-muted small">
+        &copy; 2026 LUMORA Technologies Inc. All rights reserved.
+      </div>
+    </div>
+  </footer>
+  <!-- [MVC LAYOUT: _Footer End] -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
