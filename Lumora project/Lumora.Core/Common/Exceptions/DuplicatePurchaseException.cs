@@ -2,10 +2,10 @@ namespace Lumora.Common.Exceptions
 {
     public class DuplicatePurchaseException : Exception
     {
-        public int StudentId { get; }
-        public int CourseId { get; }
+        public string StudentId { get; }
+        public string CourseId { get; }
 
-        public DuplicatePurchaseException(int studentId, int courseId)
+        public DuplicatePurchaseException(string studentId, string courseId)
             : base($"Student #{studentId} is already enrolled in Course #{courseId}.")
         {
             StudentId = studentId;

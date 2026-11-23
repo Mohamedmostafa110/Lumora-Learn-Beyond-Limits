@@ -64,37 +64,26 @@ namespace Lumora.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new AdminConfiguration());
-            modelBuilder.ApplyConfiguration(new AnnouncementConfiguration());
-            modelBuilder.ApplyConfiguration(new AnswerConfiguration());
-            modelBuilder.ApplyConfiguration(new ApprovalEventConfiguration());
-            modelBuilder.ApplyConfiguration(new AttemptAnswerConfiguration());
-            modelBuilder.ApplyConfiguration(new BookmarkConfiguration());
-            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-            modelBuilder.ApplyConfiguration(new CertificateConfiguration());
-            modelBuilder.ApplyConfiguration(new CouponConfiguration());
-            modelBuilder.ApplyConfiguration(new CourseCategoryConfiguration());
-            modelBuilder.ApplyConfiguration(new CourseConfiguration());
-            modelBuilder.ApplyConfiguration(new CourseTagConfiguration());
-            modelBuilder.ApplyConfiguration(new EnrollmentConfiguration());
-            modelBuilder.ApplyConfiguration(new InstructorConfiguration());
-            modelBuilder.ApplyConfiguration(new LessonConfiguration());
-            modelBuilder.ApplyConfiguration(new LessonProgressConfiguration());
-            modelBuilder.ApplyConfiguration(new MediaAssetConfiguration());
-            modelBuilder.ApplyConfiguration(new NoteConfiguration());
-            modelBuilder.ApplyConfiguration(new OrderConfiguration());
-            modelBuilder.ApplyConfiguration(new OrderCouponConfiguration());
-            modelBuilder.ApplyConfiguration(new OrderItemConfiguration());
-            modelBuilder.ApplyConfiguration(new PaymentConfiguration());
-            modelBuilder.ApplyConfiguration(new QuestionConfiguration());
-            modelBuilder.ApplyConfiguration(new QuestionThreadConfiguration());
-            modelBuilder.ApplyConfiguration(new QuizAttemptConfiguration());
-            modelBuilder.ApplyConfiguration(new QuizConfiguration());
-            modelBuilder.ApplyConfiguration(new ReviewConfiguration());
-            modelBuilder.ApplyConfiguration(new ReviewVoteConfiguration());
-            modelBuilder.ApplyConfiguration(new SectionConfiguration());
-            modelBuilder.ApplyConfiguration(new StudentConfiguration());
-            modelBuilder.ApplyConfiguration(new TagConfiguration());
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+
+            foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            {
+                var pk = entity.FindPrimaryKey();
+
+                if (pk is { Properties.Count: 1 } && pk.Properties[0].ClrType == typeof(string))
+                {
+                    var prop = pk.Properties[0];
+                    prop.SetMaxLength(36);
+                    prop.SetDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
+                    prop.ValueGenerated = ValueGenerated.OnAdd;
+                }
+            }
+
+            foreach (var fk in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                foreach (var p in fk.Properties.Where(p => p.ClrType == typeof(string)))
+                    p.SetMaxLength(36);
+            }
 
             foreach (var fk in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {

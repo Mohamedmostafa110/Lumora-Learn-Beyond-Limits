@@ -1,4 +1,5 @@
 using Lumora.Data;
+using Lumora.DTOs.Dashboard;
 using Lumora.Models;
 using Lumora.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,8 @@ namespace Lumora.Repositories.Implementations
         {
         }
 
-        public async Task<IReadOnlyList<Course>> GetPublishedCoursesAsync(int? categoryId = null, Difficulty? difficulty = null, string? searchTerm = null)
+        public async Task<IReadOnlyList<Course>> GetPublishedCoursesAsync(
+    string? categoryId = null, Difficulty? difficulty = null, string? searchTerm = null)
         {
             var query = _dbSet.AsNoTracking()
                 .Where(c => c.Status == CourseStatus.Published)
@@ -20,9 +22,9 @@ namespace Lumora.Repositories.Implementations
                 .Include(c => c.Reviews)
                 .AsQueryable();
 
-            if (categoryId.HasValue)
+            if (!string.IsNullOrWhiteSpace(categoryId))
             {
-                query = query.Where(c => c.CourseCategories.Any(cc => cc.CategoryId == categoryId.Value));
+                query = query.Where(c => c.CourseCategories.Any(cc => cc.CategoryId == categoryId));
             }
 
             if (difficulty.HasValue)
@@ -32,13 +34,14 @@ namespace Lumora.Repositories.Implementations
 
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
-                query = query.Where(c => c.Title.Contains(searchTerm) || (c.Description != null && c.Description.Contains(searchTerm)));
+                query = query.Where(c => c.Title.Contains(searchTerm) ||
+                                         (c.Description != null && c.Description.Contains(searchTerm)));
             }
 
             return await query.ToListAsync();
         }
 
-        public async Task<Course?> GetCourseWithFullCurriculumAsync(int courseId)
+        public async Task<Course?> GetCourseWithFullCurriculumAsync(string courseId)
         {
             return await _dbSet.AsNoTracking()
                 .Include(c => c.Instructor)
@@ -50,7 +53,7 @@ namespace Lumora.Repositories.Implementations
                 .FirstOrDefaultAsync(c => c.CourseId == courseId);
         }
 
-        public async Task<IReadOnlyList<Course>> GetCoursesByInstructorAsync(int instructorId)
+        public async Task<IReadOnlyList<Course>> GetCoursesByInstructorAsync(string instructorId)
         {
             return await _dbSet.AsNoTracking()
                 .Where(c => c.InstructorId == instructorId)
@@ -69,7 +72,7 @@ namespace Lumora.Repositories.Implementations
                 .ToListAsync();
         }
 
-        public async Task<Course?> GetCourseWithReviewsAsync(int courseId)
+        public async Task<Course?> GetCourseWithReviewsAsync(string courseId)
         {
             return await _dbSet.AsNoTracking()
                 .Include(c => c.Reviews)
@@ -77,6 +80,32 @@ namespace Lumora.Repositories.Implementations
                 .Include(c => c.Reviews)
                     .ThenInclude(r => r.Votes)
                 .FirstOrDefaultAsync(c => c.CourseId == courseId);
+        }
+
+        // ── Dashboard queries ──────────────────────────────────────────────
+
+        public async Task<List<TopCourseDto>> GetTopCoursesByEnrollmentAsync(int take = 5)
+        {
+            return await _dbSet.AsNoTracking()
+                .Where(c => c.Status == CourseStatus.Published)
+                .Include(c => c.Instructor)
+                .Include(c => c.Enrollments)
+                .Include(c => c.Reviews)
+                .Include(c => c.OrderItems)
+                .OrderByDescending(c => c.Enrollments.Count)
+                .Take(take)
+                .Select(c => new TopCourseDto
+                {
+                    CourseId        = c.CourseId,
+                    Title           = c.Title,
+                    InstructorName  = c.Instructor.FullName,
+                    EnrollmentCount = c.Enrollments.Count,
+                    AverageRating   = c.Reviews.Count > 0
+                                        ? c.Reviews.Average(r => r.Rating)
+                                        : 0,
+                    Revenue         = c.OrderItems.Sum(i => i.PriceAtPurchase)
+                })
+                .ToListAsync();
         }
     }
 }

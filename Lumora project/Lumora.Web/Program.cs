@@ -38,6 +38,7 @@ builder.Services.AddScoped<ICourseCatalogService, CourseCatalogService>();
 builder.Services.AddScoped<ICheckoutService, CheckoutService>();
 builder.Services.AddScoped<ICertificateVerificationService, CertificateVerificationService>();
 builder.Services.AddScoped<IAdminApprovalService, AdminApprovalService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 // 7. Infrastructure Tier: Cloud & External Services
 builder.Services.AddScoped<ICloudStorageService, AzureBlobStorageService>();

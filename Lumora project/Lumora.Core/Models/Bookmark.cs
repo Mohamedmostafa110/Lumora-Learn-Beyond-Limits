@@ -6,7 +6,7 @@ namespace Lumora.Models
 {
     public class Bookmark
     {
-        public int BookmarkId { get; set; }
+        public string BookmarkId { get; set; }
         public DateTime CreatedAt { get; set; }
         public int Position { get; set; }
         public int StudentId { get; set; }

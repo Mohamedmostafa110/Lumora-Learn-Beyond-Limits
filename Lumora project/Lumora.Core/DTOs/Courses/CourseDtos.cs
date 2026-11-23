@@ -2,7 +2,7 @@ namespace Lumora.DTOs.Courses
 {
     public class CourseCardDto
     {
-        public int CourseId { get; set; }
+        public string CourseId { get; set; }
         public string Title { get; set; } = string.Empty;
         public string InstructorName { get; set; } = string.Empty;
         public Difficulty Difficulty { get; set; }
@@ -24,7 +24,7 @@ namespace Lumora.DTOs.Courses
 
     public class SectionDetailDto
     {
-        public int SectionId { get; set; }
+        public string SectionId { get; set; }
         public string Title { get; set; } = string.Empty;
         public int SortOrder { get; set; }
         public List<LessonSummaryDto> Lessons { get; set; } = new();
@@ -32,7 +32,7 @@ namespace Lumora.DTOs.Courses
 
     public class LessonSummaryDto
     {
-        public int LessonId { get; set; }
+        public string LessonId { get; set; }
         public string Title { get; set; } = string.Empty;
         public int SortOrder { get; set; }
         public bool IsCompleted { get; set; }

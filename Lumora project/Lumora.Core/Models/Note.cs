@@ -6,7 +6,7 @@ namespace Lumora.Models
 {
     public class Note
     {
-        public int NoteId { get; set; }
+        public string NoteId { get; set; }
         public string Content { get; set; } = null!;
         public DateTime CreatedAt { get; set; }
         public int StudentId { get; set; }

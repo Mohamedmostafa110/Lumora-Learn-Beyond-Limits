@@ -1,4 +1,5 @@
 using Lumora.Data;
+using Lumora.DTOs.Dashboard;
 using Lumora.Models;
 using Lumora.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -11,12 +12,12 @@ namespace Lumora.Repositories.Implementations
         {
         }
 
-        public async Task<bool> IsStudentEnrolledAsync(int studentId, int courseId)
+        public async Task<bool> IsStudentEnrolledAsync(string studentId, string courseId)
         {
             return await _dbSet.AnyAsync(e => e.StudentId == studentId && e.CourseId == courseId);
         }
 
-        public async Task<IReadOnlyList<Enrollment>> GetStudentEnrollmentsWithProgressAsync(int studentId)
+        public async Task<IReadOnlyList<Enrollment>> GetStudentEnrollmentsWithProgressAsync(string studentId)
         {
             return await _dbSet.AsNoTracking()
                 .Where(e => e.StudentId == studentId)
@@ -27,7 +28,7 @@ namespace Lumora.Repositories.Implementations
                 .ToListAsync();
         }
 
-        public async Task<Enrollment?> GetEnrollmentWithLessonsProgressAsync(int studentId, int courseId)
+        public async Task<Enrollment?> GetEnrollmentWithLessonsProgressAsync(string studentId, string courseId)
         {
             return await _dbSet
                 .Include(e => e.Course)
@@ -35,6 +36,24 @@ namespace Lumora.Repositories.Implementations
                         .ThenInclude(s => s.Lessons)
                 .Include(e => e.LessonProgresses)
                 .FirstOrDefaultAsync(e => e.StudentId == studentId && e.CourseId == courseId);
+        }
+
+        // ── Dashboard queries ──────────────────────────────────────────────
+
+        public async Task<List<RecentEnrollmentDto>> GetRecentEnrollmentsAsync(int take = 10)
+        {
+            return await _dbSet.AsNoTracking()
+                .Include(e => e.Student)
+                .Include(e => e.Course)
+                .OrderByDescending(e => e.EnrolledAt)
+                .Take(take)
+                .Select(e => new RecentEnrollmentDto
+                {
+                    StudentName = e.Student.FullName,
+                    CourseTitle = e.Course.Title,
+                    EnrolledAt  = e.EnrolledAt
+                })
+                .ToListAsync();
         }
     }
 }

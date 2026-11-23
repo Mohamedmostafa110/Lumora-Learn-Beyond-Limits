@@ -5,7 +5,7 @@ namespace Lumora.Models
 {
     public class Lesson
     {
-        public int LessonId { get; set; }
+        public string LessonId { get; set; }
         public string Title { get; set; } = null!;
         public int SortOrder { get; set; }
         public int CourseId { get; set; }

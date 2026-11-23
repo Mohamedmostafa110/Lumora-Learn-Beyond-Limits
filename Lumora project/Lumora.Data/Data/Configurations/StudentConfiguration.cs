@@ -12,5 +12,6 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
         builder.Property(x => x.FullName).HasMaxLength(200);
         builder.Property(x => x.Email).HasMaxLength(256);
         builder.Property(x => x.AccountStatus).HasConversion<string>().HasMaxLength(30);
+        builder.Property(x => x.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
     }
 }

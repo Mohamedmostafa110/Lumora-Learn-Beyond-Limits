@@ -5,7 +5,7 @@ namespace Lumora.Models
 {
     public class OrderCoupon
     {
-        public int CouponId { get; set; }
+        public string CouponId { get; set; }
         public Coupon Coupon { get; set; } = null!;
         public int OrderId { get; set; }
         public Order Order { get; set; } = null!;
