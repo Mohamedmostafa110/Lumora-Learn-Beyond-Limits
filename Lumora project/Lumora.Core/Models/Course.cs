@@ -5,7 +5,7 @@ namespace Lumora.Models
 {
     public class Course
     {
-        public int CourseId { get; set; }
+        public string CourseId { get; set; }
         public string Title { get; set; } = null!;
         public string? Description { get; set; }
         public Difficulty Difficulty { get; set; }
@@ -14,8 +14,7 @@ namespace Lumora.Models
         public CourseStatus Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? PublishedAt { get; set; }
-
-        public int InstructorId { get; set; }
+        public string InstructorId { get; set; }
         public Instructor Instructor { get; set; } = null!;
         public ICollection<Section> Sections { get; set; } = new List<Section>();
         public ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();

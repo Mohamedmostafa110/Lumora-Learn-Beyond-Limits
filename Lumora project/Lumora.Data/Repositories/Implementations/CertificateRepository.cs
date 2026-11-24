@@ -20,7 +20,7 @@ namespace Lumora.Repositories.Implementations
                 .FirstOrDefaultAsync(c => c.VerificationId == verificationId);
         }
 
-        public async Task<IReadOnlyList<Certificate>> GetCertificatesByStudentAsync(int studentId)
+        public async Task<IReadOnlyList<Certificate>> GetCertificatesByStudentAsync(string studentId)
         {
             return await _dbSet.AsNoTracking()
                 .Where(c => c.StudentId == studentId)

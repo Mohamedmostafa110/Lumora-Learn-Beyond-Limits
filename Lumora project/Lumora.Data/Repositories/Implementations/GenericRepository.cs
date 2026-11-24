@@ -16,7 +16,7 @@ namespace Lumora.Repositories.Implementations
             _dbSet = _context.Set<T>();
         }
 
-        public virtual async Task<T?> GetByIdAsync(int id)
+        public virtual async Task<T?> GetByIdAsync(string id)
         {
             return await _dbSet.FindAsync(id);
         }

@@ -2,15 +2,15 @@ namespace Lumora.DTOs.Orders
 {
     public class CheckoutRequestDto
     {
-        public int StudentId { get; set; }
-        public List<int> CourseIds { get; set; } = new();
+        public string StudentId { get; set; }
+        public List<string> CourseIds { get; set; } = new();
         public string? CouponCode { get; set; }
         public string PaymentProvider { get; set; } = "Stripe";
     }
 
     public class OrderSummaryDto
     {
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
         public decimal SubTotal { get; set; }
         public decimal DiscountAmount { get; set; }
         public decimal TotalAmount { get; set; }

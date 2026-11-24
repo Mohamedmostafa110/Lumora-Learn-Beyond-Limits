@@ -4,7 +4,7 @@ namespace Lumora.Services.Observers
 {
     public interface ICourseCompletionObserver
     {
-        Task OnCourseCompletedAsync(int studentId, int courseId);
+        Task OnCourseCompletedAsync(string studentId, string courseId);
     }
 
     public class CertificateGenerationObserver : ICourseCompletionObserver
@@ -18,7 +18,7 @@ namespace Lumora.Services.Observers
             _logger = logger;
         }
 
-        public async Task OnCourseCompletedAsync(int studentId, int courseId)
+        public async Task OnCourseCompletedAsync(string studentId, string courseId)
         {
             _logger.LogInformation("Observer triggered: Generating verifiable certificate for Student #{StudentId} in Course #{CourseId}", studentId, courseId);
 

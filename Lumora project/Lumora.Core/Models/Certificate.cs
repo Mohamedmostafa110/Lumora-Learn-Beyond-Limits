@@ -6,14 +6,13 @@ namespace Lumora.Models
 {
     public class Certificate
     {
-        public int CertificateId { get; set; }
+        public string CertificateId { get; set; }
         public string VerificationId { get; set; } = null!;
         public string PdfReference { get; set; } = null!;
         public DateTime IssuedAt { get; set; }
-
-        public int StudentId { get; set; }
+        public string StudentId { get; set; }
         public Student Student { get; set; } = null!;
-        public int CourseId { get; set; }
+        public string CourseId { get; set; }
         public Course Course { get; set; } = null!;
     }
 

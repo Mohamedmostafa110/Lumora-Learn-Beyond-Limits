@@ -38,14 +38,14 @@ namespace Lumora.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int? categoryId, Difficulty? difficulty, string? searchTerm)
+        public async Task<IActionResult> Index(string? categoryId, Difficulty? difficulty, string? searchTerm)
         {
             var courses = await _catalogService.GetCatalogCoursesAsync(categoryId, difficulty, searchTerm);
             return View(courses);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(string id)
         {
             var course = await _catalogService.GetCourseDetailsAsync(id);
             if (course == null) return NotFound();
@@ -101,7 +101,7 @@ namespace Lumora.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Dashboard(int studentId = 1)
+        public async Task<IActionResult> Dashboard(string studentId = "1")
         {
             var enrollments = await _unitOfWork.Enrollments.GetStudentEnrollmentsWithProgressAsync(studentId);
             var certificates = await _unitOfWork.Certificates.GetCertificatesByStudentAsync(studentId);
@@ -120,7 +120,7 @@ namespace Lumora.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Dashboard(int instructorId = 1)
+        public async Task<IActionResult> Dashboard(string instructorId = "")
         {
             var courses = await _unitOfWork.Courses.GetCoursesByInstructorAsync(instructorId);
             return View(courses);
@@ -148,7 +148,7 @@ namespace Lumora.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ApproveCourse(int adminId, int courseId)
+        public async Task<IActionResult> ApproveCourse(string adminId, string courseId)
         {
             await _approvalService.ApproveCourseAsync(adminId, courseId);
             return RedirectToAction(nameof(Dashboard));
@@ -156,7 +156,7 @@ namespace Lumora.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RejectCourse(int adminId, int courseId, string feedback)
+        public async Task<IActionResult> RejectCourse(string adminId, string courseId, string feedback)
         {
             await _approvalService.RejectCourseAsync(adminId, courseId, feedback);
             return RedirectToAction(nameof(Dashboard));

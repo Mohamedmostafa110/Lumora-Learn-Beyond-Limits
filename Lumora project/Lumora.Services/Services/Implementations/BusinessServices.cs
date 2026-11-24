@@ -19,7 +19,7 @@ namespace Lumora.Services.Implementations
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IReadOnlyList<CourseCardDto>> GetCatalogCoursesAsync(int? categoryId = null, Difficulty? difficulty = null, string? searchTerm = null)
+        public async Task<IReadOnlyList<CourseCardDto>> GetCatalogCoursesAsync(string? categoryId = null, Difficulty? difficulty = null, string? searchTerm = null)
         {
             var courses = await _unitOfWork.Courses.GetPublishedCoursesAsync(categoryId, difficulty, searchTerm);
             return courses.Select(c => new CourseCardDto
@@ -37,7 +37,7 @@ namespace Lumora.Services.Implementations
             }).ToList();
         }
 
-        public async Task<CourseDetailDto?> GetCourseDetailsAsync(int courseId)
+        public async Task<CourseDetailDto?> GetCourseDetailsAsync(string courseId)
         {
             var course = await _unitOfWork.Courses.GetCourseWithFullCurriculumAsync(courseId);
             if (course == null || course.Status != CourseStatus.Published)
@@ -270,7 +270,7 @@ namespace Lumora.Services.Implementations
             }).ToList();
         }
 
-        public async Task ApproveCourseAsync(int adminId, int courseId)
+        public async Task ApproveCourseAsync(string adminId, string courseId)
         {
             var course = await _unitOfWork.Courses.GetByIdAsync(courseId);
             if (course == null) return;
@@ -289,7 +289,7 @@ namespace Lumora.Services.Implementations
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task RejectCourseAsync(int adminId, int courseId, string feedback)
+        public async Task RejectCourseAsync(string adminId, string courseId, string feedback)
         {
             var course = await _unitOfWork.Courses.GetByIdAsync(courseId);
             if (course == null) return;

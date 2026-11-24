@@ -6,12 +6,11 @@ namespace Lumora.Models
 {
     public class OrderItem
     {
-        public int ItemId { get; set; }
+        public string ItemId { get; set; }
         public decimal PriceAtPurchase { get; set; }
-
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
         public Order Order { get; set; } = null!;
-        public int CourseId { get; set; }
+        public string CourseId { get; set; }
         public Course Course { get; set; } = null!;
     }
 

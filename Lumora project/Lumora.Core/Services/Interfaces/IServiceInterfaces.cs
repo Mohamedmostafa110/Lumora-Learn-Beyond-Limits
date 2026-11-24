@@ -1,14 +1,23 @@
 using Lumora.DTOs.Certificates;
 using Lumora.DTOs.Courses;
+using Lumora.DTOs.Dashboard;
 using Lumora.DTOs.Orders;
 using Lumora.DTOs.Quizzes;
 
 namespace Lumora.Services.Interfaces
 {
+    public interface IDashboardService
+    {
+        /// <summary>
+        /// بيجيب كل بيانات الـ Dashboard في call واحدة بالـ parallel
+        /// </summary>
+        Task<DashboardDto> GetDashboardAsync();
+    }
+
     public interface ICourseCatalogService
     {
-        Task<IReadOnlyList<CourseCardDto>> GetCatalogCoursesAsync(int? categoryId = null, Difficulty? difficulty = null, string? searchTerm = null);
-        Task<CourseDetailDto?> GetCourseDetailsAsync(int courseId);
+        Task<IReadOnlyList<CourseCardDto>> GetCatalogCoursesAsync(string? categoryId = null, Difficulty? difficulty = null, string? searchTerm = null);
+        Task<CourseDetailDto?> GetCourseDetailsAsync(string courseId);
     }
 
     public interface ICheckoutService
@@ -37,15 +46,15 @@ namespace Lumora.Services.Interfaces
 
     public interface IInstructorService
     {
-        Task<int> CreateCourseDraftAsync(int instructorId, string title, string? description, decimal price, Difficulty difficulty);
-        Task SubmitCourseForApprovalAsync(int courseId, int instructorId);
-        Task<IReadOnlyList<CourseCardDto>> GetInstructorCoursesAsync(int instructorId);
+        Task<int> CreateCourseDraftAsync(string instructorId, string title, string? description, decimal price, Difficulty difficulty);
+        Task SubmitCourseForApprovalAsync(string courseId, string instructorId);
+        Task<IReadOnlyList<CourseCardDto>> GetInstructorCoursesAsync(string instructorId);
     }
 
     public interface IAdminApprovalService
     {
         Task<IReadOnlyList<CourseCardDto>> GetPendingApprovalCoursesAsync();
-        Task ApproveCourseAsync(int adminId, int courseId);
-        Task RejectCourseAsync(int adminId, int courseId, string feedback);
+        Task ApproveCourseAsync(string adminId, string courseId);
+        Task RejectCourseAsync(string adminId, string courseId, string feedback);
     }
 }
