@@ -8,7 +8,7 @@ namespace Lumora.Models
     {
         public string CourseId { get; set; }
         public Course Course { get; set; } = null!;
-        public int TagId { get; set; }
+        public string TagId { get; set; }
         public Tag Tag { get; set; } = null!;
     }
 }

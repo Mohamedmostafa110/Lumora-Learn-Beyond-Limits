@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Lumora.Migrations
+namespace Lumora.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initial_and_solve_fk_conflicts : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,8 +15,7 @@ namespace Lumora.Migrations
                 name: "Admins",
                 columns: table => new
                 {
-                    AdminId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AdminId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     FullName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     AccountStatus = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
@@ -31,8 +30,7 @@ namespace Lumora.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoryId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
@@ -44,8 +42,7 @@ namespace Lumora.Migrations
                 name: "Coupons",
                 columns: table => new
                 {
-                    CouponId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CouponId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     DiscountType = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     DiscountValue = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
@@ -62,8 +59,7 @@ namespace Lumora.Migrations
                 name: "Instructors",
                 columns: table => new
                 {
-                    InstructorId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    InstructorId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     FullName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     AccountStatus = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
@@ -78,12 +74,12 @@ namespace Lumora.Migrations
                 name: "Students",
                 columns: table => new
                 {
-                    StudentId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     FullName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     AccountStatus = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    EmailVerifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    EmailVerifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()")
                 },
                 constraints: table =>
                 {
@@ -94,8 +90,7 @@ namespace Lumora.Migrations
                 name: "Tags",
                 columns: table => new
                 {
-                    TagId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TagId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
@@ -107,8 +102,7 @@ namespace Lumora.Migrations
                 name: "Courses",
                 columns: table => new
                 {
-                    CourseId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CourseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     Title = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Difficulty = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
@@ -117,7 +111,7 @@ namespace Lumora.Migrations
                     Status = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PublishedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    InstructorId = table.Column<int>(type: "int", nullable: false)
+                    InstructorId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -134,13 +128,12 @@ namespace Lumora.Migrations
                 name: "Orders",
                 columns: table => new
                 {
-                    OrderId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     TotalAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
                     Status = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: false)
+                    StudentId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -157,13 +150,12 @@ namespace Lumora.Migrations
                 name: "Announcements",
                 columns: table => new
                 {
-                    AnnouncementId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AnnouncementId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     Title = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Body = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PublishedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
-                    InstructorId = table.Column<int>(type: "int", nullable: false)
+                    CourseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    InstructorId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -186,12 +178,11 @@ namespace Lumora.Migrations
                 name: "ApprovalEvents",
                 columns: table => new
                 {
-                    ApprovalEventId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ApprovalEventId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     Decision = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     ReviewedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AdminId = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false)
+                    AdminId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    CourseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -214,13 +205,12 @@ namespace Lumora.Migrations
                 name: "Certificates",
                 columns: table => new
                 {
-                    CertificateId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CertificateId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     VerificationId = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     PdfReference = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     IssuedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false)
+                    StudentId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    CourseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -243,8 +233,8 @@ namespace Lumora.Migrations
                 name: "Course_Category",
                 columns: table => new
                 {
-                    CourseId = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    CourseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    CategoryId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -267,8 +257,8 @@ namespace Lumora.Migrations
                 name: "Course_Tag",
                 columns: table => new
                 {
-                    CourseId = table.Column<int>(type: "int", nullable: false),
-                    TagId = table.Column<int>(type: "int", nullable: false)
+                    CourseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    TagId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -291,13 +281,12 @@ namespace Lumora.Migrations
                 name: "Enrollments",
                 columns: table => new
                 {
-                    EnrollmentId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EnrollmentId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     Status = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     EnrolledAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CompletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false)
+                    StudentId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    CourseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -320,12 +309,11 @@ namespace Lumora.Migrations
                 name: "QuestionThreads",
                 columns: table => new
                 {
-                    QuestionThreadId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QuestionThreadId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     Body = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false)
+                    StudentId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    CourseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -348,13 +336,12 @@ namespace Lumora.Migrations
                 name: "Reviews",
                 columns: table => new
                 {
-                    ReviewId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReviewId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     Rating = table.Column<int>(type: "int", nullable: false),
                     Body = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false)
+                    StudentId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    CourseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -378,11 +365,10 @@ namespace Lumora.Migrations
                 name: "Sections",
                 columns: table => new
                 {
-                    SectionId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SectionId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     Title = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     SortOrder = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false)
+                    CourseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -399,8 +385,8 @@ namespace Lumora.Migrations
                 name: "OrderCoupons",
                 columns: table => new
                 {
-                    CouponId = table.Column<int>(type: "int", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    CouponId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    OrderId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
                     AppliedAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false)
                 },
                 constraints: table =>
@@ -424,11 +410,10 @@ namespace Lumora.Migrations
                 name: "OrderItems",
                 columns: table => new
                 {
-                    ItemId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ItemId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     PriceAtPurchase = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false)
+                    OrderId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    CourseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -451,15 +436,14 @@ namespace Lumora.Migrations
                 name: "Payments",
                 columns: table => new
                 {
-                    PaymentId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PaymentId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     ExternalId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
                     Status = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     PaidAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Provider = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: false)
+                    OrderId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -476,12 +460,11 @@ namespace Lumora.Migrations
                 name: "Answers",
                 columns: table => new
                 {
-                    AnswerId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AnswerId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     Body = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    QuestionThreadId = table.Column<int>(type: "int", nullable: false),
-                    InstructorId = table.Column<int>(type: "int", nullable: false)
+                    QuestionThreadId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    InstructorId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -504,12 +487,11 @@ namespace Lumora.Migrations
                 name: "ReviewVotes",
                 columns: table => new
                 {
-                    ReviewVoteId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReviewVoteId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     Helpful = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReviewId = table.Column<int>(type: "int", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: false)
+                    ReviewId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    StudentId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -532,12 +514,11 @@ namespace Lumora.Migrations
                 name: "Lessons",
                 columns: table => new
                 {
-                    LessonId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LessonId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     Title = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     SortOrder = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
-                    SectionId = table.Column<int>(type: "int", nullable: false)
+                    CourseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    SectionId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -560,12 +541,11 @@ namespace Lumora.Migrations
                 name: "Quizzes",
                 columns: table => new
                 {
-                    QuizId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QuizId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     Title = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     PassingScore = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
-                    SectionId = table.Column<int>(type: "int", nullable: false)
+                    CourseId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    SectionId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -588,12 +568,11 @@ namespace Lumora.Migrations
                 name: "Bookmarks",
                 columns: table => new
                 {
-                    BookmarkId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BookmarkId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Position = table.Column<int>(type: "int", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    LessonId = table.Column<int>(type: "int", nullable: false)
+                    StudentId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    LessonId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -616,12 +595,11 @@ namespace Lumora.Migrations
                 name: "LessonProgresses",
                 columns: table => new
                 {
-                    LessonProgressId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LessonProgressId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     IsCompleted = table.Column<bool>(type: "bit", nullable: false),
                     CompletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    EnrollmentId = table.Column<int>(type: "int", nullable: false),
-                    LessonId = table.Column<int>(type: "int", nullable: false)
+                    EnrollmentId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    LessonId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -644,12 +622,11 @@ namespace Lumora.Migrations
                 name: "MediaAssets",
                 columns: table => new
                 {
-                    MediaAssetId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MediaAssetId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     StorageKey = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     ThumbnailKey = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     ProcessingStatus = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    LessonId = table.Column<int>(type: "int", nullable: false)
+                    LessonId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -666,12 +643,11 @@ namespace Lumora.Migrations
                 name: "Notes",
                 columns: table => new
                 {
-                    NoteId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NoteId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    LessonId = table.Column<int>(type: "int", nullable: false)
+                    StudentId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    LessonId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -694,13 +670,12 @@ namespace Lumora.Migrations
                 name: "Questions",
                 columns: table => new
                 {
-                    QuestionId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QuestionId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     Prompt = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Explanation = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SortOrder = table.Column<int>(type: "int", nullable: false),
-                    QuizId = table.Column<int>(type: "int", nullable: false)
+                    QuizId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -717,13 +692,12 @@ namespace Lumora.Migrations
                 name: "QuizAttempts",
                 columns: table => new
                 {
-                    QuizAttemptId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QuizAttemptId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     Score = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
                     IsPassed = table.Column<bool>(type: "bit", nullable: false),
                     AttemptedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    QuizId = table.Column<int>(type: "int", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: false)
+                    QuizId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    StudentId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -746,12 +720,11 @@ namespace Lumora.Migrations
                 name: "AttemptAnswers",
                 columns: table => new
                 {
-                    AttemptAnswerId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AttemptAnswerId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false, defaultValueSql: "LOWER(CONVERT(nvarchar(36), NEWID()))"),
                     Response = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsCorrect = table.Column<bool>(type: "bit", nullable: false),
-                    QuestionId = table.Column<int>(type: "int", nullable: false),
-                    QuizAttemptId = table.Column<int>(type: "int", nullable: false)
+                    QuestionId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    QuizAttemptId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {

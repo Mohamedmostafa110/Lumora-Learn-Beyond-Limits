@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Lumora.Migrations
+namespace Lumora.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20261114021552_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20261124223542_initial_and_solve_fk_conflicts")]
+    partial class initial_and_solve_fk_conflicts
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,11 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Admin", b =>
                 {
-                    b.Property<int>("AdminId")
+                    b.Property<string>("AdminId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdminId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<string>("AccountStatus")
                         .IsRequired()
@@ -61,21 +61,25 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Announcement", b =>
                 {
-                    b.Property<int>("AnnouncementId")
+                    b.Property<string>("AnnouncementId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AnnouncementId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<string>("Body")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
-                    b.Property<int>("InstructorId")
-                        .HasColumnType("int");
+                    b.Property<string>("InstructorId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("PublishedAt")
                         .HasColumnType("datetime2");
@@ -96,11 +100,11 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Answer", b =>
                 {
-                    b.Property<int>("AnswerId")
+                    b.Property<string>("AnswerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AnswerId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<string>("Body")
                         .IsRequired()
@@ -109,11 +113,15 @@ namespace Lumora.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("InstructorId")
-                        .HasColumnType("int");
+                    b.Property<string>("InstructorId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
-                    b.Property<int>("QuestionThreadId")
-                        .HasColumnType("int");
+                    b.Property<string>("QuestionThreadId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.HasKey("AnswerId");
 
@@ -126,17 +134,21 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.ApprovalEvent", b =>
                 {
-                    b.Property<int>("ApprovalEventId")
+                    b.Property<string>("ApprovalEventId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ApprovalEventId"));
+                    b.Property<string>("AdminId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
-                    b.Property<int>("AdminId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Decision")
                         .IsRequired()
@@ -157,20 +169,24 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.AttemptAnswer", b =>
                 {
-                    b.Property<int>("AttemptAnswerId")
+                    b.Property<string>("AttemptAnswerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AttemptAnswerId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("bit");
 
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
+                    b.Property<string>("QuestionId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
-                    b.Property<int>("QuizAttemptId")
-                        .HasColumnType("int");
+                    b.Property<string>("QuizAttemptId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Response")
                         .IsRequired()
@@ -187,23 +203,27 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Bookmark", b =>
                 {
-                    b.Property<int>("BookmarkId")
+                    b.Property<string>("BookmarkId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookmarkId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("LessonId")
-                        .HasColumnType("int");
+                    b.Property<string>("LessonId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("Position")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.HasKey("BookmarkId");
 
@@ -216,11 +236,11 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Category", b =>
                 {
-                    b.Property<int>("CategoryId")
+                    b.Property<string>("CategoryId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -234,14 +254,16 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Certificate", b =>
                 {
-                    b.Property<int>("CertificateId")
+                    b.Property<string>("CertificateId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CertificateId"));
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("IssuedAt")
                         .HasColumnType("datetime2");
@@ -251,8 +273,10 @@ namespace Lumora.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("VerificationId")
                         .IsRequired()
@@ -273,11 +297,11 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Coupon", b =>
                 {
-                    b.Property<int>("CouponId")
+                    b.Property<string>("CouponId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CouponId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -314,11 +338,11 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Course", b =>
                 {
-                    b.Property<int>("CourseId")
+                    b.Property<string>("CourseId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -335,8 +359,10 @@ namespace Lumora.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("InstructorId")
-                        .HasColumnType("int");
+                    b.Property<string>("InstructorId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
@@ -364,11 +390,13 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.CourseCategory", b =>
                 {
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("CategoryId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.HasKey("CourseId", "CategoryId");
 
@@ -379,11 +407,13 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.CourseTag", b =>
                 {
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
-                    b.Property<int>("TagId")
-                        .HasColumnType("int");
+                    b.Property<string>("TagId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.HasKey("CourseId", "TagId");
 
@@ -394,17 +424,19 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Enrollment", b =>
                 {
-                    b.Property<int>("EnrollmentId")
+                    b.Property<string>("EnrollmentId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EnrollmentId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<DateTime?>("CompletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("EnrolledAt")
                         .HasColumnType("datetime2");
@@ -414,8 +446,10 @@ namespace Lumora.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.HasKey("EnrollmentId");
 
@@ -429,11 +463,11 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Instructor", b =>
                 {
-                    b.Property<int>("InstructorId")
+                    b.Property<string>("InstructorId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InstructorId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<string>("AccountStatus")
                         .IsRequired()
@@ -463,17 +497,21 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Lesson", b =>
                 {
-                    b.Property<int>("LessonId")
+                    b.Property<string>("LessonId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonId"));
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SectionId")
-                        .HasColumnType("int");
+                    b.Property<string>("SectionId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("SortOrder")
                         .HasColumnType("int");
@@ -494,23 +532,27 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.LessonProgress", b =>
                 {
-                    b.Property<int>("LessonProgressId")
+                    b.Property<string>("LessonProgressId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonProgressId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<DateTime?>("CompletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EnrollmentId")
-                        .HasColumnType("int");
+                    b.Property<string>("EnrollmentId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LessonId")
-                        .HasColumnType("int");
+                    b.Property<string>("LessonId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.HasKey("LessonProgressId");
 
@@ -524,14 +566,16 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.MediaAsset", b =>
                 {
-                    b.Property<int>("MediaAssetId")
+                    b.Property<string>("MediaAssetId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MediaAssetId"));
-
-                    b.Property<int>("LessonId")
-                        .HasColumnType("int");
+                    b.Property<string>("LessonId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("ProcessingStatus")
                         .IsRequired()
@@ -556,11 +600,11 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Note", b =>
                 {
-                    b.Property<int>("NoteId")
+                    b.Property<string>("NoteId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NoteId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -569,11 +613,15 @@ namespace Lumora.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("LessonId")
-                        .HasColumnType("int");
+                    b.Property<string>("LessonId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.HasKey("NoteId");
 
@@ -586,11 +634,11 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Order", b =>
                 {
-                    b.Property<int>("OrderId")
+                    b.Property<string>("OrderId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -605,8 +653,10 @@ namespace Lumora.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<decimal>("TotalAmount")
                         .HasPrecision(18, 2)
@@ -621,11 +671,13 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.OrderCoupon", b =>
                 {
-                    b.Property<int>("CouponId")
-                        .HasColumnType("int");
+                    b.Property<string>("CouponId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<string>("OrderId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<decimal>("AppliedAmount")
                         .HasPrecision(18, 2)
@@ -640,17 +692,21 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.OrderItem", b =>
                 {
-                    b.Property<int>("ItemId")
+                    b.Property<string>("ItemId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemId"));
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<string>("OrderId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<decimal>("PriceAtPurchase")
                         .HasPrecision(18, 2)
@@ -667,11 +723,11 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Payment", b =>
                 {
-                    b.Property<int>("PaymentId")
+                    b.Property<string>("PaymentId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<decimal>("Amount")
                         .HasPrecision(18, 2)
@@ -687,8 +743,10 @@ namespace Lumora.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<string>("OrderId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime?>("PaidAt")
                         .HasColumnType("datetime2");
@@ -715,11 +773,11 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Question", b =>
                 {
-                    b.Property<int>("QuestionId")
+                    b.Property<string>("QuestionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<string>("Explanation")
                         .HasColumnType("nvarchar(max)");
@@ -728,8 +786,10 @@ namespace Lumora.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("QuizId")
-                        .HasColumnType("int");
+                    b.Property<string>("QuizId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("SortOrder")
                         .HasColumnType("int");
@@ -748,24 +808,28 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.QuestionThread", b =>
                 {
-                    b.Property<int>("QuestionThreadId")
+                    b.Property<string>("QuestionThreadId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionThreadId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<string>("Body")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.HasKey("QuestionThreadId");
 
@@ -778,21 +842,25 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Quiz", b =>
                 {
-                    b.Property<int>("QuizId")
+                    b.Property<string>("QuizId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizId"));
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<decimal>("PassingScore")
                         .HasPrecision(5, 2)
                         .HasColumnType("decimal(5,2)");
 
-                    b.Property<int>("SectionId")
-                        .HasColumnType("int");
+                    b.Property<string>("SectionId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -810,11 +878,11 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.QuizAttempt", b =>
                 {
-                    b.Property<int>("QuizAttemptId")
+                    b.Property<string>("QuizAttemptId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizAttemptId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<DateTime>("AttemptedAt")
                         .HasColumnType("datetime2");
@@ -822,15 +890,19 @@ namespace Lumora.Migrations
                     b.Property<bool>("IsPassed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("QuizId")
-                        .HasColumnType("int");
+                    b.Property<string>("QuizId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<decimal>("Score")
                         .HasPrecision(5, 2)
                         .HasColumnType("decimal(5,2)");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.HasKey("QuizAttemptId");
 
@@ -843,17 +915,19 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Review", b =>
                 {
-                    b.Property<int>("ReviewId")
+                    b.Property<string>("ReviewId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<string>("Body")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -861,8 +935,10 @@ namespace Lumora.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.HasKey("ReviewId");
 
@@ -879,11 +955,11 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.ReviewVote", b =>
                 {
-                    b.Property<int>("ReviewVoteId")
+                    b.Property<string>("ReviewVoteId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewVoteId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -891,11 +967,15 @@ namespace Lumora.Migrations
                     b.Property<bool>("Helpful")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ReviewId")
-                        .HasColumnType("int");
+                    b.Property<string>("ReviewId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.HasKey("ReviewVoteId");
 
@@ -909,14 +989,16 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Section", b =>
                 {
-                    b.Property<int>("SectionId")
+                    b.Property<string>("SectionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SectionId"));
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("SortOrder")
                         .HasColumnType("int");
@@ -935,16 +1017,21 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Student", b =>
                 {
-                    b.Property<int>("StudentId")
+                    b.Property<string>("StudentId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<string>("AccountStatus")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -969,11 +1056,11 @@ namespace Lumora.Migrations
 
             modelBuilder.Entity("Lumora.Models.Tag", b =>
                 {
-                    b.Property<int>("TagId")
+                    b.Property<string>("TagId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TagId"));
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasDefaultValueSql("LOWER(CONVERT(nvarchar(36), NEWID()))");
 
                     b.Property<string>("Name")
                         .IsRequired()

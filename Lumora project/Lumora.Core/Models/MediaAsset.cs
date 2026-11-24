@@ -10,7 +10,7 @@ namespace Lumora.Models
         public string StorageKey { get; set; } = null!;
         public string? ThumbnailKey { get; set; }
         public MediaProcessingStatus ProcessingStatus { get; set; }
-        public int LessonId { get; set; }
+        public string LessonId { get; set; }
         public Lesson Lesson { get; set; } = null!;
     }
 }

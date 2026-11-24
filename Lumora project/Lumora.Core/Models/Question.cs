@@ -11,7 +11,7 @@ namespace Lumora.Models
         public QuestionType Type { get; set; }
         public string? Explanation { get; set; }
         public int SortOrder { get; set; }
-        public int QuizId { get; set; }
+        public string QuizId { get; set; }
         public Quiz Quiz { get; set; } = null!;
         public ICollection<AttemptAnswer> AttemptAnswers { get; set; } = new List<AttemptAnswer>();
     }

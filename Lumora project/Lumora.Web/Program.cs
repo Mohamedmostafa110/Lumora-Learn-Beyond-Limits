@@ -50,6 +50,9 @@ var app = builder.Build();
 // Automatically seed initial platform data if empty
 using (var scope = app.Services.CreateScope())
 {
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await context.Database.MigrateAsync();
+
     var uow = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
     await DbSeeder.SeedAsync(uow);
 }

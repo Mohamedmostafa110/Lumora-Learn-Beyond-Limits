@@ -11,6 +11,7 @@ namespace Lumora.Models
         public string Email { get; set; } = null!;
         public AccountStatus AccountStatus { get; set; }
         public DateTime? EmailVerifiedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
         public ICollection<Order> Orders { get; set; } = new List<Order>();
         public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
@@ -20,6 +21,6 @@ namespace Lumora.Models
         public ICollection<QuizAttempt> QuizAttempts { get; set; } = new List<QuizAttempt>();
         public ICollection<Bookmark> Bookmarks { get; set; } = new List<Bookmark>();
         public ICollection<Note> Notes { get; set; } = new List<Note>();
-        public DateTime CreatedAt { get; set; }
+        
     }
 }

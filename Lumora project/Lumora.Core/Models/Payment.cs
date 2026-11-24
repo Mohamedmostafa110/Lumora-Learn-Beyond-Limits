@@ -13,7 +13,7 @@ namespace Lumora.Models
         public PaymentStatus Status { get; set; }
         public DateTime? PaidAt { get; set; }
         public string Provider { get; set; } = null!;
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
         public Order Order { get; set; } = null!;
     }
 }

@@ -10,9 +10,9 @@ namespace Lumora.Models
         public decimal Score { get; set; }
         public bool IsPassed { get; set; }
         public DateTime AttemptedAt { get; set; }
-        public int QuizId { get; set; }
+        public string QuizId { get; set; }
         public Quiz Quiz { get; set; } = null!;
-        public int StudentId { get; set; }
+        public string StudentId { get; set; }
         public Student Student { get; set; } = null!;
         public ICollection<AttemptAnswer> Answers { get; set; } = new List<AttemptAnswer>();
     }

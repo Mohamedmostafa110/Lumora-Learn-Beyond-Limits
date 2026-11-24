@@ -9,9 +9,9 @@ namespace Lumora.Models
         public string BookmarkId { get; set; }
         public DateTime CreatedAt { get; set; }
         public int Position { get; set; }
-        public int StudentId { get; set; }
+        public string StudentId { get; set; }
         public Student Student { get; set; } = null!;
-        public int LessonId { get; set; }
+        public string LessonId { get; set; }
         public Lesson Lesson { get; set; } = null!;
     }
 

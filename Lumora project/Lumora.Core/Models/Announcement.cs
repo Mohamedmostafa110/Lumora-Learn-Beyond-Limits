@@ -10,9 +10,9 @@ namespace Lumora.Models
         public string Title { get; set; } = null!;
         public string Body { get; set; } = null!;
         public DateTime PublishedAt { get; set; }
-        public int CourseId { get; set; }
+        public string CourseId { get; set; }
         public Course Course { get; set; } = null!;
-        public int InstructorId { get; set; }
+        public string InstructorId { get; set; }
         public Instructor Instructor { get; set; } = null!;
     }
 }
