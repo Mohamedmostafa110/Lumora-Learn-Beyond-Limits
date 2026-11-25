@@ -1,0 +1,200 @@
+﻿@{
+    Layout = "~/Views/Shared/_InstructorLayout.cshtml";
+}
+<main class="dashboard-content">
+    <!-- Faculty Greeting Banner -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+            <h2 class="h3 fw-bold text-lumora-midnight mb-1 font-heading">Faculty Analytics Overview</h2>
+            <p class="text-muted small mb-0">Performance metrics across your published masterclasses, revenue payouts, and student feedback.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <button id="exportEarningsBtn" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-download me-1"></i>Export Earnings CSV
+            </button>
+                <i class="bi bi-download me-1"></i>Export Earnings CSV
+            </button>
+        </div>
+    </div>
+
+    <!-- Instructor KPI Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-sm-6 col-xl-3">
+            <div class="kpi-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <small class="text-muted text-uppercase fw-bold letter-spacing-1">Total Payouts</small>
+                        <div class="kpi-value">$48,250</div>
+                        <span class="kpi-trend"><i class="bi bi-arrow-up-right"></i>+18.4% This Month</span>
+                    </div>
+                    <div class="kpi-icon-box">
+                        <i class="bi bi-currency-dollar"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3">
+            <div class="kpi-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <small class="text-muted text-uppercase fw-bold letter-spacing-1">Enrolled Students</small>
+                        <div class="kpi-value">18,420</div>
+                        <span class="kpi-trend"><i class="bi bi-people-fill"></i>+320 This Week</span>
+                    </div>
+                    <div class="kpi-icon-box">
+                        <i class="bi bi-mortarboard-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3">
+            <div class="kpi-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <small class="text-muted text-uppercase fw-bold letter-spacing-1">Average Rating</small>
+                        <div class="kpi-value">4.95</div>
+                        <span class="kpi-trend"><i class="bi bi-star-fill"></i>2,180 Reviews</span>
+                    </div>
+                    <div class="kpi-icon-box">
+                        <i class="bi bi-star-fill text-lumora-champagne-dark"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3">
+            <div class="kpi-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <small class="text-muted text-uppercase fw-bold letter-spacing-1">Pending Q&amp;A</small>
+                        <div class="kpi-value">6</div>
+                        <span class="kpi-trend"><i class="bi bi-chat-left-dots"></i>Needs Attention</span>
+                    </div>
+                    <div class="kpi-icon-box">
+                        <i class="bi bi-question-circle-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js Revenue Trend -->
+    <div class="card p-4 border-lumora-subtle bg-white shadow-sm mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom border-lumora-subtle">
+            <div>
+                <h5 class="fw-bold text-lumora-midnight mb-0 font-heading">Monthly Revenue &amp; Student Enrollment Trend</h5>
+                <small class="text-muted">Trailing 6 Months Payout Cycle (USD)</small>
+            </div>
+            <span class="badge badge-gold">GOLD/NAVY TELEMETRY</span>
+        </div>
+        <div style="height: 310px;">
+            <canvas id="instructorRevenueChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Authored Courses Table -->
+    <div class="card p-4 border-lumora-subtle bg-white shadow-sm">
+        <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom border-lumora-subtle">
+            <h5 class="fw-bold text-lumora-midnight mb-0 font-heading">Authored Masterclasses Status</h5>
+            <a href="course-builder.html" class="btn btn-sm btn-primary">
+                <i class="bi bi-plus-circle me-1"></i>New Masterclass
+            </a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Course Title</th>
+                        <th>Category</th>
+                        <th>Enrollments</th>
+                        <th>Gross Revenue</th>
+                        <th>Approval Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="trust-icon-box bg-lumora-midnight text-lumora-champagne p-2 rounded-2">
+                                    <i class="bi bi-diagram-3-fill fs-5"></i>
+                                </div>
+                                <div>
+                                    <a href="course-builder.html" class="fw-bold text-lumora-midnight font-heading">
+                                        Cloud Architecture Masterclass: Distributed Systems at Scale
+                                    </a>
+                                    <div class="small text-muted">42 Hours &bull; 184 Lectures &bull; Updated Nov 2026</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="badge badge-slate">Cloud Architecture</span></td>
+                        <td><strong>18,400</strong></td>
+                        <td><strong class="text-lumora-midnight">$34,800.00</strong></td>
+                        <td><span class="badge badge-gold">LIVE &bull; APPROVED</span></td>
+                        <td class="text-end">
+                            <a href="course-builder.html" class="btn btn-sm btn-outline-primary me-1" title="Edit Metadata">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a href="media-and-quiz-builder.html" class="btn btn-sm btn-outline-champagne" title="Manage Media">
+                                <i class="bi bi-camera-video"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="trust-icon-box bg-lumora-midnight text-lumora-champagne p-2 rounded-2">
+                                    <i class="bi bi-hdd-network-fill fs-5"></i>
+                                </div>
+                                <div>
+                                    <a href="course-builder.html" class="fw-bold text-lumora-midnight font-heading">
+                                        Advanced Cloud Networking, Cilium &amp; eBPF Service Mesh
+                                    </a>
+                                    <div class="small text-muted">26 Hours &bull; 92 Lectures &bull; Submitted 3 days ago</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="badge badge-slate">DevOps &amp; Networking</span></td>
+                        <td><strong>0</strong></td>
+                        <td><strong class="text-muted">$0.00</strong></td>
+                        <td><span class="badge badge-slate">PENDING ADMIN AUDIT</span></td>
+                        <td class="text-end">
+                            <a href="course-builder.html" class="btn btn-sm btn-outline-primary me-1" title="Review Submission">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="trust-icon-box bg-lumora-midnight text-lumora-champagne p-2 rounded-2">
+                                    <i class="bi bi-fire fs-5"></i>
+                                </div>
+                                <div>
+                                    <a href="course-builder.html" class="fw-bold text-lumora-midnight font-heading">
+                                        Chaos Engineering &amp; Multi-Region Fault Injection
+                                    </a>
+                                    <div class="small text-muted">Draft &bull; 12 Lessons created so far</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="badge badge-slate">Site Reliability</span></td>
+                        <td><strong>0</strong></td>
+                        <td><strong class="text-muted">$0.00</strong></td>
+                        <td><span class="badge badge-navy">DRAFT</span></td>
+                        <td class="text-end">
+                            <a href="course-builder.html" class="btn btn-sm btn-outline-primary" title="Continue Drafting">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
