@@ -125,6 +125,18 @@ namespace Lumora.Controllers
             var courses = await _unitOfWork.Courses.GetCoursesByInstructorAsync(instructorId);
             return View(courses);
         }
+        public IActionResult CourseBuilder()
+        {
+            return View();
+        }
+        public IActionResult EngagementQna()
+        {
+            return View();
+        }
+        public IActionResult MediaAndQuizBuilder()
+        {
+            return View();
+        }
     }
 
     public class AdminController : Controller
