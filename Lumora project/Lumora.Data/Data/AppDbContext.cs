@@ -1,5 +1,7 @@
 ﻿using Lumora.Data.Configurations;
+using Lumora.Data.Identity;
 using Lumora.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System;
@@ -8,7 +10,7 @@ using System.Text;
 
 namespace Lumora.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Student> Students => Set<Student>();
         public DbSet<Instructor> Instructors => Set<Instructor>();
@@ -64,10 +66,15 @@ namespace Lumora.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
 
             foreach (var entity in modelBuilder.Model.GetEntityTypes())
             {
+                if (IsIdentityEntity(entity.ClrType))
+                    continue;
+
                 var pk = entity.FindPrimaryKey();
 
                 if (pk is { Properties.Count: 1 } && pk.Properties[0].ClrType == typeof(string))
@@ -81,15 +88,25 @@ namespace Lumora.Data
 
             foreach (var fk in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
+                if (IsIdentityEntity(fk.DeclaringEntityType.ClrType) || IsIdentityEntity(fk.PrincipalEntityType.ClrType))
+                    continue;
+
                 foreach (var p in fk.Properties.Where(p => p.ClrType == typeof(string)))
                     p.SetMaxLength(36);
             }
 
             foreach (var fk in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
+                if (IsIdentityEntity(fk.DeclaringEntityType.ClrType))
+                    continue;
+
                 if (((IConventionForeignKey)fk).GetDeleteBehaviorConfigurationSource() != ConfigurationSource.Explicit)
                     fk.DeleteBehavior = DeleteBehavior.Restrict;
             }
         }
+
+        private static bool IsIdentityEntity(Type clrType) =>
+            clrType == typeof(ApplicationUser) ||
+            (clrType.Namespace?.StartsWith("Microsoft.AspNetCore.Identity", StringComparison.Ordinal) ?? false);
     }
 }

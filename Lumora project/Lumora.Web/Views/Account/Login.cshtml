@@ -11,8 +11,8 @@
 
 @if (TempData["SuccessMessage"] != null)
 {
-    <div class="alert alert-success py-2 px-3 mb-3 small" role="alert">
-        <i class="bi bi-check-circle-fill me-1"></i> @TempData["SuccessMessage"]
+    <div class="p-3 bg-lumora-ivory rounded-3 border-lumora-subtle mb-3 small text-lumora-midnight" role="alert">
+        <i class="bi bi-check-circle-fill text-lumora-champagne-dark me-1"></i> @TempData["SuccessMessage"]
     </div>
 }
 
@@ -27,7 +27,7 @@
             <span class="input-group-text bg-white border-lumora-subtle text-lumora-slate">
                 <i class="bi bi-envelope"></i>
             </span>
-            <input asp-for="Email" class="form-control" placeholder="name@company.com" value="" required />
+            <input asp-for="Email" class="form-control" placeholder="name@company.com" required />
         </div>
         <span asp-validation-for="Email" class="text-danger small"></span>
     </div>
@@ -62,18 +62,6 @@
         <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
     </button>
 </form>
-
-<!-- Quick Layer Navigation for Testing / Review -->
-<div class="p-3 bg-lumora-ivory rounded-3 border-lumora-subtle mb-4">
-    <small class="d-block fw-bold text-lumora-midnight mb-2 font-heading">
-        <i class="bi bi-speedometer2 me-1"></i>Quick Prototype Role Access:
-    </small>
-    <div class="d-flex gap-2">
-        <a asp-controller="Student" asp-action="Dashboard" class="btn btn-sm btn-outline-primary flex-fill">Student</a>
-        <a asp-controller="Instructor" asp-action="Dashboard" class="btn btn-sm btn-outline-primary flex-fill">Instructor</a>
-        <a asp-controller="Admin" asp-action="Dashboard" class="btn btn-sm btn-outline-primary flex-fill">Admin</a>
-    </div>
-</div>
 
 <!-- Footer Link to Register -->
 <div class="text-center small text-muted">

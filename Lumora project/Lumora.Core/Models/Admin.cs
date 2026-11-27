@@ -7,6 +7,7 @@ namespace Lumora.Models
     public class Admin
     {
         public string AdminId { get; set; }
+        public string? UserId { get; set; } 
         public string FullName { get; set; } = null!;
         public string Email { get; set; } = null!;
         public AccountStatus AccountStatus { get; set; }

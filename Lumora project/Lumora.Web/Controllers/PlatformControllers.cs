@@ -1,12 +1,16 @@
+using Lumora.Common.Constants;
 using Lumora.Common.Exceptions;
 using Lumora.DTOs.Courses;
 using Lumora.DTOs.Orders;
+using Lumora.Extensions;
 using Lumora.Repositories.Interfaces;
 using Lumora.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lumora.Controllers
 {
+    [AllowAnonymous]
     public class VerificationController : Controller
     {
         private readonly ICertificateVerificationService _verificationService;
@@ -29,6 +33,7 @@ namespace Lumora.Controllers
         }
     }
 
+    [AllowAnonymous]
     public class CatalogController : Controller
     {
         private readonly ICourseCatalogService _catalogService;
@@ -54,15 +59,21 @@ namespace Lumora.Controllers
         }
     }
 
+    [Authorize(Roles = PlatformRoles.Student)]
     public class CheckoutController : Controller
     {
         private readonly ICheckoutService _checkoutService;
         private readonly ICourseCatalogService _catalogService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CheckoutController(ICheckoutService checkoutService, ICourseCatalogService catalogService)
+        public CheckoutController(
+            ICheckoutService checkoutService,
+            ICourseCatalogService catalogService,
+            IUnitOfWork unitOfWork)
         {
             _checkoutService = checkoutService;
             _catalogService = catalogService;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -80,6 +91,18 @@ namespace Lumora.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Process([FromForm] CheckoutRequestDto request)
         {
+            var userId = User.GetUserId();
+            var student = string.IsNullOrEmpty(userId)
+                ? null
+                : await _unitOfWork.Students.FirstOrDefaultAsync(s => s.UserId == userId);
+
+            if (student == null)
+            {
+                return Forbid();
+            }
+
+            request.StudentId = student.StudentId;
+
             try
             {
                 var summary = await _checkoutService.ProcessCheckoutAsync(request);
@@ -105,23 +128,37 @@ namespace Lumora.Controllers
         }
     }
 
+    [Authorize(Roles = PlatformRoles.Student)]
     public class StudentController : Controller
     {
         private readonly IDashboardService _dashboard;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public StudentController(IDashboardService dashboard)
+        public StudentController(IDashboardService dashboard, IUnitOfWork unitOfWork)
         {
             _dashboard = dashboard;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Dashboard(string studentId = "2")
+        public async Task<IActionResult> Dashboard()
         {
-            var model = await _dashboard.GetStudentDashboardAsync(studentId);
+            var userId = User.GetUserId();
+            var student = string.IsNullOrEmpty(userId)
+                ? null
+                : await _unitOfWork.Students.FirstOrDefaultAsync(s => s.UserId == userId);
+
+            if (student == null)
+            {
+                return Forbid();
+            }
+
+            var model = await _dashboard.GetStudentDashboardAsync(student.StudentId);
             return View(model);
         }
     }
 
+    [Authorize(Roles = PlatformRoles.Instructor)]
     public class InstructorController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -132,25 +169,42 @@ namespace Lumora.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Dashboard(string instructorId = "")
+        public async Task<IActionResult> Dashboard()
         {
-            var courses = await _unitOfWork.Courses.GetCoursesByInstructorAsync(instructorId);
+            var userId = User.GetUserId();
+            var instructor = string.IsNullOrEmpty(userId)
+                ? null
+                : await _unitOfWork.Instructors.FirstOrDefaultAsync(i => i.UserId == userId);
+
+            if (instructor == null)
+            {
+                return Forbid();
+            }
+
+            var courses = await _unitOfWork.Courses.GetCoursesByInstructorAsync(instructor.InstructorId);
             return View(courses);
         }
+
+        [HttpGet]
         public IActionResult CourseBuilder()
         {
             return View();
         }
+
+        [HttpGet]
         public IActionResult EngagementQna()
         {
             return View();
         }
+
+        [HttpGet]
         public IActionResult MediaAndQuizBuilder()
         {
             return View();
         }
     }
 
+    [Authorize(Roles = PlatformRoles.Admin)]
     public class AdminController : Controller
     {
         private readonly IAdminApprovalService _approvalService;
@@ -172,17 +226,37 @@ namespace Lumora.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ApproveCourse(string adminId, string courseId)
+        public async Task<IActionResult> ApproveCourse(string courseId)
         {
-            await _approvalService.ApproveCourseAsync(adminId, courseId);
+            var userId = User.GetUserId();
+            var admin = string.IsNullOrEmpty(userId)
+                ? null
+                : await _unitOfWork.Admins.FirstOrDefaultAsync(a => a.UserId == userId);
+
+            if (admin == null)
+            {
+                return Forbid();
+            }
+
+            await _approvalService.ApproveCourseAsync(admin.AdminId, courseId);
             return RedirectToAction(nameof(Dashboard));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RejectCourse(string adminId, string courseId, string feedback)
+        public async Task<IActionResult> RejectCourse(string courseId, string feedback)
         {
-            await _approvalService.RejectCourseAsync(adminId, courseId, feedback);
+            var userId = User.GetUserId();
+            var admin = string.IsNullOrEmpty(userId)
+                ? null
+                : await _unitOfWork.Admins.FirstOrDefaultAsync(a => a.UserId == userId);
+
+            if (admin == null)
+            {
+                return Forbid();
+            }
+
+            await _approvalService.RejectCourseAsync(admin.AdminId, courseId, feedback);
             return RedirectToAction(nameof(Dashboard));
         }
 

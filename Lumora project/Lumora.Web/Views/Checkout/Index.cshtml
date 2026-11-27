@@ -138,7 +138,6 @@
 
             <form asp-controller="Checkout" asp-action="Process" method="post">
               @Html.AntiForgeryToken()
-              <input type="hidden" name="StudentId" value="2" />
               <input type="hidden" name="CourseIds" value="@courseId" />
               <input type="hidden" name="PaymentProvider" value="Stripe" />
               <input type="hidden" name="CouponCode" id="hiddenCouponInput" value="" />

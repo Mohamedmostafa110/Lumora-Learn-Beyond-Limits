@@ -33,7 +33,7 @@ namespace Lumora.ViewModels
         public string Email { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Password is required")]
-        [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be at least 6 characters")]
+        [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be at least 8 characters")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; } = string.Empty;
@@ -48,6 +48,13 @@ namespace Lumora.ViewModels
         [Display(Name = "Account Type")]
         public string Role { get; set; } = "Student";
 
+        [StringLength(100)]
+        public string? Expertise { get; set; }
+
+        [Url(ErrorMessage = "Please enter a valid profile URL")]
+        [StringLength(300)]
+        public string? PortfolioUrl { get; set; }
+
         [Range(typeof(bool), "true", "true", ErrorMessage = "You must accept the terms of service")]
         public bool AgreeTerms { get; set; } = true;
     }
@@ -58,5 +65,27 @@ namespace Lumora.ViewModels
         [EmailAddress(ErrorMessage = "Please enter a valid email address")]
         [Display(Name = "Registered Email Address")]
         public string Email { get; set; } = string.Empty;
+    }
+
+    public class ResetPasswordViewModel
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = string.Empty;
+
+        [Required]
+        public string Token { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "New password is required")]
+        [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be at least 8 characters")]
+        [DataType(DataType.Password)]
+        [Display(Name = "New Password")]
+        public string NewPassword { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Please confirm your new password")]
+        [DataType(DataType.Password)]
+        [Compare("NewPassword", ErrorMessage = "Passwords do not match")]
+        [Display(Name = "Confirm New Password")]
+        public string ConfirmPassword { get; set; } = string.Empty;
     }
 }

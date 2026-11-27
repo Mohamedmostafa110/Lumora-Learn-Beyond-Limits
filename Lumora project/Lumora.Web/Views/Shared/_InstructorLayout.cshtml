@@ -85,19 +85,22 @@
 
                 <li class="sidebar-label">Account</li>
                 <li>
-                    <a asp-controller="Account" asp-action="Login" class="sidebar-link text-danger">
-                        <i class="bi bi-box-arrow-right text-danger"></i>
-                        <span>Sign Out</span>
-                    </a>
+                    <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="sidebar-link text-danger border-0 bg-transparent w-100 text-start">
+                            <i class="bi bi-box-arrow-right text-danger"></i>
+                            <span>Sign Out</span>
+                        </button>
+                    </form>
                 </li>
             </ul>
 
             <div class="sidebar-footer">
                 <div class="sidebar-user-card">
-                    <div class="avatar-circle avatar-circle-sm">AV</div>
+                    <div class="avatar-circle avatar-circle-sm">@User.GetInitials()</div>
                     <div class="overflow-hidden">
-                        <div class="small fw-bold text-white text-truncate font-heading">Alex Vance</div>
-                        <div class="text-lumora-slate text-truncate" style="font-size: 0.75rem;">Principal Solutions Architect</div>
+                        <div class="small fw-bold text-white text-truncate font-heading">@User.GetFullName()</div>
+                        <div class="text-lumora-slate text-truncate" style="font-size: 0.75rem;">Instructor Account</div>
                     </div>
                 </div>
             </div>

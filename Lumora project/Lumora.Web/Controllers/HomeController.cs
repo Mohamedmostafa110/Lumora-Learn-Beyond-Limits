@@ -1,9 +1,11 @@
 using Lumora.Repositories.Interfaces;
 using Lumora.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lumora.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ICourseCatalogService _catalogService;

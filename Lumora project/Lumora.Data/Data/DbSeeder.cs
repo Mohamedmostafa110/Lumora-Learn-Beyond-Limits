@@ -1,6 +1,10 @@
+using Lumora.Common.Constants;
+using Lumora.Data.Identity;
 using Lumora.Models;
 using Lumora.Models.Enums;
 using Lumora.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lumora.Data
 {
@@ -469,6 +473,193 @@ namespace Lumora.Data
             await uow.Coupons.AddAsync(coupon2);
 
             await uow.CompleteAsync();
+        }
+
+        /// <summary>
+        /// Seeds platform Identity roles and links Identity accounts to seeded Admin, Instructor, and Student profiles.
+        /// </summary>
+        public static async Task SeedIdentityAsync(
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            AppDbContext context)
+        {
+            string[] roles = [PlatformRoles.Admin, PlatformRoles.Instructor, PlatformRoles.Student];
+
+            foreach (var role in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                {
+                    var roleResult = await roleManager.CreateAsync(new IdentityRole(role));
+                    if (!roleResult.Succeeded)
+                    {
+                        var errors = string.Join("; ", roleResult.Errors.Select(e => e.Description));
+                        throw new InvalidOperationException($"Failed to seed role '{role}': {errors}");
+                    }
+                }
+            }
+
+            const string defaultSeedPassword = "Lumora@123";
+
+            // Ensure requested team test accounts exist and have domain profiles linked
+            await EnsureTeamAdminAsync(context, "ahmedhany@gmail.com", "Ahmed Hany");
+            await EnsureTeamInstructorAsync(context, "habibakhaled@gmail.com", "Habiba Khaled");
+            await EnsureTeamStudentAsync(context, "mariembadawy@gmail.com", "Mariem Badawy");
+
+            var customPasswords = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["ahmedhany@gmail.com"] = "Lumora@1",
+                ["habibakhaled@gmail.com"] = "Lumora@2",
+                ["mariembadawy@gmail.com"] = "Lumora@3"
+            };
+
+            var admins = await context.Admins.ToListAsync();
+            foreach (var admin in admins)
+            {
+                var password = customPasswords.GetValueOrDefault(admin.Email, defaultSeedPassword);
+                var user = await EnsureIdentityUserAsync(
+                    userManager,
+                    admin.Email,
+                    admin.FullName,
+                    admin.AccountStatus,
+                    admin.EmailVerifiedAt,
+                    PlatformRoles.Admin,
+                    password);
+
+                if (admin.UserId != user.Id)
+                {
+                    admin.UserId = user.Id;
+                }
+            }
+
+            var instructors = await context.Instructors.ToListAsync();
+            foreach (var instructor in instructors)
+            {
+                var password = customPasswords.GetValueOrDefault(instructor.Email, defaultSeedPassword);
+                var user = await EnsureIdentityUserAsync(
+                    userManager,
+                    instructor.Email,
+                    instructor.FullName,
+                    instructor.AccountStatus,
+                    instructor.EmailVerifiedAt,
+                    PlatformRoles.Instructor,
+                    password);
+
+                if (instructor.UserId != user.Id)
+                {
+                    instructor.UserId = user.Id;
+                }
+            }
+
+            var students = await context.Students.ToListAsync();
+            foreach (var student in students)
+            {
+                var password = customPasswords.GetValueOrDefault(student.Email, defaultSeedPassword);
+                var user = await EnsureIdentityUserAsync(
+                    userManager,
+                    student.Email,
+                    student.FullName,
+                    student.AccountStatus,
+                    student.EmailVerifiedAt,
+                    PlatformRoles.Student,
+                    password);
+
+                if (student.UserId != user.Id)
+                {
+                    student.UserId = user.Id;
+                }
+            }
+
+            await context.SaveChangesAsync();
+        }
+
+        private static async Task EnsureTeamAdminAsync(AppDbContext context, string email, string fullName)
+        {
+            if (await context.Admins.AnyAsync(a => a.Email == email))
+                return;
+
+            await context.Admins.AddAsync(new Admin
+            {
+                FullName = fullName,
+                Email = email,
+                AccountStatus = AccountStatus.Active,
+                EmailVerifiedAt = DateTime.UtcNow
+            });
+            await context.SaveChangesAsync();
+        }
+
+        private static async Task EnsureTeamInstructorAsync(AppDbContext context, string email, string fullName)
+        {
+            if (await context.Instructors.AnyAsync(i => i.Email == email))
+                return;
+
+            await context.Instructors.AddAsync(new Instructor
+            {
+                FullName = fullName,
+                Email = email,
+                AccountStatus = AccountStatus.Active,
+                EmailVerifiedAt = DateTime.UtcNow
+            });
+            await context.SaveChangesAsync();
+        }
+
+        private static async Task EnsureTeamStudentAsync(AppDbContext context, string email, string fullName)
+        {
+            if (await context.Students.AnyAsync(s => s.Email == email))
+                return;
+
+            await context.Students.AddAsync(new Student
+            {
+                FullName = fullName,
+                Email = email,
+                AccountStatus = AccountStatus.Active,
+                EmailVerifiedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.UtcNow
+            });
+            await context.SaveChangesAsync();
+        }
+
+        private static async Task<ApplicationUser> EnsureIdentityUserAsync(
+            UserManager<ApplicationUser> userManager,
+            string email,
+            string fullName,
+            AccountStatus status,
+            DateTime? emailVerifiedAt,
+            string role,
+            string password)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                user = new ApplicationUser
+                {
+                    UserName = email,
+                    Email = email,
+                    EmailConfirmed = emailVerifiedAt.HasValue,
+                    FullName = fullName,
+                    AccountStatus = status,
+                    EmailVerifiedAt = emailVerifiedAt,
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                var createResult = await userManager.CreateAsync(user, password);
+                if (!createResult.Succeeded)
+                {
+                    var errors = string.Join("; ", createResult.Errors.Select(e => e.Description));
+                    throw new InvalidOperationException($"Failed to seed user '{email}': {errors}");
+                }
+            }
+
+            if (!await userManager.IsInRoleAsync(user, role))
+            {
+                var roleResult = await userManager.AddToRoleAsync(user, role);
+                if (!roleResult.Succeeded)
+                {
+                    var errors = string.Join("; ", roleResult.Errors.Select(e => e.Description));
+                    throw new InvalidOperationException($"Failed to assign role '{role}' to '{email}': {errors}");
+                }
+            }
+
+            return user;
         }
     }
 }
