@@ -17,17 +17,19 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
 
   <!-- Lumora Design System Styles -->
-    <link href="~/css/lumora-theme.css" rel="stylesheet" />
-    <link href="~/css/dashboard.css" rel="stylesheet" />
+    <link href="~/css/lumora-theme.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/dashboard.css" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
-    
+    @{
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+    }
     <div class="dashboard-wrapper">
         <!-- [MVC LAYOUT: _Sidebar Start] -->
         <aside class="dashboard-sidebar" id="dashboardSidebar">
             <div class="sidebar-header">
-                <a href="../index.html" class="d-flex align-items-center">
-                    <img src="~/images/lumora_logo_horizontal.png" />
+                <a asp-controller="Home" asp-action="Index" class="d-flex align-items-center">
+                    <img src="~/images/lumora_logo_horizontal.png" alt="LUMORA" class="sidebar-brand-img" asp-append-version="true" />
                 </a>
                 <span class="badge badge-gold sidebar-role-badge">ADMIN</span>
             </div>
@@ -37,14 +39,14 @@
                 <li>
                     <a asp-controller="Admin"
                        asp-action="Dashboard"
-                       class="sidebar-link active">
+                       class="sidebar-link @(currentAction == "Dashboard" ? "active" : "")">
                         <i class="bi bi-speedometer2"></i><span>Master Console</span>
                     </a>
                 </li>
                 <li>
                     <a asp-controller="Admin"
                        asp-action="CourseApprovals"
-                       class="sidebar-link">
+                       class="sidebar-link @(currentAction == "CourseApprovals" ? "active" : "")">
                         <i class="bi bi-shield-check"></i><span>Course QA Queue</span>
                         <span class="badge badge-gold ms-auto">3</span>
                     </a>
@@ -52,29 +54,29 @@
                 <li>
                     <a asp-controller="Admin"
                        asp-action="UsersManagement"
-                       class="sidebar-link">
+                       class="sidebar-link @(currentAction == "UsersManagement" ? "active" : "")">
                         <i class="bi bi-people-fill"></i><span>Users Management</span>
                     </a>
                 </li>
                 <li>
                     <a asp-controller="Admin"
                        asp-action="TaxonomyAndCoupons"
-                       class="sidebar-link">
+                       class="sidebar-link @(currentAction == "TaxonomyAndCoupons" ? "active" : "")">
                         <i class="bi bi-tags-fill"></i><span>Taxonomy &amp; Coupons</span>
                     </a>
                 </li>
 
                 <li class="sidebar-label">System Security</li>
                 <li>
-                    <a asp-controller="Admin"
-                       asp-action="VerifyCertificate"
+                    <a asp-controller="Verification"
+                       asp-action="Index"
                        class="sidebar-link">
                         <i class="bi bi-patch-check"></i><span>Cert Ledger Audit</span>
                     </a>
                 </li>
                 <li>
-                    <a asp-controller="Auth"
-                       asp-action="Logout"
+                    <a asp-controller="Account"
+                       asp-action="Login"
                        class="sidebar-link text-danger">
                         <i class="bi bi-box-arrow-right text-danger"></i><span>Sign Out</span>
                     </a>
@@ -102,8 +104,10 @@
                             onclick="document.getElementById('dashboardSidebar')?.classList.toggle('sidebar-open');">
                         <i class="bi bi-list fs-5"></i>
                     </button>
-                        <i class="bi bi-list fs-5"></i>
-                    </button>
+                    @if (ViewData["TopbarTitle"] != null)
+                    {
+                        <span class="fw-bold text-lumora-midnight d-none d-lg-inline">@ViewData["TopbarTitle"]</span>
+                    }
                     <div class="topbar-search d-none d-md-block">
                         <i class="bi bi-search"></i>
                         <input type="text" class="form-control form-control-sm" placeholder="Search platform users, courses, audit logs..." />
@@ -125,9 +129,10 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Chart.js (CDN) -->
+    <!-- Chart.js (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
-    <script src="~/js/main.js"></script>
-    <script src="~/js/charts-init.js"></script>
+    <script src="~/js/main.js" asp-append-version="true"></script>
+    <script src="~/js/charts-init.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
