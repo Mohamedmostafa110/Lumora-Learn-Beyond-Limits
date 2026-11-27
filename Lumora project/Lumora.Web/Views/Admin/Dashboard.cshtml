@@ -1,17 +1,6 @@
 ﻿@{
-    Layout = "_AdminLayout";
-    ViewData["Title"] = "Admin Governance Console";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3 gap-2">
-  <div class="input-group input-group-sm" style="max-width: 340px;">
-    <span class="input-group-text bg-white border-lumora-subtle text-muted">
-      <i class="bi bi-search"></i>
-    </span>
-    <input type="search" class="form-control border-lumora-subtle" placeholder="Search platform users, courses..." aria-label="Search platform users, courses" />
-  </div>
-
-  <span class="badge badge-slate">ISO 27001 AUDITED</span>
-</div>
 <main class="dashboard-content">
     <!-- Dashboard Header -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
@@ -20,7 +9,7 @@
             <p class="text-muted small mb-0">Platform-wide health telemetry, curriculum approval queues, and cryptographic certificate issuance oversight.</p>
         </div>
         <div class="d-flex gap-2">
-            <a href="/Admin/CourseApprovals" class="btn btn-cta btn-sm">
+            <a href="course-approvals.html" class="btn btn-cta btn-sm">
                 <i class="bi bi-shield-check me-1"></i>Review Pending Courses (3)
             </a>
         </div>
@@ -180,8 +169,3 @@
         </div>
     </div>
 </main>
-
-@section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
-    <script src="/js/charts-init.js"></script>
-}
