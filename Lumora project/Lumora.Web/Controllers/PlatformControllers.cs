@@ -173,5 +173,24 @@ namespace Lumora.Controllers
             await _approvalService.RejectCourseAsync(adminId, courseId, feedback);
             return RedirectToAction(nameof(Dashboard));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> CourseApprovals()
+        {
+            ViewBag.PendingCourses = await _approvalService.GetPendingApprovalCoursesAsync();
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult TaxonomyAndCoupons()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult UsersManagement()
+        {
+            return View();
+        }
     }
 }
