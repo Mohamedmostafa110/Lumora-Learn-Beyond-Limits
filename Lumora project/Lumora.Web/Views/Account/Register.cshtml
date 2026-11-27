@@ -1,0 +1,116 @@
+@model RegisterViewModel
+@{
+    Layout = "_AuthLayout";
+    ViewData["Title"] = "Create Account";
+    var isInstructor = string.Equals(Model.Role, "instructor", StringComparison.OrdinalIgnoreCase);
+}
+
+<div class="mb-4">
+    <h3 class="fw-bold text-lumora-midnight mb-1 font-heading">Create Account</h3>
+    <p class="text-muted small mb-0">Select your account tier to begin your learning or teaching journey.</p>
+</div>
+
+<!-- Role Toggle Pill Switcher -->
+<div class="auth-role-tabs">
+    <div class="auth-role-tab @(!isInstructor ? "active" : "")" data-role="student">
+        <i class="bi bi-mortarboard me-1"></i>Student / Engineer
+    </div>
+    <div class="auth-role-tab @(isInstructor ? "active" : "")" data-role="instructor">
+        <i class="bi bi-briefcase me-1"></i>Apply as Instructor
+    </div>
+</div>
+
+<form asp-controller="Account" asp-action="Register" method="post" id="registerForm">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Role" id="selectedRoleInput" value="@(isInstructor ? "instructor" : "student")" />
+    <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+    <!-- Full Name Input -->
+    <div class="mb-3">
+        <label asp-for="FullName" class="form-label">Full Legal Name</label>
+        <div class="input-group">
+            <span class="input-group-text bg-white border-lumora-subtle text-lumora-slate">
+                <i class="bi bi-person"></i>
+            </span>
+            <input asp-for="FullName" class="form-control" placeholder="e.g. David Vance" required />
+        </div>
+        <span asp-validation-for="FullName" class="text-danger small"></span>
+    </div>
+
+    <!-- Email Input -->
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">Work / Primary Email</label>
+        <div class="input-group">
+            <span class="input-group-text bg-white border-lumora-subtle text-lumora-slate">
+                <i class="bi bi-envelope"></i>
+            </span>
+            <input asp-for="Email" class="form-control" placeholder="david@company.com" required />
+        </div>
+        <span asp-validation-for="Email" class="text-danger small"></span>
+    </div>
+
+    <!-- Dynamic Instructor Fields (Initially Hidden) -->
+    <div id="instructorFields" class="@(isInstructor ? "" : "d-none") p-3 bg-lumora-ivory rounded-3 border-lumora-subtle mb-3">
+        <div class="mb-2">
+            <label for="expertise" class="form-label">Primary Architectural Expertise</label>
+            <select class="form-select form-select-sm" id="expertise" name="Expertise">
+                <option value="cloud">Cloud Architecture (AWS / Azure / GCP)</option>
+                <option value="dotnet">Enterprise .NET &amp; C# Systems</option>
+                <option value="ai">AI, LLMs &amp; Machine Learning Engineering</option>
+                <option value="security">Cybersecurity &amp; Zero-Trust Systems</option>
+                <option value="devops">DevOps, Kubernetes &amp; Site Reliability</option>
+            </select>
+        </div>
+        <div>
+            <label for="linkedinUrl" class="form-label">LinkedIn / GitHub Profile</label>
+            <input type="url" class="form-control form-control-sm" id="linkedinUrl" name="PortfolioUrl" placeholder="https://linkedin.com/in/username" />
+        </div>
+    </div>
+
+    <!-- Password Input -->
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label">Create Password</label>
+        <div class="password-toggle-wrapper">
+            <input asp-for="Password" class="form-control pe-5" placeholder="Minimum 8 characters" required />
+            <button type="button" class="password-toggle-btn" title="Toggle password view">
+                <i class="bi bi-eye"></i>
+            </button>
+        </div>
+        <small class="text-muted" style="font-size: 0.76rem;">Must contain uppercase, number, and special character.</small>
+        <span asp-validation-for="Password" class="text-danger small d-block"></span>
+    </div>
+
+    <!-- Confirm Password Input -->
+    <div class="mb-3">
+        <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+        <div class="password-toggle-wrapper">
+            <input asp-for="ConfirmPassword" class="form-control pe-5" placeholder="Confirm your password" required />
+            <button type="button" class="password-toggle-btn" title="Toggle password view">
+                <i class="bi bi-eye"></i>
+            </button>
+        </div>
+        <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+    </div>
+
+    <!-- Terms & Compliance Checkbox -->
+    <div class="mb-4">
+        <div class="form-check">
+            <input asp-for="AgreeTerms" class="form-check-input" required />
+            <label asp-for="AgreeTerms" class="form-check-label small text-muted">
+                I agree to the <a href="#" class="text-lumora-midnight fw-semibold">Terms of Service</a>, <a href="#" class="text-lumora-midnight fw-semibold">Honor Code</a>, and Privacy Policy.
+            </label>
+        </div>
+        <span asp-validation-for="AgreeTerms" class="text-danger small"></span>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-cta w-100 py-2 mb-3">
+        <i class="bi bi-person-check-fill me-2"></i>Create Free Account
+    </button>
+</form>
+
+<!-- Footer Link to Login -->
+<div class="text-center small text-muted">
+    Already have an account?
+    <a asp-action="Login" class="fw-bold text-lumora-midnight">Sign In</a>
+</div>

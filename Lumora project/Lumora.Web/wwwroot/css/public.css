@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ============================================================================
  * LUMORA — Learn Beyond Limits | Enterprise Design System
  * File: public.css
@@ -11,79 +11,79 @@
  * 1. PUBLIC NAVIGATION (NAVBAR)
  * ---------------------------------------------------------------------------- */
 .lumora-navbar {
-    background-color: var(--lumora-midnight);
-    border-bottom: 1px solid rgba(214, 183, 121, 0.2);
-    padding: 0.9rem 0;
-    position: sticky;
-    top: 0;
-    z-index: 1030;
-    transition: var(--lumora-transition);
+  background-color: var(--lumora-midnight);
+  border-bottom: 1px solid rgba(214, 183, 121, 0.2);
+  padding: 0.9rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  transition: var(--lumora-transition);
 }
 
-    .lumora-navbar.navbar-scrolled {
-        background-color: rgba(20, 36, 58, 0.96);
-        backdrop-filter: blur(12px);
-        box-shadow: 0 8px 24px rgba(10, 19, 31, 0.25);
-        padding: 0.65rem 0;
-    }
+.lumora-navbar.navbar-scrolled {
+  background-color: rgba(20, 36, 58, 0.96);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(10, 19, 31, 0.25);
+  padding: 0.65rem 0;
+}
 
 .navbar-brand-img {
-    height: 42px;
-    width: auto;
-    object-fit: contain;
+  height: 42px;
+  width: auto;
+  object-fit: contain;
 }
 
 .nav-link-custom {
-    color: #E2E8F0 !important;
-    font-family: var(--lumora-font-heading);
-    font-size: 0.93rem;
-    font-weight: 500;
-    padding: 0.5rem 0.9rem !important;
-    border-radius: 8px;
-    transition: var(--lumora-transition);
+  color: #E2E8F0 !important;
+  font-family: var(--lumora-font-heading);
+  font-size: 0.93rem;
+  font-weight: 500;
+  padding: 0.5rem 0.9rem !important;
+  border-radius: 8px;
+  transition: var(--lumora-transition);
 }
 
-    .nav-link-custom:hover,
-    .nav-link-custom.active {
-        color: var(--lumora-champagne) !important;
-        background-color: rgba(214, 183, 121, 0.1);
-    }
+.nav-link-custom:hover,
+.nav-link-custom.active {
+  color: var(--lumora-champagne) !important;
+  background-color: rgba(214, 183, 121, 0.1);
+}
 
 .nav-search-bar {
-    position: relative;
-    min-width: 260px;
+  position: relative;
+  min-width: 260px;
 }
 
-    .nav-search-bar input {
-        background-color: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(113, 132, 154, 0.35);
-        color: #FFFFFF;
-        border-radius: var(--lumora-radius-pill);
-        padding-left: 2.5rem;
-        padding-right: 1rem;
-        font-size: 0.88rem;
-        transition: var(--lumora-transition);
-    }
+.nav-search-bar input {
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(113, 132, 154, 0.35);
+  color: #FFFFFF;
+  border-radius: var(--lumora-radius-pill);
+  padding-left: 2.5rem;
+  padding-right: 1rem;
+  font-size: 0.88rem;
+  transition: var(--lumora-transition);
+}
 
-        .nav-search-bar input:focus {
-            background-color: rgba(255, 255, 255, 0.14);
-            border-color: var(--lumora-champagne);
-            box-shadow: 0 0 0 3px rgba(214, 183, 121, 0.25);
-            color: #FFFFFF;
-        }
+.nav-search-bar input:focus {
+  background-color: rgba(255, 255, 255, 0.14);
+  border-color: var(--lumora-champagne);
+  box-shadow: 0 0 0 3px rgba(214, 183, 121, 0.25);
+  color: #FFFFFF;
+}
 
-        .nav-search-bar input::placeholder {
-            color: #94A3B8;
-        }
+.nav-search-bar input::placeholder {
+  color: #94A3B8;
+}
 
-    .nav-search-bar .search-icon {
-        position: absolute;
-        left: 0.9rem;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--lumora-champagne);
-        pointer-events: none;
-    }
+.nav-search-bar .search-icon {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--lumora-champagne);
+  pointer-events: none;
+}
 
 
 
@@ -93,106 +93,106 @@
  * 2. HERO SECTION
  * ---------------------------------------------------------------------------- */
 .hero-section {
-    background: linear-gradient(135deg, #0A131F 0%, #14243A 60%, #1F3859 100%);
-    color: #FFFFFF;
-    padding: 5.5rem 0 5rem 0;
-    position: relative;
-    overflow: hidden;
+  background: linear-gradient(135deg, #0A131F 0%, #14243A 60%, #1F3859 100%);
+  color: #FFFFFF;
+  padding: 5.5rem 0 5rem 0;
+  position: relative;
+  overflow: hidden;
 }
 
-    .hero-section::before {
-        content: '';
-        position: absolute;
-        top: -20%;
-        right: -10%;
-        width: 600px;
-        height: 600px;
-        background: radial-gradient(circle, rgba(214, 183, 121, 0.12) 0%, rgba(20, 36, 58, 0) 70%);
-        border-radius: 50%;
-        pointer-events: none;
-    }
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(214, 183, 121, 0.12) 0%, rgba(20, 36, 58, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
 
 .hero-pill-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    background: rgba(214, 183, 121, 0.14);
-    border: 1px solid rgba(214, 183, 121, 0.35);
-    padding: 0.45rem 1.1rem;
-    border-radius: var(--lumora-radius-pill);
-    font-family: var(--lumora-font-heading);
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--lumora-champagne);
-    margin-bottom: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(214, 183, 121, 0.14);
+  border: 1px solid rgba(214, 183, 121, 0.35);
+  padding: 0.45rem 1.1rem;
+  border-radius: var(--lumora-radius-pill);
+  font-family: var(--lumora-font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--lumora-champagne);
+  margin-bottom: 1.5rem;
 }
 
 .hero-title {
-    font-size: 3.4rem;
-    font-weight: 800;
-    line-height: 1.15;
-    color: #FFFFFF;
-    margin-bottom: 1.4rem;
-    letter-spacing: -0.025em;
+  font-size: 3.4rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #FFFFFF;
+  margin-bottom: 1.4rem;
+  letter-spacing: -0.025em;
 }
 
-    .hero-title .text-accent {
-        color: var(--lumora-champagne);
-        display: inline-block;
-        position: relative;
-    }
+.hero-title .text-accent {
+  color: var(--lumora-champagne);
+  display: inline-block;
+  position: relative;
+}
 
 .hero-lead {
-    font-size: 1.18rem;
-    color: #CBD5E1;
-    max-width: 580px;
-    line-height: 1.65;
-    margin-bottom: 2.2rem;
+  font-size: 1.18rem;
+  color: #CBD5E1;
+  max-width: 580px;
+  line-height: 1.65;
+  margin-bottom: 2.2rem;
 }
 
 .hero-stats-row {
-    display: flex;
-    gap: 2.5rem;
-    margin-top: 2.8rem;
-    padding-top: 1.8rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  gap: 2.5rem;
+  margin-top: 2.8rem;
+  padding-top: 1.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .hero-stat-item .stat-num {
-    font-family: var(--lumora-font-heading);
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: var(--lumora-champagne);
-    line-height: 1;
+  font-family: var(--lumora-font-heading);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--lumora-champagne);
+  line-height: 1;
 }
 
 .hero-stat-item .stat-label {
-    font-size: 0.82rem;
-    color: #94A3B8;
-    margin-top: 0.35rem;
+  font-size: 0.82rem;
+  color: #94A3B8;
+  margin-top: 0.35rem;
 }
 
 /* Floating Hero Course Card */
 .hero-floating-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(214, 183, 121, 0.3);
-    border-radius: var(--lumora-radius-panel);
-    padding: 1.75rem;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
-    position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(214, 183, 121, 0.3);
+  border-radius: var(--lumora-radius-panel);
+  padding: 1.75rem;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  position: relative;
 }
 
 .hero-badge-tag {
-    position: absolute;
-    top: 1.25rem;
-    right: 1.25rem;
-    background-color: var(--lumora-champagne);
-    color: var(--lumora-midnight);
-    font-weight: 700;
-    font-size: 0.75rem;
-    padding: 0.3rem 0.75rem;
-    border-radius: var(--lumora-radius-pill);
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background-color: var(--lumora-champagne);
+  color: var(--lumora-midnight);
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--lumora-radius-pill);
 }
 
 
@@ -201,213 +201,213 @@
  * 3. TRUST & STATS BAR
  * ---------------------------------------------------------------------------- */
 .trust-bar {
-    background-color: #FFFFFF;
-    border-bottom: 1px solid var(--lumora-slate-border);
-    padding: 1.8rem 0;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid var(--lumora-slate-border);
+  padding: 1.8rem 0;
 }
 
 .trust-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: var(--lumora-charcoal);
-    font-family: var(--lumora-font-heading);
-    font-weight: 600;
-    font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--lumora-charcoal);
+  font-family: var(--lumora-font-heading);
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
 .trust-icon-box {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background-color: rgba(20, 36, 58, 0.06);
-    color: var(--lumora-midnight);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.25rem;
-    flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background-color: rgba(20, 36, 58, 0.06);
+  color: var(--lumora-midnight);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
 }
 
 /* ----------------------------------------------------------------------------
  * 4. FEATURED COURSE CARDS
  * ---------------------------------------------------------------------------- */
 .course-card {
-    background-color: #FFFFFF;
-    border: 1px solid var(--lumora-slate-border);
-    border-radius: var(--lumora-radius-card);
-    transition: var(--lumora-transition);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+  background-color: #FFFFFF;
+  border: 1px solid var(--lumora-slate-border);
+  border-radius: var(--lumora-radius-card);
+  transition: var(--lumora-transition);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-    .course-card:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--lumora-shadow-hover);
-        border-color: rgba(214, 183, 121, 0.5);
-    }
+.course-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--lumora-shadow-hover);
+  border-color: rgba(214, 183, 121, 0.5);
+}
 
 .course-thumb-wrapper {
-    position: relative;
-    overflow: hidden;
-    height: 190px;
-    background: linear-gradient(135deg, var(--lumora-midnight) 0%, #223B5D 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: relative;
+  overflow: hidden;
+  height: 190px;
+  background: linear-gradient(135deg, var(--lumora-midnight) 0%, #223B5D 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .course-thumb-icon {
-    font-size: 3.5rem;
-    color: rgba(214, 183, 121, 0.85);
-    transition: var(--lumora-transition);
+  font-size: 3.5rem;
+  color: rgba(214, 183, 121, 0.85);
+  transition: var(--lumora-transition);
 }
 
 .course-card:hover .course-thumb-icon {
-    transform: scale(1.1);
-    color: var(--lumora-champagne);
+  transform: scale(1.1);
+  color: var(--lumora-champagne);
 }
 
 .course-level-badge {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    background-color: rgba(20, 36, 58, 0.88);
-    backdrop-filter: blur(8px);
-    color: #FFFFFF;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 0.3rem 0.65rem;
-    border-radius: var(--lumora-radius-pill);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background-color: rgba(20, 36, 58, 0.88);
+  backdrop-filter: blur(8px);
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--lumora-radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 
 
 .course-bestseller-badge {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background-color: var(--lumora-champagne);
-    color: var(--lumora-midnight);
-    font-size: 0.72rem;
-    font-weight: 700;
-    padding: 0.3rem 0.7rem;
-    border-radius: var(--lumora-radius-pill);
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: var(--lumora-champagne);
+  color: var(--lumora-midnight);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--lumora-radius-pill);
 }
 
 
 
 .course-meta-tags {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    color: var(--lumora-slate);
-    font-size: 0.82rem;
-    margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--lumora-slate);
+  font-size: 0.82rem;
+  margin-bottom: 0.6rem;
 }
 
 .course-title {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--lumora-midnight);
-    line-height: 1.35;
-    margin-bottom: 0.75rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--lumora-midnight);
+  line-height: 1.35;
+  margin-bottom: 0.75rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .course-price-wrap {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
 }
 
 .price-current {
-    font-family: var(--lumora-font-heading);
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--lumora-midnight);
+  font-family: var(--lumora-font-heading);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--lumora-midnight);
 }
 
 .price-original {
-    font-size: 0.9rem;
-    color: var(--lumora-slate);
-    text-decoration: line-through;
+  font-size: 0.9rem;
+  color: var(--lumora-slate);
+  text-decoration: line-through;
 }
 
 /* ----------------------------------------------------------------------------
  * 5. LEARNING PATH / CATEGORY CARDS
  * ---------------------------------------------------------------------------- */
 .category-card {
-    background-color: #FFFFFF;
-    border: 1px solid var(--lumora-slate-border);
-    border-radius: var(--lumora-radius-card);
-    padding: 1.8rem;
-    transition: var(--lumora-transition);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+  background-color: #FFFFFF;
+  border: 1px solid var(--lumora-slate-border);
+  border-radius: var(--lumora-radius-card);
+  padding: 1.8rem;
+  transition: var(--lumora-transition);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-    .category-card:hover {
-        border-color: var(--lumora-champagne);
-        box-shadow: var(--lumora-shadow-hover);
-        transform: translateY(-4px);
-    }
+.category-card:hover {
+  border-color: var(--lumora-champagne);
+  box-shadow: var(--lumora-shadow-hover);
+  transform: translateY(-4px);
+}
 
 .category-icon-box {
-    width: 58px;
-    height: 58px;
-    border-radius: 14px;
-    background-color: rgba(20, 36, 58, 0.06);
-    color: var(--lumora-midnight);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.6rem;
-    margin-bottom: 1.25rem;
-    transition: var(--lumora-transition);
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  background-color: rgba(20, 36, 58, 0.06);
+  color: var(--lumora-midnight);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin-bottom: 1.25rem;
+  transition: var(--lumora-transition);
 }
 
 .category-card:hover .category-icon-box {
-    background-color: var(--lumora-midnight);
-    color: var(--lumora-champagne);
+  background-color: var(--lumora-midnight);
+  color: var(--lumora-champagne);
 }
 
 /* ----------------------------------------------------------------------------
  * 6. CERTIFICATE VERIFICATION WIDGET
  * ---------------------------------------------------------------------------- */
 .verification-banner {
-    background: linear-gradient(135deg, #14243A 0%, #1A314E 100%);
-    border-radius: var(--lumora-radius-panel);
-    border: 1px solid rgba(214, 183, 121, 0.3);
-    padding: 3.5rem 2.5rem;
-    color: #FFFFFF;
-    position: relative;
-    overflow: hidden;
+  background: linear-gradient(135deg, #14243A 0%, #1A314E 100%);
+  border-radius: var(--lumora-radius-panel);
+  border: 1px solid rgba(214, 183, 121, 0.3);
+  padding: 3.5rem 2.5rem;
+  color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
 }
 
 .verification-input-group {
-    max-width: 650px;
-    margin: 0 auto;
+  max-width: 650px;
+  margin: 0 auto;
 }
 
-    .verification-input-group .form-control {
-        border-radius: var(--lumora-radius-btn) 0 0 var(--lumora-radius-btn);
-        padding: 0.9rem 1.4rem;
-        font-size: 1rem;
-        border: 1.5px solid var(--lumora-champagne);
-    }
+.verification-input-group .form-control {
+  border-radius: var(--lumora-radius-btn) 0 0 var(--lumora-radius-btn);
+  padding: 0.9rem 1.4rem;
+  font-size: 1rem;
+  border: 1.5px solid var(--lumora-champagne);
+}
 
-    .verification-input-group .btn {
-        border-radius: 0 var(--lumora-radius-btn) var(--lumora-radius-btn) 0;
-        padding: 0.9rem 2rem;
-        font-weight: 700;
-    }
+.verification-input-group .btn {
+  border-radius: 0 var(--lumora-radius-btn) var(--lumora-radius-btn) 0;
+  padding: 0.9rem 2rem;
+  font-weight: 700;
+}
 
 
 
@@ -417,129 +417,129 @@
  * 7. AUTHENTICATION SPLIT-SCREEN LAYOUT
  * ---------------------------------------------------------------------------- */
 .auth-split-wrapper {
-    min-height: 100vh;
-    display: flex;
-    background-color: var(--lumora-ivory);
+  min-height: 100vh;
+  display: flex;
+  background-color: var(--lumora-ivory);
 }
 
 /* Left Brand Hero Pane */
 .auth-brand-pane {
-    flex: 1;
-    background: linear-gradient(145deg, #0A131F 0%, #14243A 65%, #1F3654 100%);
-    color: #FFFFFF;
-    padding: 4rem 3.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-    overflow: hidden;
+  flex: 1;
+  background: linear-gradient(145deg, #0A131F 0%, #14243A 65%, #1F3654 100%);
+  color: #FFFFFF;
+  padding: 4rem 3.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
 }
 
-    .auth-brand-pane::before {
-        content: '';
-        position: absolute;
-        top: -150px;
-        right: -150px;
-        width: 450px;
-        height: 450px;
-        background: radial-gradient(circle, rgba(214, 183, 121, 0.12) 0%, transparent 70%);
-        border-radius: 50%;
-        pointer-events: none;
-    }
+.auth-brand-pane::before {
+  content: '';
+  position: absolute;
+  top: -150px;
+  right: -150px;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(214, 183, 121, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
 
 .auth-brand-quote {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(214, 183, 121, 0.25);
-    border-radius: var(--lumora-radius-card);
-    padding: 1.8rem;
-    margin-top: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(214, 183, 121, 0.25);
+  border-radius: var(--lumora-radius-card);
+  padding: 1.8rem;
+  margin-top: 2rem;
 }
 
-    .auth-brand-quote p {
-        color: #E2E8F0;
-        font-size: 1.05rem;
-        font-style: italic;
-        line-height: 1.6;
-    }
+.auth-brand-quote p {
+  color: #E2E8F0;
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.6;
+}
 
 .auth-stats-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    background-color: rgba(214, 183, 121, 0.15);
-    border: 1px solid rgba(214, 183, 121, 0.35);
-    padding: 0.6rem 1.25rem;
-    border-radius: var(--lumora-radius-pill);
-    color: var(--lumora-champagne);
-    font-weight: 600;
-    font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: rgba(214, 183, 121, 0.15);
+  border: 1px solid rgba(214, 183, 121, 0.35);
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--lumora-radius-pill);
+  color: var(--lumora-champagne);
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
 /* Right Form Pane */
 .auth-form-pane {
-    flex: 1.1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 2rem;
-    background-color: var(--lumora-ivory);
+  flex: 1.1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  background-color: var(--lumora-ivory);
 }
 
 .auth-card {
-    width: 100%;
-    max-width: 490px;
-    background-color: #FFFFFF;
-    border: 1px solid var(--lumora-slate-border);
-    border-radius: var(--lumora-radius-panel);
-    box-shadow: var(--lumora-shadow-md);
-    padding: 2.75rem;
+  width: 100%;
+  max-width: 490px;
+  background-color: #FFFFFF;
+  border: 1px solid var(--lumora-slate-border);
+  border-radius: var(--lumora-radius-panel);
+  box-shadow: var(--lumora-shadow-md);
+  padding: 2.75rem;
 }
 
 .auth-role-tabs {
-    display: flex;
-    background-color: var(--lumora-ivory);
-    padding: 4px;
-    border-radius: var(--lumora-radius-btn);
-    margin-bottom: 1.8rem;
-    border: 1px solid var(--lumora-slate-border);
+  display: flex;
+  background-color: var(--lumora-ivory);
+  padding: 4px;
+  border-radius: var(--lumora-radius-btn);
+  margin-bottom: 1.8rem;
+  border: 1px solid var(--lumora-slate-border);
 }
 
 .auth-role-tab {
-    flex: 1;
-    text-align: center;
-    padding: 0.6rem;
-    font-family: var(--lumora-font-heading);
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: var(--lumora-slate);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: var(--lumora-transition);
+  flex: 1;
+  text-align: center;
+  padding: 0.6rem;
+  font-family: var(--lumora-font-heading);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--lumora-slate);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--lumora-transition);
 }
 
-    .auth-role-tab.active {
-        background-color: var(--lumora-midnight);
-        color: #FFFFFF;
-        box-shadow: 0 2px 8px rgba(20, 36, 58, 0.15);
-    }
+.auth-role-tab.active {
+  background-color: var(--lumora-midnight);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(20, 36, 58, 0.15);
+}
 
 /* Password Toggle Eye Icon */
 .password-toggle-wrapper {
-    position: relative;
+  position: relative;
 }
 
 .password-toggle-btn {
-    position: absolute;
-    top: 50%;
-    right: 0.9rem;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: var(--lumora-slate);
-    cursor: pointer;
-    padding: 0;
-    font-size: 1.1rem;
+  position: absolute;
+  top: 50%;
+  right: 0.9rem;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--lumora-slate);
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.1rem;
 }
 
 
@@ -548,66 +548,63 @@
  * 8. MEGA FOOTER
  * ---------------------------------------------------------------------------- */
 .lumora-footer {
-    background-color: #0A131F;
-    color: #94A3B8;
-    padding: 4.5rem 0 2rem 0;
-    border-top: 1px solid rgba(214, 183, 121, 0.2);
+  background-color: #0A131F;
+  color: #94A3B8;
+  padding: 4.5rem 0 2rem 0;
+  border-top: 1px solid rgba(214, 183, 121, 0.2);
 }
 
 .footer-title {
-    color: #FFFFFF;
-    font-family: var(--lumora-font-heading);
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 1.4rem;
-    letter-spacing: -0.01em;
+  color: #FFFFFF;
+  font-family: var(--lumora-font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 1.4rem;
+  letter-spacing: -0.01em;
 }
 
 .footer-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-    .footer-links li {
-        margin-bottom: 0.7rem;
-    }
+.footer-links li {
+  margin-bottom: 0.7rem;
+}
 
-    .footer-links a {
-        color: #94A3B8;
-        font-size: 0.9rem;
-        transition: var(--lumora-transition);
-    }
+.footer-links a {
+  color: #94A3B8;
+  font-size: 0.9rem;
+  transition: var(--lumora-transition);
+}
 
-        .footer-links a:hover {
-            color: var(--lumora-champagne);
-            padding-left: 4px;
-        }
+.footer-links a:hover {
+  color: var(--lumora-champagne);
+  padding-left: 4px;
+}
 
 
 
 .footer-bottom {
-    margin-top: 3.5rem;
-    padding-top: 1.75rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    font-size: 0.85rem;
+  margin-top: 3.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.85rem;
 }
 
 /* Responsive adjustments */
 @media (max-width: 991.98px) {
-    .hero-title {
-        font-size: 2.5rem;
-    }
-
-    .auth-split-wrapper {
-        flex-direction: column;
-    }
-
-    .auth-brand-pane {
-        padding: 3rem 1.5rem;
-    }
-
-    .auth-form-pane {
-        padding: 2.5rem 1rem;
-    }
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  .auth-split-wrapper {
+    flex-direction: column;
+  }
+  .auth-brand-pane {
+    padding: 3rem 1.5rem;
+  }
+  .auth-form-pane {
+    padding: 2.5rem 1rem;
+  }
 }

@@ -1,4 +1,5 @@
 using Lumora.Common.Exceptions;
+using Lumora.DTOs.Courses;
 using Lumora.DTOs.Orders;
 using Lumora.Repositories.Interfaces;
 using Lumora.Services.Interfaces;
@@ -56,10 +57,23 @@ namespace Lumora.Controllers
     public class CheckoutController : Controller
     {
         private readonly ICheckoutService _checkoutService;
+        private readonly ICourseCatalogService _catalogService;
 
-        public CheckoutController(ICheckoutService checkoutService)
+        public CheckoutController(ICheckoutService checkoutService, ICourseCatalogService catalogService)
         {
             _checkoutService = checkoutService;
+            _catalogService = catalogService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index(string? courseId)
+        {
+            CourseDetailDto? course = null;
+            if (!string.IsNullOrEmpty(courseId))
+            {
+                course = await _catalogService.GetCourseDetailsAsync(courseId);
+            }
+            return View(course);
         }
 
         [HttpPost]
@@ -84,7 +98,7 @@ namespace Lumora.Controllers
         }
 
         [HttpGet]
-        public IActionResult Confirmation(int orderId)
+        public IActionResult Confirmation(string orderId)
         {
             ViewBag.OrderId = orderId;
             return View();

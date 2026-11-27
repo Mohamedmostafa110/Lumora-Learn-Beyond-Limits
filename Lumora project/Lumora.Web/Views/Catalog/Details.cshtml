@@ -1,0 +1,356 @@
+@model CourseDetailDto
+@{
+    ViewData["Title"] = Model.Title;
+    var totalLessons = Model.Sections?.Sum(s => s.Lessons?.Count ?? 0) ?? 0;
+    var discountPercent = Model.Price > 0 && Model.Discount > 0
+        ? (int)Math.Round(Model.Discount * 100m / Model.Price)
+        : 0;
+
+    string GetInitials(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name)) return "LU";
+        var parts = name.Replace("Dr.", "").Replace("Eng.", "").Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length >= 2) return $"{parts[0][0]}{parts[1][0]}".ToUpperInvariant();
+        return parts[0].Length >= 2 ? parts[0][..2].ToUpperInvariant() : parts[0].ToUpperInvariant();
+    }
+}
+
+  <main>
+    <!-- Course Details Dark Banner -->
+    <section class="bg-lumora-midnight text-white py-5">
+      <div class="container-fluid px-lg-5">
+        <div class="row">
+          <div class="col-lg-8">
+            <nav aria-label="breadcrumb" class="mb-3">
+              <ol class="breadcrumb small">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-lumora-slate">Home</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Catalog" asp-action="Index" class="text-lumora-slate">Courses</a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">@(Model.Categories.FirstOrDefault() ?? "Engineering")</li>
+              </ol>
+            </nav>
+
+            <span class="badge badge-gold mb-3">BESTSELLER &bull; @Model.Difficulty.ToString().ToUpperInvariant() ARCHITECTURE</span>
+            <h1 class="display-6 fw-bold text-white mb-3 font-heading">
+              @Model.Title
+            </h1>
+            <p class="lead text-white-50 mb-4">
+              @(Model.Description ?? "Master the design, deployment, and operational resilience of high-throughput enterprise systems.")
+            </p>
+
+            <div class="d-flex flex-wrap align-items-center gap-3 text-white-50 small mb-4">
+              <div class="d-flex align-items-center gap-1">
+                <div class="rating-stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <span class="text-white fw-bold ms-1">@Model.AverageRating.ToString("F2")</span>
+                <span>(@Model.TotalReviews reviews)</span>
+              </div>
+              <span>&bull;</span>
+              <span><i class="bi bi-people-fill text-lumora-champagne me-1"></i>18,400+ Enrolled Engineers</span>
+              <span>&bull;</span>
+              <span><i class="bi bi-calendar-check text-lumora-champagne me-1"></i>Updated @Model.CreatedAt.ToString("MMMM yyyy")</span>
+              <span>&bull;</span>
+              <span><i class="bi bi-globe text-lumora-champagne me-1"></i>English [English Subtitles &amp; Closed Captions]</span>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+              <div class="avatar-circle">@GetInitials(Model.InstructorName)</div>
+              <div>
+                <small class="text-lumora-slate d-block">Created and Instructed by</small>
+                <span class="text-white fw-semibold">@Model.InstructorName</span>
+                <span class="text-white-50 small ms-1">(Principal Solutions Architect)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content & Sticky Enrollment Sidebar -->
+    <section class="py-5 bg-lumora-ivory">
+      <div class="container-fluid px-lg-5">
+        <div class="row g-5">
+          <!-- Left Main Body Column -->
+          <div class="col-lg-8">
+            <!-- 1. What You Will Learn Card -->
+            <div class="card p-4 border-lumora-subtle mb-5">
+              <h4 class="fw-bold text-lumora-midnight mb-4 font-heading">
+                <i class="bi bi-check2-circle text-lumora-champagne-dark me-2"></i>What You Will Master
+              </h4>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="d-flex gap-2">
+                    <i class="bi bi-check-lg text-lumora-champagne-dark fw-bold fs-5"></i>
+                    <span class="small text-lumora-charcoal">Design multi-region active-active distributed topologies with sub-50ms latency.</span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex gap-2">
+                    <i class="bi bi-check-lg text-lumora-champagne-dark fw-bold fs-5"></i>
+                    <span class="small text-lumora-charcoal">Implement Event Sourcing and CQRS architectures with Kafka and Redis.</span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex gap-2">
+                    <i class="bi bi-check-lg text-lumora-champagne-dark fw-bold fs-5"></i>
+                    <span class="small text-lumora-charcoal">Mitigate cascading failures using Circuit Breakers, Bulkheads, and Retry storm controls.</span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex gap-2">
+                    <i class="bi bi-check-lg text-lumora-champagne-dark fw-bold fs-5"></i>
+                    <span class="small text-lumora-charcoal">Enforce Zero-Trust security with mTLS, SPIFFE/SPIRE, and Azure Managed Identities.</span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex gap-2">
+                    <i class="bi bi-check-lg text-lumora-champagne-dark fw-bold fs-5"></i>
+                    <span class="small text-lumora-charcoal">Build comprehensive observability with OpenTelemetry, Prometheus, and Grafana.</span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex gap-2">
+                    <i class="bi bi-check-lg text-lumora-champagne-dark fw-bold fs-5"></i>
+                    <span class="small text-lumora-charcoal">Ship production-grade Infrastructure as Code using Terraform and GitOps.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Course Curriculum Accordion -->
+            <div class="mb-5">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                  <h4 class="fw-bold text-lumora-midnight mb-1 font-heading">Course Curriculum Breakdown</h4>
+                  <p class="text-muted small mb-0">@(Model.Sections?.Count ?? 0) Sections &bull; @totalLessons Lectures &bull; Self-Paced Enterprise Track</p>
+                </div>
+                <button class="btn btn-outline-primary btn-sm fw-semibold" type="button" onclick="document.querySelectorAll('.accordion-collapse').forEach(el => new bootstrap.Collapse(el, {toggle: true}))">
+                  Expand All Sections
+                </button>
+              </div>
+
+              <div class="accordion border-lumora-subtle rounded-3 overflow-hidden shadow-subtle" id="curriculumAccordion">
+                @if (Model.Sections != null && Model.Sections.Any())
+                {
+                  var sIdx = 0;
+                  foreach (var sec in Model.Sections.OrderBy(s => s.SortOrder))
+                  {
+                    var isFirst = sIdx == 0;
+                    var headingId = $"heading-{sIdx}";
+                    var collapseId = $"collapse-{sIdx}";
+                    sIdx++;
+                    <div class="accordion-item border-0 border-bottom border-lumora-subtle">
+                      <h2 class="accordion-header" id="@headingId">
+                        <button class="accordion-button @(isFirst ? "" : "collapsed") bg-white fw-bold text-lumora-midnight font-heading" type="button" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="@(isFirst ? "true" : "false")" aria-controls="@collapseId">
+                          @sec.Title
+                          <span class="ms-auto me-3 small text-muted font-normal">@(sec.Lessons?.Count ?? 0) lectures</span>
+                        </button>
+                      </h2>
+                      <div id="@collapseId" class="accordion-collapse collapse @(isFirst ? "show" : "")" aria-labelledby="@headingId" data-bs-parent="#curriculumAccordion">
+                        <div class="accordion-body p-0">
+                          <ul class="list-group list-group-flush small">
+                            @if (sec.Lessons != null)
+                            {
+                              foreach (var lesson in sec.Lessons.OrderBy(l => l.SortOrder))
+                              {
+                                <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                                  <div class="d-flex align-items-center gap-3">
+                                    <i class="bi bi-play-circle text-lumora-champagne-dark fs-5"></i>
+                                    <span>@lesson.SortOrder. @lesson.Title</span>
+                                  </div>
+                                  <div class="d-flex align-items-center gap-2">
+                                    @if (isFirst && lesson.SortOrder == 1)
+                                    {
+                                      <a asp-controller="Student" asp-action="Dashboard" class="badge badge-gold text-decoration-none">Free Preview</a>
+                                    }
+                                    <span class="text-muted">18:30</span>
+                                  </div>
+                                </li>
+                              }
+                            }
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                }
+              </div>
+            </div>
+
+            <!-- 3. Instructor Bio Card -->
+            <div class="card p-4 border-lumora-subtle mb-5">
+              <h4 class="fw-bold text-lumora-midnight mb-3 font-heading">Your Instructor</h4>
+              <div class="d-flex flex-column flex-md-row gap-4 align-items-start">
+                <div class="avatar-circle avatar-circle-lg">@GetInitials(Model.InstructorName)</div>
+                <div>
+                  <h5 class="fw-bold mb-1 font-heading">@Model.InstructorName</h5>
+                  <div class="text-lumora-champagne-dark fw-semibold small mb-2">Principal Solutions Architect &bull; 15+ Yrs Industry Experience</div>
+                  <p class="small text-muted mb-3">
+                    Practitioner architect leading enterprise cloud transformations and production engineering teams, mentoring thousands of developers across distributed systems, .NET, and modern cloud infrastructure.
+                  </p>
+                  <div class="d-flex gap-4 text-muted small">
+                    <div><i class="bi bi-star-fill text-lumora-champagne me-1"></i><strong>@Model.AverageRating.ToString("F2")</strong> Instructor Rating</div>
+                    <div><i class="bi bi-people-fill text-lumora-midnight me-1"></i><strong>18,400+</strong> Students</div>
+                    <div><i class="bi bi-play-circle text-lumora-midnight me-1"></i><strong>5</strong> Masterclasses</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Student Reviews & Ratings -->
+            <div class="card p-4 border-lumora-subtle">
+              <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-lumora-subtle">
+                <h4 class="fw-bold text-lumora-midnight mb-0 font-heading">Student Feedback &amp; Reviews</h4>
+                <button class="btn btn-sm btn-outline-primary fw-semibold" onclick="LumoraToast('Enrollment required to submit a verified course review.')">
+                  Write a Review
+                </button>
+              </div>
+
+              <!-- Rating Aggregate Summary -->
+              <div class="row align-items-center mb-4 g-4">
+                <div class="col-md-4 text-center border-end border-lumora-subtle">
+                  <div class="display-4 fw-bold text-lumora-midnight font-heading">@Model.AverageRating.ToString("F2")</div>
+                  <div class="rating-stars mb-1">
+                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                  </div>
+                  <div class="small text-muted">Course Rating &bull; @Model.TotalReviews Reviews</div>
+                </div>
+                <div class="col-md-8">
+                  <div class="d-flex flex-column gap-2 small">
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="text-muted" style="width: 45px;">5 Stars</span>
+                      <div class="progress flex-grow-1"><div class="progress-bar" style="width: 92%"></div></div>
+                      <span class="text-muted fw-bold" style="width: 35px;">92%</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="text-muted" style="width: 45px;">4 Stars</span>
+                      <div class="progress flex-grow-1"><div class="progress-bar" style="width: 6%"></div></div>
+                      <span class="text-muted fw-bold" style="width: 35px;">6%</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="text-muted" style="width: 45px;">3 Stars</span>
+                      <div class="progress flex-grow-1"><div class="progress-bar" style="width: 2%"></div></div>
+                      <span class="text-muted fw-bold" style="width: 35px;">2%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Individual Review 1 -->
+              <div class="py-3 border-bottom border-lumora-subtle">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="avatar-circle avatar-circle-sm">MR</div>
+                    <div>
+                      <span class="small fw-bold text-lumora-midnight">Michael Rossi</span>
+                      <span class="badge badge-gold ms-2">Verified Graduate</span>
+                    </div>
+                  </div>
+                  <span class="small text-muted">2 weeks ago</span>
+                </div>
+                <div class="rating-stars mb-2">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p class="small text-muted mb-3">
+                  This is by far the most thorough enterprise engineering course available online. The architectural breakdowns and capstone assignments directly helped our backend team scale reliably.
+                </p>
+                <div class="d-flex align-items-center gap-3 small text-muted">
+                  <span>Was this review helpful?</span>
+                  <button class="btn btn-sm btn-outline-primary py-0 px-2 small" onclick="this.classList.toggle('btn-primary');"><i class="bi bi-hand-thumbs-up me-1"></i>Yes (48)</button>
+                  <button class="btn btn-sm btn-outline-primary py-0 px-2 small" onclick="this.classList.toggle('btn-primary');"><i class="bi bi-hand-thumbs-down me-1"></i>No (1)</button>
+                </div>
+              </div>
+
+              <!-- Individual Review 2 -->
+              <div class="py-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="avatar-circle avatar-circle-sm">KD</div>
+                    <div>
+                      <span class="small fw-bold text-lumora-midnight">Karim Daoud</span>
+                      <span class="badge badge-gold ms-2">Verified Graduate</span>
+                    </div>
+                  </div>
+                  <span class="small text-muted">1 month ago</span>
+                </div>
+                <div class="rating-stars mb-2">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p class="small text-muted mb-3">
+                  The architecture blueprints alone are worth ten times the price of the course. The capstone project prepared me thoroughly for staff architect technical interviews.
+                </p>
+                <div class="d-flex align-items-center gap-3 small text-muted">
+                  <span>Was this review helpful?</span>
+                  <button class="btn btn-sm btn-outline-primary py-0 px-2 small" onclick="this.classList.toggle('btn-primary');"><i class="bi bi-hand-thumbs-up me-1"></i>Yes (34)</button>
+                  <button class="btn btn-sm btn-outline-primary py-0 px-2 small" onclick="this.classList.toggle('btn-primary');"><i class="bi bi-hand-thumbs-down me-1"></i>No (0)</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Sticky Pricing & Enrollment Card -->
+          <div class="col-lg-4">
+            <div class="card p-4 border-lumora-subtle shadow-md sticky-top" style="top: 85px; z-index: 10;">
+              <!-- Video Preview Thumbnail Box -->
+              <div class="course-thumb-wrapper rounded-3 mb-3 position-relative cursor-pointer" onclick="LumoraToast('Opening syllabus preview player...');">
+                <i class="bi bi-play-circle-fill text-lumora-champagne fs-1 position-absolute top-50 start-50 translate-middle"></i>
+                <div class="position-absolute bottom-0 start-0 w-100 p-2 text-center bg-lumora-midnight bg-opacity-75 text-white small">
+                  Preview Course Syllabus Video
+                </div>
+              </div>
+
+              <!-- Pricing Display -->
+              <div class="d-flex align-items-baseline gap-2 mb-3">
+                <span class="display-6 fw-bold text-lumora-midnight font-heading">@Model.FinalPrice.ToString("C0")</span>
+                @if (Model.Discount > 0)
+                {
+                  <span class="text-muted text-decoration-line-through fs-5">@Model.Price.ToString("C0")</span>
+                  <span class="badge badge-gold ms-auto">@discountPercent% OFF</span>
+                }
+              </div>
+
+              <div class="d-flex flex-column gap-2 mb-4">
+                <a asp-controller="Checkout" asp-action="Index" asp-route-courseId="@Model.CourseId" class="btn btn-cta w-100 py-2 fs-6">
+                  <i class="bi bi-cart-check-fill me-2"></i>Enroll Now
+                </a>
+                <button class="btn btn-outline-primary w-100 py-2 fw-semibold" onclick="LumoraToast('Course added to your cart.');">
+                  <i class="bi bi-bag-plus me-2"></i>Add to Cart
+                </button>
+              </div>
+
+              <div class="text-center small text-muted mb-4">
+                <i class="bi bi-shield-lock-fill text-lumora-champagne-dark me-1"></i>30-Day Money-Back Guarantee &bull; Full Lifetime Access
+              </div>
+
+              <!-- What's Included Features List -->
+              <div class="border-top border-lumora-subtle pt-3">
+                <h6 class="fw-bold text-lumora-midnight mb-3 font-heading">This Masterclass Includes:</h6>
+                <ul class="list-unstyled d-flex flex-column gap-2 small text-muted mb-0">
+                  <li class="d-flex align-items-center gap-2">
+                    <i class="bi bi-camera-video text-lumora-champagne-dark"></i>
+                    <span>42 hours on-demand architecture video</span>
+                  </li>
+                  <li class="d-flex align-items-center gap-2">
+                    <i class="bi bi-file-earmark-arrow-down text-lumora-champagne-dark"></i>
+                    <span>Downloadable architecture ADR blueprints</span>
+                  </li>
+                  <li class="d-flex align-items-center gap-2">
+                    <i class="bi bi-terminal text-lumora-champagne-dark"></i>
+                    <span>Interactive cloud sandbox environments</span>
+                  </li>
+                  <li class="d-flex align-items-center gap-2">
+                    <i class="bi bi-patch-check text-lumora-champagne-dark"></i>
+                    <span>Cryptographically verifiable certificate</span>
+                  </li>
+                  <li class="d-flex align-items-center gap-2">
+                    <i class="bi bi-chat-left-dots text-lumora-champagne-dark"></i>
+                    <span>Instructor Q&amp;A support forum access</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>

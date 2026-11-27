@@ -1,140 +1,183 @@
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+}
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-theme="dark">
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Lumora | Learn Beyond Limits</title>
-    <!-- Bootstrap 5 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@(ViewData["Title"] != null ? $"{ViewData["Title"]} — LUMORA" : "LUMORA — Learn Beyond Limits | Enterprise EdTech Platform")</title>
 
-    <style>
-        :root {
-            --bg-body: #0b1120;
-            --bg-card: #151e32;
-            --bg-card-alt: #1a253c;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --text-main: #ffffff;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-        }
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
 
-        [data-theme="light"] {
-            --bg-body: #f8fafc;
-            --bg-card: #ffffff;
-            --bg-card-alt: #f1f5f9;
-            --border-color: #e2e8f0;
-            --text-main: #0f172a;
-            --text-secondary: #334155;
-            --text-muted: #64748b;
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-        }
+  <!-- Bootstrap 5.3 CSS (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-        body {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+  <!-- Bootstrap Icons (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
 
-        .navbar-custom {
-            background-color: var(--bg-card);
-            border-bottom: 1px solid var(--border-color);
-        }
+  <!-- Lumora Design System Styles -->
+  <link href="~/css/lumora-theme.css" rel="stylesheet" asp-append-version="true" />
+  <link href="~/css/public.css" rel="stylesheet" asp-append-version="true" />
 
-        .card-custom {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-        }
-
-        .theme-toggle-btn {
-            background-color: var(--bg-card-alt);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 6px 12px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-        }
-    </style>
+  @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-custom py-3 sticky-top">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center me-4" href="/">
-                <img src="~/images/Lumora Learn Beyond Limits Logo.webp" alt="LUMORA — Learn Beyond Limits" style="height: 42px; object-fit: contain;" />
-            </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+  <!-- [MVC LAYOUT: _Navbar Start] -->
+  <nav class="navbar navbar-expand-lg lumora-navbar">
+    <div class="container-fluid px-lg-5">
+      <!-- Official Brand Logo -->
+      <a class="navbar-brand d-flex align-items-center me-4" asp-controller="Home" asp-action="Index">
+        <img src="~/images/Lumora Learn Beyond Limits Logo.webp" alt="LUMORA" class="navbar-brand-img" asp-append-version="true" />
+      </a>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto ms-4 mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link fw-semibold" style="color: var(--text-secondary);" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link fw-semibold" style="color: var(--text-secondary);" href="/Catalog">Courses Catalog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link fw-semibold" style="color: var(--text-secondary);" href="/Verification">Verify Certificate</a>
-                    </li>
-                </ul>
+      <!-- Mobile Hamburger Button -->
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2 text-lumora-champagne"></i>
+      </button>
 
-                <div class="d-flex align-items-center gap-3">
-                    <button type="button" class="theme-toggle-btn" onclick="toggleTheme()">
-                        <i class="bi bi-sun-fill" id="themeIcon"></i>
-                    </button>
-                    <a href="/Student/Dashboard" class="btn btn-outline-primary btn-sm px-3 fw-semibold">Student Portal</a>
-                    <a href="/Instructor/Dashboard" class="btn btn-outline-success btn-sm px-3 fw-semibold">Instructor Studio</a>
-                    <a href="/Admin/Dashboard" class="btn btn-outline-info btn-sm px-3 fw-semibold">Admin Desk</a>
-                </div>
+      <!-- Navigation Content -->
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <!-- Main Navigation Links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom @(currentController == "Home" ? "active" : "")" asp-controller="Home" asp-action="Index"><i class="bi bi-house-door me-1"></i>Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom @(currentController == "Catalog" ? "active" : "")" asp-controller="Catalog" asp-action="Index"><i class="bi bi-grid me-1"></i>Explore Courses</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/#categories"><i class="bi bi-compass me-1"></i>Learning Paths</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/#features"><i class="bi bi-shield-check me-1"></i>Enterprise</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom @(currentController == "Verification" ? "active" : "")" asp-controller="Verification" asp-action="Index"><i class="bi bi-patch-check me-1"></i>Verify Credential</a>
+          </li>
+        </ul>
+
+        <!-- Search Bar -->
+        <form class="nav-search-bar me-lg-3 my-2 my-lg-0" asp-controller="Catalog" asp-action="Index" method="get">
+          <i class="bi bi-search search-icon"></i>
+          <input type="text" name="searchTerm" class="form-control" placeholder="Search architecture, .NET, AI..." />
+        </form>
+
+        <!-- Right Side Utility Controls & Auth -->
+        <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+
+          <!-- Shopping Cart Pill -->
+          <a asp-controller="Checkout" asp-action="Index" class="btn btn-outline-primary position-relative px-3 py-2 text-white border-lumora-subtle" title="Shopping Cart">
+            <i class="bi bi-bag text-lumora-champagne"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-gold">
+              2
+            </span>
+          </a>
+
+          <!-- Sign In Link -->
+          <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary text-white border-0 px-3">
+            Sign In
+          </a>
+
+          <!-- Primary CTA Button -->
+          <a asp-controller="Account" asp-action="Register" class="btn btn-cta">
+            Get Started
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- [MVC LAYOUT: _Navbar End] -->
+
+  <!-- [MVC VIEW: @@RenderBody() Main Content Start] -->
+  @RenderBody()
+  <!-- [MVC VIEW: @@RenderBody() Main Content End] -->
+
+  <!-- [MVC LAYOUT: _Footer Start] -->
+  <footer class="lumora-footer">
+    <div class="container-fluid px-lg-5">
+      <div class="row g-4 justify-content-between">
+        <!-- Brand Info -->
+        <div class="col-lg-4 col-md-6">
+          <img src="~/images/Lumora Learn Beyond Limits Logo.webp" alt="LUMORA" class="navbar-brand-img mb-3" asp-append-version="true" />
+          <p class="small text-muted mb-4">
+            LUMORA is the premier enterprise e-learning platform dedicated to advancing software architecture, cloud distributed systems, and real-world engineering mastery.
+          </p>
+          <div class="d-flex gap-2">
+            <a href="#" class="btn btn-sm btn-outline-primary text-white border-lumora-subtle" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+            <a href="#" class="btn btn-sm btn-outline-primary text-white border-lumora-subtle" title="GitHub"><i class="bi bi-github"></i></a>
+            <a href="#" class="btn btn-sm btn-outline-primary text-white border-lumora-subtle" title="X / Twitter"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" class="btn btn-sm btn-outline-primary text-white border-lumora-subtle" title="YouTube"><i class="bi bi-youtube"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links: Learning Paths -->
+        <div class="col-lg-2 col-md-6 col-6">
+          <h6 class="footer-title">Disciplines</h6>
+          <ul class="footer-links">
+            <li><a asp-controller="Catalog" asp-action="Index" asp-route-searchTerm="Cloud">Cloud Architecture</a></li>
+            <li><a asp-controller="Catalog" asp-action="Index" asp-route-searchTerm=".NET">.NET Clean Systems</a></li>
+            <li><a asp-controller="Catalog" asp-action="Index" asp-route-searchTerm="AI">AI &amp; LLM Engineering</a></li>
+            <li><a asp-controller="Catalog" asp-action="Index" asp-route-searchTerm="Security">Cybersecurity</a></li>
+            <li><a asp-controller="Catalog" asp-action="Index" asp-route-searchTerm="DevOps">DevOps &amp; SRE</a></li>
+          </ul>
+        </div>
+
+        <!-- Quick Links: Platform -->
+        <div class="col-lg-2 col-md-6 col-6">
+          <h6 class="footer-title">Platform</h6>
+          <ul class="footer-links">
+            <li><a asp-controller="Catalog" asp-action="Index">All Courses</a></li>
+            <li><a asp-controller="Verification" asp-action="Index">Verify Certificate</a></li>
+            <li><a asp-controller="Student" asp-action="Dashboard">Student Portal</a></li>
+            <li><a asp-controller="Instructor" asp-action="Dashboard">Instructor Hub</a></li>
+            <li><a asp-controller="Admin" asp-action="Dashboard">Admin Console</a></li>
+          </ul>
+        </div>
+
+        <!-- Newsletter Subscription -->
+        <div class="col-lg-3 col-md-6">
+          <h6 class="footer-title">Engineering Dispatch</h6>
+          <p class="small text-muted mb-3">
+            Subscribe for weekly architectural patterns, whitepapers, and new course releases.
+          </p>
+          <form onsubmit="event.preventDefault(); LumoraToast('Thank you for subscribing to Lumora Dispatch!');">
+            <div class="input-group mb-2">
+              <input type="email" class="form-control form-control-sm" placeholder="engineer@company.com" required />
+              <button class="btn btn-sm btn-cta" type="submit">Join</button>
             </div>
+            <small class="text-muted">Zero spam. Unsubscribe anytime.</small>
+          </form>
         </div>
-    </nav>
+      </div>
 
-    <main class="flex-grow-1">
-        @RenderBody()
-    </main>
-
-    <!-- Footer -->
-    <footer class="py-4 text-center mt-auto" style="background-color: var(--bg-card); border-top: 1px solid var(--border-color);">
-        <div class="container text-muted small">
-            <p class="mb-1"><strong>Lumora</strong> — Learn Beyond Limits &copy; @DateTime.UtcNow.Year. All Rights Reserved.</p>
-            <p class="mb-0">Built with ASP.NET Core &amp; EF Core 10 | Clean N-Tier Architecture</p>
+      <!-- Footer Bottom -->
+      <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+        <div>
+          &copy; 2026 LUMORA Technologies Inc. All rights reserved. Built for ASP.NET Core MVC integration.
         </div>
-    </footer>
+        <div class="d-flex gap-3">
+          <a href="#" class="text-muted small">Privacy Policy</a>
+          <span class="text-muted">&bull;</span>
+          <a href="#" class="text-muted small">Terms of Service</a>
+          <span class="text-muted">&bull;</span>
+          <a href="#" class="text-muted small">Security &amp; Compliance</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- [MVC LAYOUT: _Footer End] -->
 
-    <!-- Bootstrap 5 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function setTheme(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('lumora-theme', theme);
-            const icon = document.getElementById('themeIcon');
-            if (icon) {
-                icon.className = theme === 'light' ? 'bi bi-moon-stars-fill' : 'bi bi-sun-fill';
-            }
-        }
-        function toggleTheme() {
-            const current = document.documentElement.getAttribute('data-theme') || 'dark';
-            setTheme(current === 'dark' ? 'light' : 'dark');
-        }
-        setTheme(localStorage.getItem('lumora-theme') || 'dark');
-    </script>
+  <!-- Bootstrap 5.3 JS Bundle (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Global Lumora Scripts -->
+  <script src="~/js/main.js" asp-append-version="true"></script>
+
+  @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

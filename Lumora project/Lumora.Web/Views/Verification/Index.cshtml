@@ -1,72 +1,165 @@
-@model Lumora.DTOs.Certificates.CertificateVerificationResultDto
+@model CertificateVerificationResultDto
 @{
-    ViewData["Title"] = "Certificate Verification";
+    ViewData["Title"] = "Public Credential Verification";
+    var currentCode = Model?.VerificationId ?? Context.Request.Query["code"].ToString();
 }
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card card-custom p-4 p-md-5">
-                <div class="text-center mb-4">
-                    <span class="p-3 rounded-circle bg-primary bg-opacity-10 text-primary d-inline-flex mb-3">
-                        <i class="bi bi-patch-check-fill fs-1"></i>
-                    </span>
-                    <h2 class="fw-bold" style="color: var(--text-main);">Official Certificate Verification</h2>
-                    <p class="text-muted">Direct verification against Lumora's tamper-proof database</p>
+  <main class="py-5 bg-lumora-ivory">
+    <div class="container px-lg-5">
+      <!-- Search Banner -->
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge badge-gold mb-2"><i class="bi bi-shield-check me-1"></i>INSTITUTIONAL TRUST &amp; COMPLIANCE</span>
+        <h1 class="display-6 fw-bold text-lumora-midnight mb-2 font-heading">Public Credential Verification</h1>
+        <p class="text-muted small mb-4">
+          Verify the authenticity of graduate certificates issued by LUMORA Technologies. Each credential is cryptographically stamped and registered.
+        </p>
+
+        <!-- Search Input Box -->
+        <form asp-controller="Verification" asp-action="Index" method="get" class="d-flex gap-2 max-w-600 mx-auto">
+          <input type="text" name="code" value="@currentCode" class="form-control" placeholder="Enter Certificate Hash ID (e.g. LUM-2026-9842)" required />
+          <button type="submit" class="btn btn-cta text-nowrap px-4">
+            <i class="bi bi-search me-1"></i>Verify
+          </button>
+        </form>
+      </div>
+
+      @if (Model != null)
+      {
+        @if (Model.IsValid)
+        {
+          <!-- Verification Result Container -->
+          <div id="verificationResult">
+            <!-- Verified Status Badge Bar -->
+            <div class="alert alert-success d-flex align-items-center justify-content-between p-3 rounded-3 mb-4 shadow-subtle" role="alert">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-patch-check-fill text-lumora-champagne-dark fs-4"></i>
+                <div>
+                  <strong class="text-lumora-midnight">Officially Verified &amp; Authentic</strong>
+                  <div class="small text-muted">This credential was issued on an authentic LUMORA curriculum with passed capstone audit.</div>
                 </div>
-
-                <form action="/Verification" method="get" class="mb-5">
-                    <div class="input-group input-group-lg">
-                        <input type="text" name="code" value="@(Model?.VerificationId ?? Context.Request.Query["code"].ToString())" class="form-control bg-dark text-white border-secondary" placeholder="Enter Certificate Code (e.g. LUM-2026-DOTNET10)" required />
-                        <button type="submit" class="btn btn-primary fw-bold px-4">Verify Certificate</button>
-                    </div>
-                </form>
-
-                @if (Model != null)
-                {
-                    @if (Model.IsValid)
-                    {
-                        <div class="p-4 rounded-4 border border-success bg-success bg-opacity-10">
-                            <div class="d-flex align-items-center gap-2 text-success fw-bold fs-5 mb-3">
-                                <i class="bi bi-shield-fill-check fs-3"></i>
-                                <span>Verified Authentic Lumora Certificate</span>
-                            </div>
-                            <div class="row g-3" style="color: var(--text-main);">
-                                <div class="col-md-6">
-                                    <small class="text-muted d-block">STUDENT NAME</small>
-                                    <strong class="fs-6">@Model.StudentName</strong>
-                                </div>
-                                <div class="col-md-6">
-                                    <small class="text-muted d-block">COURSE NAME</small>
-                                    <strong class="fs-6">@Model.CourseTitle</strong>
-                                </div>
-                                <div class="col-md-6">
-                                    <small class="text-muted d-block">INSTRUCTOR</small>
-                                    <strong class="fs-6">@Model.InstructorName</strong>
-                                </div>
-                                <div class="col-md-6">
-                                    <small class="text-muted d-block">DATE ISSUED</small>
-                                    <strong class="fs-6">@Model.IssuedAt?.ToString("MMMM dd, yyyy")</strong>
-                                </div>
-                                <div class="col-12 mt-3 pt-3 border-top border-success-subtle d-flex justify-content-between align-items-center">
-                                    <span class="font-monospace small text-muted">ID: @Model.VerificationId</span>
-                                    <a href="@Model.PdfUrl" target="_blank" class="btn btn-sm btn-success fw-semibold">
-                                        <i class="bi bi-file-earmark-pdf me-1"></i> Download PDF
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="p-4 rounded-4 border border-danger bg-danger bg-opacity-10 text-center">
-                            <i class="bi bi-shield-fill-x text-danger fs-1 mb-2 d-block"></i>
-                            <h5 class="fw-bold text-danger">Invalid Certificate Code</h5>
-                            <p class="text-muted mb-0">@Model.Message</p>
-                        </div>
-                    }
-                }
+              </div>
+              <span class="badge badge-gold">ACTIVE RECORD</span>
             </div>
-        </div>
+
+            <div class="row g-4">
+              <!-- Left: Official Certificate Visual Canvas -->
+              <div class="col-lg-8">
+                <div class="certificate-canvas">
+                  <!-- Top Branding -->
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+                    <img src="~/images/Lumora Learn Beyond Limits Logo.webp" alt="LUMORA" style="height: 38px;" asp-append-version="true" />
+                    <div class="text-end small text-muted">
+                      <div class="fw-bold text-lumora-midnight">LUMORA CERTIFICATION BOARD</div>
+                      <div id="certIdDisplay">ID: @Model.VerificationId</div>
+                    </div>
+                  </div>
+
+                  <!-- Certificate Statement -->
+                  <div class="text-center my-4">
+                    <div class="text-lumora-champagne-dark fw-bold small text-uppercase letter-spacing-1 mb-1 font-heading">
+                      Certificate of Architectural Excellence &amp; Mastery
+                    </div>
+                    <div class="small text-muted mb-3">This certifies that</div>
+                    <h2 class="display-6 fw-bold text-lumora-midnight mb-2 font-heading" id="certRecipient">
+                      @Model.StudentName
+                    </h2>
+                    <div class="small text-muted mb-3">has successfully completed the comprehensive enterprise curriculum</div>
+                    <h4 class="fw-bold text-lumora-midnight mb-2 font-heading" id="certCourseTitle">
+                      @Model.CourseTitle
+                    </h4>
+                    <p class="small text-muted max-w-600 mx-auto mb-4">
+                      demonstrating profound mastery in enterprise software architecture, production systems engineering, and capstone assessment rigor.
+                    </p>
+                  </div>
+
+                  <!-- Bottom Signatures & Seal -->
+                  <div class="d-flex justify-content-between align-items-end pt-3 border-top border-lumora-subtle">
+                    <!-- Signature 1 -->
+                    <div class="text-center">
+                      <div class="fw-bold font-heading text-lumora-midnight" style="font-family:'Courier New', monospace; font-size:1.1rem; text-decoration: underline;">
+                        @Model.InstructorName
+                      </div>
+                      <div class="small fw-semibold text-lumora-midnight">@Model.InstructorName</div>
+                      <div class="text-muted" style="font-size: 0.72rem;">Principal Course Instructor</div>
+                    </div>
+
+                    <!-- Gold Seal -->
+                    <div class="cert-seal">
+                      <i class="bi bi-shield-fill-check fs-5"></i>
+                      <span>VERIFIED<br />@(Model.IssuedAt?.Year ?? 2026)</span>
+                    </div>
+
+                    <!-- Signature 2 -->
+                    <div class="text-center">
+                      <div class="fw-bold font-heading text-lumora-midnight" style="font-family:'Courier New', monospace; font-size:1.1rem; text-decoration: underline;">
+                        LUMORA Board
+                      </div>
+                      <div class="small fw-semibold text-lumora-midnight">LUMORA Board</div>
+                      <div class="text-muted" style="font-size: 0.72rem;">Dean of Curriculum</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right: Audit Metadata & Share Actions -->
+              <div class="col-lg-4">
+                <div class="card p-4 border-lumora-subtle shadow-md mb-4">
+                  <h5 class="fw-bold text-lumora-midnight mb-3 pb-2 border-bottom border-lumora-subtle font-heading">
+                    Audit &amp; Credential Metadata
+                  </h5>
+
+                  <ul class="list-unstyled d-flex flex-column gap-3 small text-muted mb-4">
+                    <li>
+                      <span class="text-lumora-slate d-block">Recipient Full Name:</span>
+                      <strong class="text-lumora-midnight">@Model.StudentName</strong>
+                    </li>
+                    <li>
+                      <span class="text-lumora-slate d-block">Issued Curriculum:</span>
+                      <strong class="text-lumora-midnight">@Model.CourseTitle</strong>
+                    </li>
+                    <li>
+                      <span class="text-lumora-slate d-block">Assessment Status:</span>
+                      <strong class="text-lumora-champagne-dark">High Distinction — Capstone Passed</strong>
+                    </li>
+                    <li>
+                      <span class="text-lumora-slate d-block">Graduation Date:</span>
+                      <strong class="text-lumora-midnight">@(Model.IssuedAt?.ToString("MMMM dd, yyyy") ?? "N/A")</strong>
+                    </li>
+                    <li>
+                      <span class="text-lumora-slate d-block">Verification Record ID:</span>
+                      <code class="text-break bg-lumora-ivory p-1 rounded d-block" style="font-size:0.75rem;">
+                        @Model.VerificationId
+                      </code>
+                    </li>
+                  </ul>
+
+                  <!-- Action Buttons -->
+                  <div class="d-flex flex-column gap-2">
+                    <button class="btn btn-cta w-100 py-2 small" onclick="window.print();">
+                      <i class="bi bi-file-earmark-pdf me-2"></i>Download Official PDF
+                    </button>
+                    <button class="btn btn-outline-primary w-100 py-2 small" onclick="navigator.clipboard.writeText(window.location.href); LumoraToast('Public verification link copied to clipboard!');">
+                      <i class="bi bi-link-45deg me-1"></i>Copy Public Link
+                    </button>
+                    <button class="btn btn-outline-champagne w-100 py-2 small" onclick="LumoraToast('Added certificate to simulated LinkedIn profile!');">
+                      <i class="bi bi-linkedin me-1"></i>Add to LinkedIn Profile
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+        else
+        {
+          <div class="max-w-700 mx-auto text-center py-5">
+            <div class="card p-5 border-lumora-subtle bg-white shadow-sm">
+              <i class="bi bi-shield-x display-3 text-lumora-charcoal mb-3 d-inline-block"></i>
+              <h4 class="fw-bold text-lumora-midnight mb-2">Unrecognized Certificate Code</h4>
+              <p class="text-muted small mb-0">@(Model.Message ?? "The verification code provided does not match any registered certificate in our ledger. Please check the code and try again.")</p>
+            </div>
+          </div>
+        }
+      }
     </div>
-</div>
+  </main>

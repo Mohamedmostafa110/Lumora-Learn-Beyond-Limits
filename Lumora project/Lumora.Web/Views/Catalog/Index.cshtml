@@ -1,0 +1,326 @@
+@model IReadOnlyList<CourseCardDto>
+@{
+    ViewData["Title"] = "Course Catalog";
+    var searchTerm = Context.Request.Query["searchTerm"].ToString();
+    var selectedDifficulty = Context.Request.Query["difficulty"].ToString();
+
+    string GetCategorySlug(CourseCardDto c)
+    {
+        var joined = string.Join(" ", c.Categories).ToLowerInvariant() + " " + string.Join(" ", c.Tags).ToLowerInvariant() + " " + c.Title.ToLowerInvariant();
+        var tags = new HashSet<string>();
+        if (joined.Contains("cloud") || joined.Contains("azure") || joined.Contains("aws")) tags.Add("cloud");
+        if (joined.Contains(".net") || joined.Contains("web") || joined.Contains("c#")) tags.Add("dotnet");
+        if (joined.Contains("ai") || joined.Contains("data") || joined.Contains("machine learning") || joined.Contains("python")) tags.Add("ai");
+        if (joined.Contains("security") || joined.Contains("zero-trust")) tags.Add("security");
+        if (joined.Contains("devops") || joined.Contains("docker") || joined.Contains("kubernetes")) tags.Add("devops");
+        if (tags.Count == 0) tags.Add("cloud");
+        return string.Join(" ", tags);
+    }
+
+    string GetInitials(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name)) return "LU";
+        var parts = name.Replace("Dr.", "").Replace("Eng.", "").Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length >= 2) return $"{parts[0][0]}{parts[1][0]}".ToUpperInvariant();
+        return parts[0].Length >= 2 ? parts[0][..2].ToUpperInvariant() : parts[0].ToUpperInvariant();
+    }
+
+    var totalCount = Model?.Count ?? 0;
+}
+
+  <main class="py-5 bg-lumora-ivory">
+    <div class="container-fluid px-lg-5">
+      <!-- Breadcrumb & Header -->
+      <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb small">
+          <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-lumora-slate">Home</a></li>
+          <li class="breadcrumb-item active text-lumora-midnight fw-semibold" aria-current="page">Course Catalog</li>
+        </ol>
+      </nav>
+
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+          <h1 class="h2 fw-bold text-lumora-midnight mb-1 font-heading">Explore Enterprise &amp; Tech Courses</h1>
+          <p class="text-muted small mb-0">Discover production engineering curricula engineered for ambitious practitioners.</p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <label for="sortSelect" class="small fw-semibold text-lumora-slate text-nowrap mb-0">Sort By:</label>
+          <select id="sortSelect" class="form-select form-select-sm" style="min-width: 170px;">
+            <option value="popular">Most Popular</option>
+            <option value="rating">Highest Rated</option>
+            <option value="newest">Newest Releases</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <!-- Left Sidebar: Filters Panel -->
+        <div class="col-lg-3">
+          <div class="card p-4 border-lumora-subtle sticky-top" style="top: 85px; z-index: 10;">
+            <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom border-lumora-subtle">
+              <h5 class="fw-bold mb-0 font-heading"><i class="bi bi-funnel me-2 text-lumora-champagne-dark"></i>Filter Courses</h5>
+              <a asp-controller="Catalog" asp-action="Index" class="btn btn-link btn-sm text-lumora-champagne-dark p-0 text-decoration-none fw-semibold">Reset</a>
+            </div>
+
+            <!-- Filter: Category -->
+            <div class="mb-4">
+              <label class="form-label fw-bold small text-lumora-midnight">Discipline</label>
+              <div class="d-flex flex-column gap-2">
+                <div class="form-check">
+                  <input class="form-check-input catalog-cat-filter" type="checkbox" id="cat-all" value="all" checked />
+                  <label class="form-check-label small" for="cat-all">All Disciplines (@totalCount)</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input catalog-cat-filter" type="checkbox" id="cat-cloud" value="cloud" />
+                  <label class="form-check-label small" for="cat-cloud">Cloud &amp; Distributed Systems</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input catalog-cat-filter" type="checkbox" id="cat-dotnet" value="dotnet" />
+                  <label class="form-check-label small" for="cat-dotnet">Enterprise .NET &amp; C#</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input catalog-cat-filter" type="checkbox" id="cat-ai" value="ai" />
+                  <label class="form-check-label small" for="cat-ai">AI &amp; LLM Engineering</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input catalog-cat-filter" type="checkbox" id="cat-sec" value="security" />
+                  <label class="form-check-label small" for="cat-sec">Cybersecurity &amp; Zero-Trust</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input catalog-cat-filter" type="checkbox" id="cat-devops" value="devops" />
+                  <label class="form-check-label small" for="cat-devops">DevOps, K8s &amp; SRE</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Filter: Experience Level -->
+            <div class="mb-4">
+              <label class="form-label fw-bold small text-lumora-midnight">Difficulty Level</label>
+              <div class="d-flex flex-column gap-2">
+                <div class="form-check">
+                  <input class="form-check-input catalog-lvl-filter" type="checkbox" id="lvl-adv" value="Advanced" @(string.IsNullOrEmpty(selectedDifficulty) || selectedDifficulty == "Advanced" ? "checked" : "") />
+                  <label class="form-check-label small" for="lvl-adv">Advanced Architect</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input catalog-lvl-filter" type="checkbox" id="lvl-int" value="Intermediate" @(string.IsNullOrEmpty(selectedDifficulty) || selectedDifficulty == "Intermediate" ? "checked" : "") />
+                  <label class="form-check-label small" for="lvl-int">Intermediate Engineer</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input catalog-lvl-filter" type="checkbox" id="lvl-beg" value="Beginner" @(string.IsNullOrEmpty(selectedDifficulty) || selectedDifficulty == "Beginner" ? "checked" : "") />
+                  <label class="form-check-label small" for="lvl-beg">Foundational Practitioner</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Filter: Duration -->
+            <div class="mb-4">
+              <label class="form-label fw-bold small text-lumora-midnight">Content Duration</label>
+              <div class="d-flex flex-column gap-2">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="dur-1" />
+                  <label class="form-check-label small" for="dur-1">10 - 20 Hours</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="dur-2" checked />
+                  <label class="form-check-label small" for="dur-2">20 - 40 Hours</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="dur-3" checked />
+                  <label class="form-check-label small" for="dur-3">40+ Comprehensive Hours</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Filter: Rating -->
+            <div>
+              <label class="form-label fw-bold small text-lumora-midnight">Student Rating</label>
+              <div class="d-flex flex-column gap-2">
+                <div class="form-check">
+                  <input class="form-check-input catalog-rating-filter" type="radio" name="ratingFilter" id="r-all" value="0" checked />
+                  <label class="form-check-label small" for="r-all">All Ratings</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input catalog-rating-filter" type="radio" name="ratingFilter" id="r-45" value="4.5" />
+                  <label class="form-check-label small" for="r-45">
+                    <span class="rating-stars me-1"><i class="bi bi-star-fill"></i></span> 4.5 &amp; above
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input catalog-rating-filter" type="radio" name="ratingFilter" id="r-40" value="4.0" />
+                  <label class="form-check-label small" for="r-40">
+                    <span class="rating-stars me-1"><i class="bi bi-star-fill"></i></span> 4.0 &amp; above
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Content: Courses Grid -->
+        <div class="col-lg-9">
+          <!-- Active Filter Badges Bar -->
+          <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
+            <span class="small text-muted me-1">Active filters:</span>
+            @if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+              <a asp-controller="Catalog" asp-action="Index" class="badge badge-gold text-decoration-none">Search: @searchTerm <i class="bi bi-x ms-1"></i></a>
+            }
+            <span class="badge badge-navy" id="activeDisciplineBadge">All Disciplines</span>
+            <span class="badge badge-gold">All Levels</span>
+            <span class="badge badge-slate" id="activeRatingBadge">All Ratings</span>
+            <span class="small text-muted ms-auto">Showing <strong id="visibleCountDisplay">@totalCount</strong> of @totalCount courses</span>
+          </div>
+
+          <div class="row g-4" id="catalogGrid">
+            @if (Model != null && Model.Any())
+            {
+              var icons = new[] { "bi-diagram-3-fill", "bi-layers-fill", "bi-cpu-fill", "bi-shield-lock-fill", "bi-terminal-fill", "bi-database-fill-gear" };
+              var idx = 0;
+              foreach (var course in Model)
+              {
+                var iconClass = icons[idx % icons.Length];
+                idx++;
+                <div class="col-md-6 col-xl-4 catalog-item"
+                     data-category="@GetCategorySlug(course)"
+                     data-difficulty="@course.Difficulty"
+                     data-rating="@course.AverageRating.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                     data-price="@course.FinalPrice.ToString(System.Globalization.CultureInfo.InvariantCulture)">
+                  <div class="course-card">
+                    <div class="course-thumb-wrapper">
+                      <i class="bi @iconClass course-thumb-icon"></i>
+                      <span class="course-level-badge">@course.Difficulty</span>
+                      <span class="course-bestseller-badge">BESTSELLER</span>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                      <div class="course-meta-tags">
+                        <span><i class="bi bi-clock me-1 text-lumora-champagne-dark"></i>42 Hours</span>
+                        <span><i class="bi bi-collection-play me-1 text-lumora-champagne-dark"></i>Self-Paced</span>
+                      </div>
+                      <h3 class="course-title">
+                        <a asp-controller="Catalog" asp-action="Details" asp-route-id="@course.CourseId">@course.Title</a>
+                      </h3>
+                      <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="avatar-circle avatar-circle-sm">@GetInitials(course.InstructorName)</div>
+                        <span class="small fw-semibold text-lumora-charcoal">@course.InstructorName</span>
+                      </div>
+                      <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="rating-stars">
+                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+                          <span class="ms-1 fw-bold text-dark small">@course.AverageRating.ToString("F2")</span>
+                        </div>
+                        <span class="badge badge-slate">@(course.Categories.FirstOrDefault() ?? "Engineering")</span>
+                      </div>
+                      <div class="mt-auto pt-3 border-top border-lumora-subtle d-flex align-items-center justify-content-between">
+                        <div class="course-price-wrap">
+                          <span class="price-current">@course.FinalPrice.ToString("C0")</span>
+                          @if (course.Discount > 0)
+                          {
+                            <span class="price-original">@course.Price.ToString("C0")</span>
+                          }
+                        </div>
+                        <a asp-controller="Catalog" asp-action="Details" asp-route-id="@course.CourseId" class="btn btn-sm btn-primary">View Course</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+            }
+            else
+            {
+              <div class="col-12">
+                <div class="card p-5 text-center border-lumora-subtle bg-white">
+                  <i class="bi bi-search display-4 text-lumora-slate mb-3"></i>
+                  <h4 class="fw-bold text-lumora-midnight font-heading">No Courses Matched</h4>
+                  <p class="text-muted small mb-3">Try clearing your search or selecting different filter options.</p>
+                  <a asp-controller="Catalog" asp-action="Index" class="btn btn-cta btn-sm mx-auto">Show All Courses</a>
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- Pagination -->
+          <nav class="mt-5 d-flex justify-content-center" aria-label="Catalog pagination">
+            <ul class="pagination pagination-sm gap-1">
+              <li class="page-item disabled"><a class="page-link rounded-2" href="#">Previous</a></li>
+              <li class="page-item active"><a class="page-link rounded-2 bg-lumora-midnight border-lumora-midnight" href="#">1</a></li>
+              <li class="page-item"><a class="page-link rounded-2 text-lumora-midnight" href="#">2</a></li>
+              <li class="page-item"><a class="page-link rounded-2 text-lumora-midnight" href="#">3</a></li>
+              <li class="page-item"><a class="page-link rounded-2 text-lumora-midnight" href="#">Next</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </main>
+
+@section Scripts {
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const catAll = document.getElementById('cat-all');
+      const catCheckboxes = document.querySelectorAll('.catalog-cat-filter:not(#cat-all)');
+      const lvlCheckboxes = document.querySelectorAll('.catalog-lvl-filter');
+      const ratingRadios = document.querySelectorAll('.catalog-rating-filter');
+      const sortSelect = document.getElementById('sortSelect');
+      const grid = document.getElementById('catalogGrid');
+      const visibleDisplay = document.getElementById('visibleCountDisplay');
+
+      function applyCatalogFilters() {
+        const selectedCats = Array.from(catCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
+        const useAllCats = catAll.checked || selectedCats.length === 0;
+        const selectedLvls = Array.from(lvlCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
+        const minRating = parseFloat(document.querySelector('.catalog-rating-filter:checked')?.value || '0');
+
+        let visibleCount = 0;
+        document.querySelectorAll('.catalog-item').forEach(item => {
+          const itemCats = (item.dataset.category || '').split(' ');
+          const itemDiff = item.dataset.difficulty || '';
+          const itemRating = parseFloat(item.dataset.rating || '0');
+
+          const catMatch = useAllCats || selectedCats.some(c => itemCats.includes(c));
+          const lvlMatch = selectedLvls.length === 0 || selectedLvls.includes(itemDiff);
+          const ratingMatch = itemRating >= minRating;
+
+          if (catMatch && lvlMatch && ratingMatch) {
+            item.style.display = 'block';
+            visibleCount++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+
+        if (visibleDisplay) visibleDisplay.textContent = visibleCount;
+      }
+
+      catAll.addEventListener('change', function () {
+        if (this.checked) catCheckboxes.forEach(cb => cb.checked = false);
+        applyCatalogFilters();
+      });
+
+      catCheckboxes.forEach(cb => {
+        cb.addEventListener('change', function () {
+          if (this.checked) catAll.checked = false;
+          if (!Array.from(catCheckboxes).some(c => c.checked)) catAll.checked = true;
+          applyCatalogFilters();
+        });
+      });
+
+      lvlCheckboxes.forEach(cb => cb.addEventListener('change', applyCatalogFilters));
+      ratingRadios.forEach(r => r.addEventListener('change', applyCatalogFilters));
+
+      if (sortSelect && grid) {
+        sortSelect.addEventListener('change', function () {
+          const items = Array.from(grid.querySelectorAll('.catalog-item'));
+          items.sort((a, b) => {
+            if (this.value === 'rating') return parseFloat(b.dataset.rating) - parseFloat(a.dataset.rating);
+            if (this.value === 'price-asc') return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+            if (this.value === 'price-desc') return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+            return 0;
+          });
+          items.forEach(it => grid.appendChild(it));
+        });
+      }
+    });
+  </script>
+}
