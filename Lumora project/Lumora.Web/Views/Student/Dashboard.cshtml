@@ -1,18 +1,33 @@
-﻿@{
+﻿@model Lumora.DTOs.Dashboard.StudentDashboardDto
+@{
     Layout = "~/Views/Shared/_StudentLayout.cshtml";
 }
 <main class="dashboard-content">
     <!-- Welcome Greeting Banner -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
         <div>
-            <h2 class="h3 fw-bold text-lumora-midnight mb-1 font-heading">Good Morning, Mohamed!</h2>
-            <p class="text-muted small mb-0">You are on a <strong>14-day study streak</strong>. Keep progressing towards your Staff Architect certification.</p>
+            <h2 class="h3 fw-bold text-lumora-midnight mb-1 font-heading">@Model.Greeting, @Model.StudentName!</h2>
+            @if (Model.InProgressCount > 0)
+            {
+                <p class="text-muted small mb-0">You have <strong>@Model.InProgressCount course(s) in progress</strong>. Keep going, you are @Model.OverallCompletionPercent% of the way there.</p>
+            }
+            else if (Model.EnrolledCount > 0)
+            {
+                <p class="text-muted small mb-0">You have completed all your courses. Great work!</p>
+            }
+            else
+            {
+                <p class="text-muted small mb-0">Explore the catalog and enroll in your first course.</p>
+            }
         </div>
         <div class="d-flex gap-2">
-            <a href="course-player.html" class="btn btn-cta btn-sm">
-                <i class="bi bi-play-fill me-1"></i>Resume Latest Lecture
-            </a>
-            <a href="certificates.html" class="btn btn-outline-primary btn-sm">
+            @if (Model.ContinueLearning is not null)
+            {
+                <a asp-controller="Student" asp-action="ContinueLecture" class="btn btn-cta btn-sm">
+                    <i class="bi bi-play-fill me-1"></i>Resume Latest Lecture
+                </a>
+            }
+            <a asp-controller="Student" asp-action="Certificates" class="btn btn-outline-primary btn-sm">
                 <i class="bi bi-patch-check me-1"></i>View Certificates
             </a>
         </div>
@@ -25,12 +40,10 @@
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
                         <small class="text-muted text-uppercase fw-bold letter-spacing-1">Enrolled Courses</small>
-                        <div class="kpi-value">4</div>
-                        <span class="kpi-trend"><i class="bi bi-arrow-up-right"></i>3 Active in Progress</span>
+                        <div class="kpi-value">@Model.EnrolledCount</div>
+                        <span class="kpi-trend"><i class="bi bi-arrow-up-right"></i>@Model.InProgressCount Active in Progress</span>
                     </div>
-                    <div class="kpi-icon-box">
-                        <i class="bi bi-collection-play"></i>
-                    </div>
+                    <div class="kpi-icon-box"><i class="bi bi-collection-play"></i></div>
                 </div>
             </div>
         </div>
@@ -40,12 +53,10 @@
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
                         <small class="text-muted text-uppercase fw-bold letter-spacing-1">Overall Completion</small>
-                        <div class="kpi-value">68%</div>
-                        <span class="kpi-trend"><i class="bi bi-arrow-up-right"></i>+12% this week</span>
+                        <div class="kpi-value">@Model.OverallCompletionPercent%</div>
+                        <span class="kpi-trend"><i class="bi bi-arrow-up-right"></i>Across all courses</span>
                     </div>
-                    <div class="kpi-icon-box">
-                        <i class="bi bi-pie-chart"></i>
-                    </div>
+                    <div class="kpi-icon-box"><i class="bi bi-pie-chart"></i></div>
                 </div>
             </div>
         </div>
@@ -54,13 +65,11 @@
             <div class="kpi-card">
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
-                        <small class="text-muted text-uppercase fw-bold letter-spacing-1">Learning Hours</small>
-                        <div class="kpi-value">118.5h</div>
-                        <span class="kpi-trend"><i class="bi bi-clock-history"></i>18.5h this month</span>
+                        <small class="text-muted text-uppercase fw-bold letter-spacing-1">Lessons Completed</small>
+                        <div class="kpi-value">@Model.LessonsCompleted</div>
+                        <span class="kpi-trend"><i class="bi bi-clock-history"></i>Keep it up</span>
                     </div>
-                    <div class="kpi-icon-box">
-                        <i class="bi bi-hourglass-split"></i>
-                    </div>
+                    <div class="kpi-icon-box"><i class="bi bi-hourglass-split"></i></div>
                 </div>
             </div>
         </div>
@@ -70,48 +79,44 @@
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
                         <small class="text-muted text-uppercase fw-bold letter-spacing-1">Verified Credentials</small>
-                        <div class="kpi-value">2</div>
+                        <div class="kpi-value">@Model.CertificatesCount</div>
                         <span class="kpi-trend"><i class="bi bi-shield-check"></i>100% Verifiable</span>
                     </div>
-                    <div class="kpi-icon-box">
-                        <i class="bi bi-patch-check-fill"></i>
-                    </div>
+                    <div class="kpi-icon-box"><i class="bi bi-patch-check-fill"></i></div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Continue Learning Hero Spotlight Card -->
-    <div class="card p-4 border-lumora-subtle bg-white shadow-sm mb-4">
-        <div class="row align-items-center gy-3">
-            <div class="col-lg-8">
-                <div class="d-flex align-items-center gap-2 mb-2">
-                    <span class="badge badge-gold">CONTINUE WHERE YOU LEFT OFF</span>
-                    <span class="small text-muted">&bull; Section 4: CQRS Implementation</span>
-                </div>
-                <h4 class="fw-bold text-lumora-midnight mb-2 font-heading">
-                    Cloud Architecture Masterclass: Distributed Systems at Scale
-                </h4>
-                <p class="small text-muted mb-3">
-                    Current Lesson: <em>Lecture 24 &bull; Event Sourcing Projection Rebuilds with Kafka &amp; Redis Cache</em>
-                </p>
-
-                <!-- Progress Bar -->
-                <div class="d-flex align-items-center gap-3">
-                    <div class="progress flex-grow-1" style="height: 10px;">
-                        <div class="progress-bar" style="width: 72%;"></div>
+    @if (Model.ContinueLearning is { } cl)
+    {
+        <div class="card p-4 border-lumora-subtle bg-white shadow-sm mb-4">
+            <div class="row align-items-center gy-3">
+                <div class="col-lg-8">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <span class="badge badge-gold">CONTINUE WHERE YOU LEFT OFF</span>
                     </div>
-                    <span class="small fw-bold text-lumora-midnight">72% Completed</span>
+                    <h4 class="fw-bold text-lumora-midnight mb-2 font-heading">@cl.CourseTitle</h4>
+                    @if (!string.IsNullOrEmpty(cl.NextLessonTitle))
+                    {
+                        <p class="small text-muted mb-3">Next Lesson: <em>@cl.NextLessonTitle</em></p>
+                    }
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="progress flex-grow-1" style="height: 10px;">
+                            <div class="progress-bar" style="width: @cl.ProgressPercent%;"></div>
+                        </div>
+                        <span class="small fw-bold text-lumora-midnight">@cl.ProgressPercent% Completed</span>
+                    </div>
                 </div>
-            </div>
-
-            <div class="col-lg-4 text-lg-end">
-                <a href="course-player.html" class="btn btn-cta btn-lg px-4">
-                    <i class="bi bi-play-circle-fill me-2"></i>Resume Lecture (24:18)
-                </a>
+                <div class="col-lg-4 text-lg-end">
+                    <a asp-controller="Student" asp-action="ContinueLecture" class="btn btn-cta btn-lg px-4">
+                        <i class="bi bi-play-circle-fill me-2"></i>Resume Lecture
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
+    }
 
     <div class="row g-4">
         <!-- Left Column: Enrolled Courses List -->
@@ -119,103 +124,68 @@
             <div class="card p-4 border-lumora-subtle mb-4">
                 <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom border-lumora-subtle">
                     <h5 class="fw-bold mb-0 font-heading">Active Enrolled Curricula</h5>
-                    <a href="my-courses.html" class="small fw-semibold text-lumora-champagne-dark">View All (4)</a>
+                    <a asp-controller="Student" asp-action="MyCourses" class="small fw-semibold text-lumora-champagne-dark">View All (@Model.EnrolledCount)</a>
                 </div>
 
-                <!-- Course Row 1 -->
-                <div class="d-flex flex-column flex-sm-row gap-3 py-3 border-bottom border-lumora-subtle align-items-sm-center">
-                    <div class="trust-icon-box bg-lumora-midnight text-lumora-champagne rounded-3 p-3 flex-shrink-0">
-                        <i class="bi bi-diagram-3-fill fs-3"></i>
-                    </div>
-                    <div class="flex-grow-1">
-                        <h6 class="fw-bold text-lumora-midnight mb-1 font-heading">
-                            <a href="course-player.html">Cloud Architecture Masterclass: Distributed Systems at Scale</a>
-                        </h6>
-                        <div class="small text-muted mb-2">By Alex Vance &bull; 42 Total Hours</div>
-                        <div class="progress" style="height: 6px; max-width: 320px;">
-                            <div class="progress-bar" style="width: 72%;"></div>
-                        </div>
-                    </div>
-                    <div class="text-sm-end">
-                        <span class="small fw-bold text-lumora-midnight d-block mb-1">72%</span>
-                        <a href="course-player.html" class="btn btn-sm btn-outline-primary">Continue</a>
-                    </div>
-                </div>
+                @if (!Model.Courses.Any())
+                {
+                    <p class="small text-muted mb-0 py-3">You are not enrolled in any course yet.</p>
+                }
 
-                <!-- Course Row 2 -->
-                <div class="d-flex flex-column flex-sm-row gap-3 py-3 border-bottom border-lumora-subtle align-items-sm-center">
-                    <div class="trust-icon-box bg-lumora-midnight text-lumora-champagne rounded-3 p-3 flex-shrink-0">
-                        <i class="bi bi-layers-fill fs-3"></i>
-                    </div>
-                    <div class="flex-grow-1">
-                        <h6 class="fw-bold text-lumora-midnight mb-1 font-heading">
-                            <a href="course-player.html">Modern Full-Stack .NET 8, Clean Architecture &amp; Enterprise MVC</a>
-                        </h6>
-                        <div class="small text-muted mb-2">By Marcus Kane &bull; 38 Total Hours</div>
-                        <div class="progress" style="height: 6px; max-width: 320px;">
-                            <div class="progress-bar" style="width: 45%;"></div>
+                @for (var i = 0; i < Model.Courses.Count; i++)
+                {
+                    var c = Model.Courses[i];
+                    var last = i == Model.Courses.Count - 1;
+                    <div class="d-flex flex-column flex-sm-row gap-3 py-3 @(last ? "" : "border-bottom border-lumora-subtle") align-items-sm-center">
+                        <div class="trust-icon-box bg-lumora-midnight text-lumora-champagne rounded-3 p-3 flex-shrink-0">
+                            <i class="bi bi-diagram-3-fill fs-3"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="fw-bold text-lumora-midnight mb-1 font-heading">
+                                <a asp-controller="Student" asp-action="ContinueLecture">@c.Title</a>
+                            </h6>
+                            <div class="small text-muted mb-2">@c.CompletedLessons of @c.TotalLessons lessons</div>
+                            <div class="progress" style="height: 6px; max-width: 320px;">
+                                <div class="progress-bar" style="width: @c.ProgressPercent%;"></div>
+                            </div>
+                        </div>
+                        <div class="text-sm-end">
+                            <span class="small fw-bold text-lumora-midnight d-block mb-1">@c.ProgressPercent%</span>
+                            <a asp-controller="Student" asp-action="ContinueLecture" class="btn btn-sm btn-outline-primary">@(c.IsCompleted ? "Review" : "Continue")</a>
                         </div>
                     </div>
-                    <div class="text-sm-end">
-                        <span class="small fw-bold text-lumora-midnight d-block mb-1">45%</span>
-                        <a href="course-player.html" class="btn btn-sm btn-outline-primary">Continue</a>
-                    </div>
-                </div>
-
-                <!-- Course Row 3 -->
-                <div class="d-flex flex-column flex-sm-row gap-3 py-3 align-items-sm-center">
-                    <div class="trust-icon-box bg-lumora-midnight text-lumora-champagne rounded-3 p-3 flex-shrink-0">
-                        <i class="bi bi-shield-lock-fill fs-3"></i>
-                    </div>
-                    <div class="flex-grow-1">
-                        <h6 class="fw-bold text-lumora-midnight mb-1 font-heading">
-                            <a href="course-player.html">Advanced Zero-Trust Architecture, OAuth 2.1 &amp; Cloud Security</a>
-                        </h6>
-                        <div class="small text-muted mb-2">By Tariq Hassan &bull; 34 Total Hours</div>
-                        <div class="progress" style="height: 6px; max-width: 320px;">
-                            <div class="progress-bar" style="width: 90%;"></div>
-                        </div>
-                    </div>
-                    <div class="text-sm-end">
-                        <span class="small fw-bold text-lumora-midnight d-block mb-1">90%</span>
-                        <a href="quiz.html" class="btn btn-sm btn-cta">Take Final Quiz</a>
-                    </div>
-                </div>
+                }
             </div>
         </div>
 
-        <!-- Right Column: Deadlines & Live Sessions -->
+        <!-- Right Column -->
         <div class="col-lg-4">
-            <!-- Upcoming Assessments -->
             <div class="card p-4 border-lumora-subtle mb-4">
                 <h5 class="fw-bold text-lumora-midnight mb-3 pb-2 border-bottom border-lumora-subtle font-heading">
                     <i class="bi bi-clock-history text-lumora-champagne-dark me-2"></i>Upcoming Quizzes &amp; Labs
                 </h5>
 
                 <div class="d-flex flex-column gap-3">
-                    <div class="p-3 bg-lumora-ivory rounded-3 border-lumora-subtle">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <span class="badge badge-gold">DUE IN 2 DAYS</span>
-                            <small class="text-muted">Pass Mark: 80%</small>
+                    @if (!Model.Quizzes.Any())
+                    {
+                        <p class="small text-muted mb-0">No quizzes available right now.</p>
+                    }
+                    @foreach (var q in Model.Quizzes)
+                    {
+                        <div class="p-3 bg-lumora-ivory rounded-3 border-lumora-subtle">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="badge badge-gold">QUIZ</span>
+                                <small class="text-muted">Pass Mark: @q.PassingScore.ToString("0.##")%</small>
+                            </div>
+                            <h6 class="fw-bold text-lumora-midnight mb-1 font-heading">@q.Title</h6>
+                            <p class="small text-muted mb-2">@q.CourseTitle</p>
+                            <a asp-controller="Student" asp-action="Quizzes" class="btn btn-sm btn-outline-primary w-100">Start Assessment</a>
                         </div>
-                        <h6 class="fw-bold text-lumora-midnight mb-1 font-heading">Distributed Systems Section 4 Assessment</h6>
-                        <p class="small text-muted mb-2">CQRS, Outbox Pattern &amp; Kafka Lag Monitoring.</p>
-                        <a href="quiz.html" class="btn btn-sm btn-outline-primary w-100">Start Assessment</a>
-                    </div>
-
-                    <div class="p-3 bg-lumora-ivory rounded-3 border-lumora-subtle">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <span class="badge badge-slate">CAPSTONE AUDIT</span>
-                            <small class="text-muted">Graded by Lead</small>
-                        </div>
-                        <h6 class="fw-bold text-lumora-midnight mb-1 font-heading">Zero-Trust Security Final Audit</h6>
-                        <p class="small text-muted mb-2">Complete deployment review for verifiable certificate.</p>
-                        <a href="course-player.html" class="btn btn-sm btn-outline-primary w-100">View Guidelines</a>
-                    </div>
+                    }
                 </div>
             </div>
 
-            <!-- Live Office Hours Box -->
+            <!-- Live Office Hours Box (static for now) -->
             <div class="card p-4 border-lumora-subtle bg-white">
                 <h5 class="fw-bold text-lumora-midnight mb-2 font-heading">
                     <i class="bi bi-broadcast text-lumora-champagne-dark me-2"></i>Senior Architect Q&amp;A Hub

@@ -19,12 +19,14 @@ namespace Lumora.Repositories.Implementations
 
         public async Task<IReadOnlyList<Enrollment>> GetStudentEnrollmentsWithProgressAsync(string studentId)
         {
-            return await _dbSet.AsNoTracking()
+            return await _context.Enrollments
                 .Where(e => e.StudentId == studentId)
                 .Include(e => e.Course)
-                    .ThenInclude(c => c.Instructor)
+                    .ThenInclude(c => c.Lessons)
+                .Include(e => e.Course)
+                    .ThenInclude(c => c.Quizzes)
                 .Include(e => e.LessonProgresses)
-                .OrderByDescending(e => e.EnrolledAt)
+                .AsSplitQuery()
                 .ToListAsync();
         }
 

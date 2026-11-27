@@ -66,11 +66,10 @@ namespace Lumora.Data
                 EmailVerifiedAt   = now.AddDays(-45)
             };
 
-            var student1 = new Student { FullName = "Ahmed Hassan",    Email = "ahmed.hassan@example.com",  AccountStatus = AccountStatus.Active, EmailVerifiedAt = now.AddDays(-70), CreatedAt = now.AddDays(-70) };
-            var student2 = new Student { FullName = "Nour El-Din",     Email = "nour.eldin@example.com",    AccountStatus = AccountStatus.Active, EmailVerifiedAt = now.AddDays(-50), CreatedAt = now.AddDays(-50) };
-            var student3 = new Student { FullName = "Rania Mostafa",   Email = "rania.m@example.com",       AccountStatus = AccountStatus.Active, EmailVerifiedAt = now.AddDays(-40), CreatedAt = now.AddDays(-40) };
-            var student4 = new Student { FullName = "Kareem Salah",    Email = "kareem.salah@example.com",  AccountStatus = AccountStatus.Active, EmailVerifiedAt = now.AddDays(-20), CreatedAt = now.AddDays(-20) };
-
+            var student1 = new Student { StudentId = "1", FullName = "Ahmed Hassan", Email = "ahmed.hassan@example.com", AccountStatus = AccountStatus.Active, EmailVerifiedAt = now.AddDays(-70), CreatedAt = now.AddDays(-70) };
+            var student2 = new Student { StudentId = "2", FullName = "Nour El-Din", Email = "nour.eldin@example.com", AccountStatus = AccountStatus.Active, EmailVerifiedAt = now.AddDays(-50), CreatedAt = now.AddDays(-50) };
+            var student3 = new Student { StudentId = "3", FullName = "Rania Mostafa", Email = "rania.m@example.com", AccountStatus = AccountStatus.Active, EmailVerifiedAt = now.AddDays(-40), CreatedAt = now.AddDays(-40) };
+            var student4 = new Student { StudentId = "4", FullName = "Kareem Salah", Email = "kareem.salah@example.com", AccountStatus = AccountStatus.Active, EmailVerifiedAt = now.AddDays(-20), CreatedAt = now.AddDays(-20) };
             // ══════════════════════════════════════
             // 4. COUPONS
             // ══════════════════════════════════════
@@ -146,6 +145,12 @@ namespace Lumora.Data
             var c1s1 = new Section { Title = "Module 1: Architecture & Project Setup",          SortOrder = 1, Course = course1 };
             var c1s2 = new Section { Title = "Module 2: Advanced EF Core 10",                   SortOrder = 2, Course = course1 };
             var c1s3 = new Section { Title = "Module 3: Docker & Container Orchestration",       SortOrder = 3, Course = course1 };
+
+            course1.Quizzes = new List<Quiz>
+            {
+                new() { Title = "Module 2 Assessment: EF Core", PassingScore = 80m, Section = c1s2 },
+                new() { Title = "Module 3 Assessment: Docker",  PassingScore = 75m, Section = c1s3 }
+            };
 
             var c1s1l1 = new Lesson { Title = "Welcome & Course Overview",             SortOrder = 1, Course = course1, Section = c1s1 };
             var c1s1l2 = new Lesson { Title = "N-Tier vs Clean Architecture",          SortOrder = 2, Course = course1, Section = c1s1 };
@@ -328,6 +333,11 @@ namespace Lumora.Data
             var c2s2 = new Section { Title = "Part 2: Data Wrangling with Pandas",  SortOrder = 2, Course = course2 };
             var c2s3 = new Section { Title = "Part 3: Supervised Learning",          SortOrder = 3, Course = course2 };
 
+            course2.Quizzes = new List<Quiz>
+            {
+                new() { Title = "Supervised Learning Quiz", PassingScore = 70m, Section = c2s3 }
+            };
+
             var c2s1l1 = new Lesson { Title = "Python Setup & Virtual Environments", SortOrder = 1, Course = course2, Section = c2s1 };
             var c2s1l2 = new Lesson { Title = "Data Types, Lists & Dictionaries",    SortOrder = 2, Course = course2, Section = c2s1 };
             var c2s2l1 = new Lesson { Title = "DataFrames & Series",                 SortOrder = 1, Course = course2, Section = c2s2 };
@@ -353,7 +363,18 @@ namespace Lumora.Data
                     new() { Lesson = c2s2l1, IsCompleted = false }
                 }
             };
-            course2.Enrollments = new List<Enrollment> { enroll3 };
+            var enroll4 = new Enrollment
+            {
+                Student = student2,
+                Course = course2,
+                Status = EnrollmentStatus.Active,
+                EnrolledAt = now.AddDays(-8),
+                LessonProgresses = new List<LessonProgress>
+                {
+                   new() { Lesson = c2s1l1, IsCompleted = true, CompletedAt = now.AddDays(-6) }
+                }
+            };
+            course2.Enrollments = new List<Enrollment> { enroll3, enroll4 };
             course2.Reviews = new List<Review>
             {
                 new() { Student = student3, Rating = 5, Body = "Dr. Sara explains complex ML concepts with great clarity!", CreatedAt = now.AddDays(-5) }

@@ -56,5 +56,75 @@ namespace Lumora.Services.Implementations
                 MonthlyRevenue        = monthlyRevenueTask.Result,
             };
         }
+        public async Task<StudentDashboardDto> GetStudentDashboardAsync(string studentId)
+        {
+            var student = await _unitOfWork.Students.GetByIdAsync(studentId);
+            var enrollments = await _unitOfWork.Enrollments.GetStudentEnrollmentsWithProgressAsync(studentId);
+            var certificatesCount = await _unitOfWork.Certificates.CountAsync(c => c.StudentId == studentId);
+
+            var courses = new List<EnrolledCourseDto>();
+            var quizzes = new List<StudentQuizDto>();
+            ContinueLearningDto? continueLearning = null;
+            int totalLessons = 0, totalDone = 0;
+
+            foreach (var e in enrollments.OrderByDescending(x => x.EnrolledAt))
+            {
+                var completedIds = e.LessonProgresses
+                    .Where(p => p.IsCompleted)
+                    .Select(p => p.LessonId)
+                    .ToHashSet();
+
+                var dto = new EnrolledCourseDto
+                {
+                    CourseId = e.CourseId,
+                    Title = e.Course.Title,
+                    TotalLessons = e.Course.Lessons.Count,
+                    CompletedLessons = completedIds.Count
+                };
+                courses.Add(dto);
+
+                totalLessons += dto.TotalLessons;
+                totalDone += dto.CompletedLessons;
+
+                if (dto.IsCompleted) continue;
+
+                if (continueLearning is null)
+                {
+                    var next = e.Course.Lessons
+                        .OrderBy(l => l.SortOrder)
+                        .FirstOrDefault(l => !completedIds.Contains(l.LessonId));
+
+                    continueLearning = new ContinueLearningDto
+                    {
+                        CourseId = e.CourseId,
+                        CourseTitle = e.Course.Title,
+                        NextLessonId = next?.LessonId,
+                        NextLessonTitle = next?.Title,
+                        ProgressPercent = dto.ProgressPercent
+                    };
+                }
+
+                quizzes.AddRange(e.Course.Quizzes.Select(q => new StudentQuizDto
+                {
+                    QuizId = q.QuizId,
+                    Title = q.Title,
+                    CourseTitle = e.Course.Title,
+                    PassingScore = q.PassingScore
+                }));
+            }
+
+            return new StudentDashboardDto
+            {
+                StudentName = student?.FullName ?? "Student",
+                EnrolledCount = courses.Count,
+                InProgressCount = courses.Count(c => !c.IsCompleted),
+                OverallCompletionPercent = totalLessons == 0 ? 0 : (int)Math.Round(totalDone * 100.0 / totalLessons),
+                LessonsCompleted = totalDone,
+                CertificatesCount = certificatesCount,
+                ContinueLearning = continueLearning,
+                Courses = courses,
+                Quizzes = quizzes.Take(3).ToList()
+            };
+        }
     }
 }

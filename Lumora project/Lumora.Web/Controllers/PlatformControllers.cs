@@ -93,20 +93,18 @@ namespace Lumora.Controllers
 
     public class StudentController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IDashboardService _dashboard;
 
-        public StudentController(IUnitOfWork unitOfWork)
+        public StudentController(IDashboardService dashboard)
         {
-            _unitOfWork = unitOfWork;
+            _dashboard = dashboard;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Dashboard(string studentId = "1")
+        public async Task<IActionResult> Dashboard(string studentId = "2")
         {
-            var enrollments = await _unitOfWork.Enrollments.GetStudentEnrollmentsWithProgressAsync(studentId);
-            var certificates = await _unitOfWork.Certificates.GetCertificatesByStudentAsync(studentId);
-            ViewBag.Certificates = certificates;
-            return View(enrollments);
+            var model = await _dashboard.GetStudentDashboardAsync(studentId);
+            return View(model);
         }
     }
 
