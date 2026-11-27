@@ -8,10 +8,8 @@ namespace Lumora.Services.Interfaces
 {
     public interface IDashboardService
     {
-        /// <summary>
-        /// بيجيب كل بيانات الـ Dashboard في call واحدة بالـ parallel
-        /// </summary>
-        Task<DashboardDto> GetDashboardAsync();
+        Task<DashboardDto> GetDashboardAsync();                           // Admin
+        Task<StudentDashboardDto> GetStudentDashboardAsync(string studentId); // Student
     }
 
     public interface ICourseCatalogService
